@@ -192,7 +192,8 @@
       "type": "string",
       "metadata": {
         "description": "The DNS prefix for the public IP address used by the DC"
-      }
+      },
+      "defaultValue": "parameters('studentCode')"
     },
     "assetLocation": {
       "type": "string",
@@ -290,11 +291,11 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('adNicIPAddress')]",
               "publicIPAddress": {
-              "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName')]"
-            },
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName')]"
+              },
               "subnet": {
                 "id": "[variables('adSubnetRef')]"
-              },
+              }
             }
           }
         ]
