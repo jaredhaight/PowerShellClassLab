@@ -23,44 +23,70 @@ Import-Module AzureRM
 Import-AzurePublishSettingsFile C:\Users\jared\Documents\jhaight-azure-credentials.publishsettings
 
 function Get-RandomString ($length) {
-    $set    = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray()
-    $result = ""
-    for ($x = 0; $x -lt $Length; $x++) {
-        $result += $set | Get-Random
-    }
-    return $result
+  $set    = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray()
+  $result = ""
+  for ($x = 0; $x -lt $Length; $x++) {
+    $result += $set | Get-Random
+  }
+  return $result
 }
 
 $URI       = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/azuredeploy.json'
 $Location  = 'eastus2'
 $rgname    = 'evil.training'
-$studentCode = Get-RandomString 6
+$studentCode = "a" + (Get-RandomString 6)
 $saname    = $studentCode+"storage"    # Lowercase required
 $addnsName = $studentCode+"addns"     # Lowercase required
 
 # Check that the public dns $addnsName is available
-if (Test-AzureRmDnsAvailability -DomainNameLabel $addnsName -Location $Location)
-{ 'Available' } else { 'Taken. addnsName must be globally unique.' }
+try {
+  if (Test-AzureRmDnsAvailability -DomainNameLabel $addnsName -Location $Location)
+  { 
+    'Available' 
+  } 
+  else 
+  { 
+    'Taken. addnsName must be globally unique.' 
+    break
+  }
+}
+catch {
+  Login-AzureRmAccount
+  if (Test-AzureRmDnsAvailability -DomainNameLabel $addnsName -Location $Location)
+  { 
+    'Available' 
+  } 
+  else 
+  { 
+    'Taken. addnsName must be globally unique.' 
+    break
+  }
+}
 
 # Create the new resource group. Runs quickly.
-# New-AzureRmResourceGroup -Name $rgname -Location $Location
+try {
+  Get-AzureRmResourceGroup -Name $rgname -Location $Location -ErrorAction Stop
+}
+catch {
+  New-AzureRmResourceGroup -Name $rgname -Location $Location
+}
 
 # Parameters for the template and configuration
 $MyParams = @{
-    newStorageAccountName = $saname
-    location              = 'East US'
-    domainName            = 'ad.evil.training'
-    studentCode           = $studentCode
-    addnsName             = $addnsName
-   }
+  newStorageAccountName = $saname
+  location              = 'East US'
+  domainName            = 'ad.evil.training'
+  studentCode           = $studentCode
+  addnsName             = $addnsName
+}
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
 $SplatParams = @{
-    TemplateUri             = $URI 
-    ResourceGroupName       = $rgname 
-    TemplateParameterObject = $MyParams
-    Name                    = 'EVILTraining'
-   }
+  TemplateUri             = $URI 
+  ResourceGroupName       = $rgname 
+  TemplateParameterObject = $MyParams
+  Name                    = 'EVILTraining'
+}
 
 # This takes ~30 minutes
 # One prompt for the domain admin password
