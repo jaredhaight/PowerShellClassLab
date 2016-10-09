@@ -186,7 +186,6 @@
     "adSubnetRef": "[concat(variables('VnetID'),'/subnets/',parameters('adSubnetName'))]",
     "adNicId": "[resourceId('Microsoft.Network/networkInterfaces',parameters('adNicName'))]",
     "adIPConfigID": "[concat(variables('adNicId'),'/ipConfigurations/ipconfig1')]",
-    "adBEAddressPoolID": "[concat(variables('adlbID'),'/backendAddressPools/',variables('adLBBE'))]",
     "adDataDisk": "ADDataDisk",
     "adDataDiskSize": 5,
     "vnetTemplateUri": "[concat(parameters('assetLocation'),'vnet.json')]",
@@ -257,16 +256,6 @@
               "subnet": {
                 "id": "[variables('adSubnetRef')]"
               },
-              "loadBalancerBackendAddressPools": [
-                {
-                  "id": "[variables('adBEAddressPoolID')]"
-                }
-              ],
-              "loadBalancerInboundNatRules": [
-                {
-                  "id": "[variables('adRDPNATRuleID')]"
-                }
-              ]
             }
           }
         ]
