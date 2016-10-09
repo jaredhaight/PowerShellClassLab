@@ -46,7 +46,7 @@
       "metadata": {
         "description": "The name of the Virtual Network to Create"
       },
-      "defaultValue": "adVNET"
+      "defaultValue": "[concat(parameters('studentCode'),'-vnet')]"
     },
     "virtualNetworkAddressRange": {
       "type": "string",
@@ -60,7 +60,7 @@
       "metadata": {
         "description": "The name of the subnet created in the new VNET"
       },
-      "defaultValue": "adSubnet"
+      "defaultValue": "[concat(parameters('studentCode'),'-subnet')]"
     },
     "adSubnet": {
       "type": "string",
@@ -74,21 +74,21 @@
       "metadata": {
         "description": "The name of the NIC attached to the new VM"
       },
-      "defaultValue": "Nic"
+      "defaultValue": ""[concat(parameters('studentCode'),'-dc01-nic')]"
     },
     "adNicIPAddress": {
       "type": "string",
       "metadata": {
         "description": "The IP address of the new AD VM"
       },
-      "defaultValue": "10.0.0.4"
+      "defaultValue": "10.0.0.254"
     },
     "adVMName": {
       "type": "string",
       "metadata": {
         "description": "The name of the VM created"
       },
-      "defaultValue": "adDC"
+      "defaultValue": "[concat(parameters('studentCode'),'-dc01')]"
     },
     "adminUsername": {
       "type": "string",

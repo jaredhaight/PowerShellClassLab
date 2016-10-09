@@ -135,6 +135,33 @@
             $DependsOn_User += "[xADUser]NewADUser_$($User.UserName)"
         }
 
+        ### ADMINS ###
+        $DependsOn_User = @()
+        $Admins = $ConfigurationData.NonNodeData.AdminData | ConvertFrom-CSV
+        ForEach ($User in $Admins) {
+
+            xADUser "NewADUser_$($User.UserName)"
+            {
+                DomainName = $DomainName
+                Ensure = 'Present'
+                UserName = $User.UserName
+                Path = "OU=Users,OU=$($User.Dept),$DomainRoot"
+                Enabled = $true
+                Password = New-Object -TypeName PSCredential -ArgumentList 'JustPassword', (ConvertTo-SecureString -String $User.Password -AsPlainText -Force)
+                DependsOn = $DependsOn_OU
+            }
+            $DependsOn_User += "[xADUser]NewADUser_$($User.UserName)"
+
+            xADGroup "DomainAdmin_$($User.Username)"
+            {
+              GroupName = "Domain Admins"
+              MembersToInclude = $User.UserName
+              DependsOn = "[xADUser]NewADUser_$_"
+            }
+        }
+
+
+
         1..$ConfigurationData.NonNodeData.TestObjCount | ForEach-Object {
 
             xADUser "NewADUser_$_"
@@ -177,7 +204,5 @@
             }
 
         }
-
-
-   }
+    }
 }
