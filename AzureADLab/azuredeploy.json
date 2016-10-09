@@ -74,7 +74,7 @@
       "metadata": {
         "description": "The name of the NIC attached to the new VM"
       },
-      "defaultValue": "[concat(parameters('studentCode'),'-dc01-nic')]"
+      "defaultValue": "[concat(parameters('studentCode'),'dc01nic')]"
     },
     "adNicIPAddress": {
       "type": "string",
