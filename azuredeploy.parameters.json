@@ -1,0 +1,34 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "newStorageAccountName": {
+      "value": "GEN-UNIQUE"
+    },
+    "storageAccountType": {
+      "value": "Standard_GRS"
+    },
+    "location": {
+      "value": "West US"
+    },
+    "adminUsername": {
+      "value": "azureuser"
+    },
+    "adminPassword": {
+      "value": "GEN-PASSWORD"
+    },
+    "adVMSize": {
+      "value": "Standard_D1"
+    },
+    "domainName": {
+      "value": "mydomain.local"
+    },
+    "addnsName": {
+      "value": "GEN-UNIQUE"
+    },
+    "assetLocation": {
+      "value": "https://raw.githubusercontent.com/GoateePFE/AzureRM/master/active-directory-new-domain-with-data/"
+    }
+  }
+}
+
