@@ -376,10 +376,7 @@
       "apiVersion": "2015-01-01",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/CreateADForest')]"
-      ],
-      "tags":{
-        "student":"[parameters('studentCode')]"
-      },
+      ]
       "properties": {
         "mode": "Incremental",
         "templateLink": {
