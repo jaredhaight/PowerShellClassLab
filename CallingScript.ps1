@@ -31,9 +31,7 @@ function Get-RandomString ($length) {
     return $result
 }
 
-# Adjust the 'jahADLab001' part of these three strings to
-# something unique for you. Leave the last two characters in each.
-$URI       = 'https://raw.githubusercontent.com/GoateePFE/AzureRM/master/active-directory-new-domain-with-data/azuredeploy.json'
+$URI       = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/azuredeploy.json'
 $Location  = 'eastus2'
 $rgname    = 'evil.training'
 $studentCode = Get-RandomString 6
@@ -52,6 +50,7 @@ $MyParams = @{
     newStorageAccountName = $saname
     location              = 'East US'
     domainName            = 'ad.evil.training'
+    studentCode           = $studentCode
     addnsName             = $addnsName
    }
 

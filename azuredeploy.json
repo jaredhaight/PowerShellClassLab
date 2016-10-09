@@ -197,6 +197,9 @@
       "location": "[parameters('location')]",
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
+      },
+      "tags":{
+        "student":"[parameters('studentCode')]"
       }
     },
     {
@@ -209,13 +212,19 @@
         "dnsSettings": {
           "domainNameLabel": "[parameters('addnsName')]"
         }
+      },
+      "tags":{
+        "student":"[parameters('studentCode')]"
       }
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adAvailabilitySetName')]",
       "apiVersion": "2015-05-01-preview",
-      "location": "[parameters('location')]"
+      "location": "[parameters('location')]",
+      "tags":{
+        "student":"[parameters('studentCode')]"
+      }
     },
     {
       "name": "VNet",
@@ -244,6 +253,9 @@
             "value": "[parameters('adSubnet')]"
           }
         }
+      },
+      "tags":{
+        "student":"[parameters('studentCode')]"
       }
     },
     {
@@ -256,6 +268,9 @@
         "[resourceId('Microsoft.Network/networkInterfaces',parameters('adNicName'))]",
         "[resourceId('Microsoft.Compute/availabilitySets', parameters('adAvailabilitySetName'))]"
       ],
+      "tags":{
+        "student":"[parameters('studentCode')]"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('adVMSize')]"
@@ -313,6 +328,9 @@
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('adVMName'))]"
           ],
+          "tags":{
+            "student":"[parameters('studentCode')]"
+          },
           "properties": {
             "publisher": "Microsoft.Powershell",
             "type": "DSC",
@@ -346,6 +364,9 @@
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/CreateADForest')]"
       ],
+      "tags":{
+        "student":"[parameters('studentCode')]"
+      },
       "properties": {
         "mode": "Incremental",
         "templateLink": {
