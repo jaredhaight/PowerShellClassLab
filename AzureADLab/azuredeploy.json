@@ -170,6 +170,30 @@
       },
       "defaultValue": 3389
     },
+    "publicIPAddressName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the public IP address used by the DC"
+      },
+      "defaultValue": "[concat(parameters('studentCode'),'-dc01-public-ip')]"
+    },
+    "publicIPAddressType": {
+      "type": "string",
+      "allowedValues": [
+        "Dynamic",
+        "Static"
+      ],
+      "metadata": {
+        "description": "The type of the public IP address used by the DC"
+      },
+      "defaultValue": "Dynamic"
+    },
+    "addnsName": {
+      "type": "string",
+      "metadata": {
+        "description": "The DNS prefix for the public IP address used by the DC"
+      }
+    },
     "assetLocation": {
       "type": "string",
       "metadata": {
@@ -201,6 +225,18 @@
       "location": "[parameters('location')]",
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('publicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('addnsName')]"
+        }
       }
     },
     {
@@ -253,6 +289,9 @@
             "properties": {
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('adNicIPAddress')]",
+              "publicIPAddress": {
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName')]"
+            },
               "subnet": {
                 "id": "[variables('adSubnetRef')]"
               },
