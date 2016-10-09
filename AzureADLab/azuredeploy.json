@@ -193,7 +193,7 @@
       "metadata": {
         "description": "The DNS prefix for the public IP address used by the DC"
       },
-      "defaultValue": "parameters('studentCode')"
+      "defaultValue": "[parameters('studentCode')]"
     },
     "assetLocation": {
       "type": "string",
