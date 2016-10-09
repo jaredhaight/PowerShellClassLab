@@ -281,9 +281,6 @@
         "[resourceId('Microsoft.Network/networkInterfaces',parameters('adNicName'))]",
         "[resourceId('Microsoft.Compute/availabilitySets', parameters('adAvailabilitySetName'))]"
       ],
-      "tags":{
-        "student":"[parameters('studentCode')]"
-      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('adVMSize')]"
