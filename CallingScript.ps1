@@ -77,7 +77,6 @@ $MyParams = @{
   location              = 'East US'
   domainName            = 'ad.evil.training'
   studentCode           = $studentCode
-  addnsName             = $addnsName
 }
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
