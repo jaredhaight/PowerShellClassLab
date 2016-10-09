@@ -291,7 +291,7 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('adNicIPAddress')]",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName')]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
               },
               "subnet": {
                 "id": "[variables('adSubnetRef')]"
