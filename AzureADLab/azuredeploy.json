@@ -200,9 +200,6 @@
       "location": "[parameters('location')]",
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
-      },
-      "tags":{
-        "student":"[parameters('studentCode')]"
       }
     },
     {
