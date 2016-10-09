@@ -74,7 +74,7 @@
       "metadata": {
         "description": "The name of the NIC attached to the new VM"
       },
-      "defaultValue": "adNic"
+      "defaultValue": "dcNic"
     },
     "adNicIPAddress": {
       "type": "string",
@@ -236,9 +236,6 @@
             "value": "[parameters('adSubnet')]"
           }
         }
-      },
-      "tags":{
-        "student":"[parameters('studentCode')]"
       }
     },
     {
