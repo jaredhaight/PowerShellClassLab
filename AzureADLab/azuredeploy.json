@@ -106,6 +106,7 @@
     "adVMSize": {
       "type": "string",
       "allowedValues": [
+        "Standard_A1",
         "Standard_D1",
         "Standard_DS1",
         "Standard_D2",
@@ -126,7 +127,7 @@
       "metadata": {
         "description": "The size of the VM Created"
       },
-      "defaultValue": "Standard_D1"
+      "defaultValue": "Standard_A1"
     },
     "imagePublisher": {
       "type": "string",
@@ -207,9 +208,6 @@
       "name": "[parameters('adAvailabilitySetName')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
-      "tags":{
-        "student":"[parameters('studentCode')]"
-      }
     },
     {
       "name": "VNet",
