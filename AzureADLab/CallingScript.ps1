@@ -31,7 +31,7 @@ function Get-RandomString ($length) {
   return $result
 }
 
-$URI       = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/azuredeploy.json'
+$URI       = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
 $Location  = 'eastus2'
 $rgname    = 'evil.training'
 $studentCode = "a" + (Get-RandomString 6)
