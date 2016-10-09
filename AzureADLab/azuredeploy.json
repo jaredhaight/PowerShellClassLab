@@ -242,6 +242,39 @@
       }
     },
     {
+      "name": "[parameters('adNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/VNet",
+      ],
+      "apiVersion": "2015-05-01-preview",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('adNicIPAddress')]",
+              "subnet": {
+                "id": "[variables('adSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[variables('adBEAddressPoolID')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "[variables('adRDPNATRuleID')]"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('adVMName')]",
