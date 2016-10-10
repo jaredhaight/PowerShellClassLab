@@ -20,10 +20,6 @@ Frieda,P@ssw0rd,IT,Specialist
 George,P@ssw0rd,Marketing,Specialist
 Harriet,P@ssw0rd,Operations,Specialist
 '@
-        AdminData = @'
-UserName,Password
-domainJoin,Passw0rd!23
-'@
 
         RootOUs = 'Accounting','IT','Marketing','Operations','Class'
         ChildOUs = 'Users','Computers','Groups'
