@@ -3,13 +3,27 @@
         @{ 
             Nodename = 'localhost'
             PSDscAllowDomainUser = $true
+            PSDscAllowPlainTextPassword = $true
         }
-    )o
+    )
 
     NonNodeData = @{
 
-        UserData = Get-Content .\users.csv
-        AdminData = Get-Content .\admins.csv
+        UserData = @'
+UserName,Password,Dept,Title
+Alice,P@ssw0rd,Accounting,Manager
+Bob,P@ssw0rd,IT,Manager
+Charlie,P@ssw0rd,Marketing,Manager
+Debbie,P@ssw0rd,Operations,Manager
+Eddie,P@ssw0rd,Accounting,Specialist
+Frieda,P@ssw0rd,IT,Specialist
+George,P@ssw0rd,Marketing,Specialist
+Harriet,P@ssw0rd,Operations,Specialist
+'@
+        AdminData = @'
+UserName,Password
+domainJoin,Passw0rd!23
+'@
 
         RootOUs = 'Accounting','IT','Marketing','Operations','Class'
         ChildOUs = 'Users','Computers','Groups'

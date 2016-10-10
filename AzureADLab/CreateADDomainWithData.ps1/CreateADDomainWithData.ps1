@@ -19,6 +19,8 @@
 
     Node $AllNodes.NodeName
     {
+        
+
         LocalConfigurationManager
         {
             ActionAfterReboot = 'ContinueConfiguration'
@@ -151,13 +153,13 @@
                 DependsOn = $DependsOn_OU
             }
             $DependsOn_User += "[xADUser]NewADUser_$($User.UserName)"
-
-            xADGroup "DomainAdmin_$($User.Username)"
-            {
-              GroupName = "Domain Admins"
-              MembersToInclude = $User.UserName
-              DependsOn = "[xADUser]NewADUser_$_"
-            }
+        }
+        
+        xADGroup "Add_DomainAdmins"
+        {
+            GroupName = "Domain Admins"
+            Members = ($Admins).UserName
+            Ensure = 'Present'
         }
 
 
