@@ -1,12 +1,11 @@
-﻿# Import Azure Service Management module
-Import-Module Azure
-Import-Module AzureRM
-
-Param(
+﻿param (
   [string]$adAdminPassword,
   [string]$cilentAdminPassword
 )
 
+# Import Azure Service Management module
+Import-Module Azure
+Import-Module AzureRM
 
 function Get-RandomString ($length) {
   $set    = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray()
@@ -24,8 +23,7 @@ $location                   = 'eastus2'
 $locationName               = "East US"
 $resourceGroupName          = 'evil.training'
 $studentCode                = "a" + (Get-RandomString 6)
-$adminUserName              = "EvilAdmin"
-$adminPassword              = "Beak-Today#Favor#Manufacture&0s"
+$adAdminUserName              = "EvilAdmin"
 $domainName                 = "ad.evil.training"
 $dnsPrefix                  = $studentCode
 $storageAccountName         = $studentCode+"storage"    # Lowercase required
@@ -41,10 +39,10 @@ $publicIPAddressName        = $studentCode+"-dc01pip"
 $adVmSize                   = "Basic_A1"
 
 # Client Vars
-$clientDnsPrefix            = $studentCode+"-home"
+$clientDnsPrefix                = $studentCode+"-home"
 $clientAdminUsername            = "localAdmin"
-$clientNicIpAddress         = "10.0.0.10"
-$clientVMSize               = "Basic_A2"
+$clientNicIpAddress             = "10.0.0.10"
+$clientVMSize                   = "Basic_A2"
 
 
 # Server Vars
@@ -92,8 +90,8 @@ catch {
 
 # Parameters for the template and configuration
 $MyParams = @{
-  adminUsername               = $adminUserName
-  adminPassword               = $adminPasswordPlainText
+  adAdminUsername               = $adAdminUserName
+  adAdminPassword               = $adAdminPassword
   domainName                  = $domainName
   dnsPrefix                   = $dnsPrefix
   virtualNetworkName          = $virtualNetworkName
