@@ -70,6 +70,9 @@
       "metadata": {
         "description": "The password for the administrator account of the new VM and the domain"
       }
+    },
+    "storageAccountName": {
+      "type": "string"
     }
   },
   "variables": {

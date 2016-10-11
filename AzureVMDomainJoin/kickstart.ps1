@@ -53,6 +53,7 @@ $virtualNetworkAddressRange = "10.0.0.0/16"
 $publicIPAddressName = $studentCode+"pip"
 
 #Client Vars
+$clientURI = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureVMDomainJoin/azuredeploy.json"
 $existingVNETName = $virtualNetworkName
 $dnsLabelPrefix = $studentCode+"-home"
 $existingSubnetName = $adSubnetName
@@ -124,11 +125,12 @@ $clientParams = @{
   domainPassword              = $domainPassword
   vmAdminUsername             = $vmAdminUsername
   vmAdminPassword             = $vmAdminPassword
+  storageAccountName          = $storageAccountName
 }
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
 $SplatParams = @{
-  TemplateUri             = $URI 
+  TemplateUri             = $clientURI 
   ResourceGroupName       = $resourceGroupName 
   TemplateParameterObject = $clientParams
   Name                    = 'EVILTraining'
