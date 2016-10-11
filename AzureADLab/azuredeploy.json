@@ -92,18 +92,6 @@
                 "description": "The FQDN of the AD domain"
             }
         },
-        "domainUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Username of the account on the domain"
-            }
-        },
-        "domainPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Password of the account on the domain"
-            }
-        },
         "ouPath": {
             "type": "string",
             "defaultValue": "",

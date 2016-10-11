@@ -42,7 +42,7 @@ $adVmSize                   = "Basic_A1"
 $clientDnsPrefix                = $studentCode+"-home"
 $clientAdminUsername            = "localAdmin"
 $clientNicIpAddress             = "10.0.0.10"
-$clientVMSize                   = "Basic_A2"
+$clientVMSize               = "Basic_A2"
 
 
 # Server Vars
