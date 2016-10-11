@@ -82,7 +82,7 @@
         "description": "Existing subnet that contains the domain controller"
       }
     },
-    "dnsLabelPrefix": {
+    "clientDnsPrefix": {
       "type": "string",
       "metadata": {
         "description": "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
@@ -149,8 +149,8 @@
     "imageOffer": "WindowsServer",
     "windowsOSVersion": "2012-R2-Datacenter",
     "apiVersion": "2015-06-15",
-    "nicName": "[concat(parameters('dnsLabelPrefix'),'Nic')]",
-    "publicIPName": "[concat(parameters('dnsLabelPrefix'),'Pip')]",
+    "nicName": "[concat(parameters('clientDnsPrefix'),'Nic')]",
+    "publicIPName": "[concat(parameters('clientDnsPrefix'),'Pip')]",
     "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('existingVNETName'))]",
     "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('existingSubnetName'))]"
   },
@@ -371,7 +371,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+          "domainNameLabel": "[parameters('clientDnsPrefix')]"
         }
       }
     },
@@ -413,7 +413,7 @@
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('dnsLabelPrefix')]",
+      "name": "[parameters('clientDnsPrefix')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',variables('storageAccountName'))]",
@@ -424,7 +424,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[parameters('dnsLabelPrefix')]",
+          "computerName": "[parameters('clientDnsPrefix')]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -438,7 +438,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('dnsLabelPrefix'), 'disk0.vhd')]"
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientDnsPrefix'), 'disk0.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -447,7 +447,7 @@
             {
               "name": "myvm-data-disk1",
               "vhd": {
-                "Uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('dnsLabelPrefix'), 'disk1.vhd')]"
+                "Uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientDnsPrefix'), 'disk1.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty",
@@ -474,10 +474,10 @@
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('dnsLabelPrefix'),'/joindomain')]",
+      "name": "[concat(parameters('clientDnsPrefix'),'/joindomain')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('dnsLabelPrefix'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('clientDnsPrefix'))]",
         "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adVMName'), 'CreateADForest')]"
       ],
       "properties": {

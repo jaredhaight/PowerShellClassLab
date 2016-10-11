@@ -37,7 +37,7 @@ $publicIPAddressName = $studentCode+"-dc01pip"
 # Client Vars
 $clientURI = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureVMDomainJoin/azuredeploy.json"
 $existingVNETName = $virtualNetworkName
-$dnsLabelPrefix = $studentCode+"-home"
+$clientDnsPrefix = $studentCode+"-home"
 $existingSubnetName = $adSubnetName
 $domainToJoin = $domainName
 $domainUsername = $adminUserName
@@ -98,7 +98,7 @@ $MyParams = @{
   _artifactsLocation          = $_artifactsLocation
   existingVNETName            = $existingVNETName
   existingSubnetName          = $existingSubnetName
-  dnsLabelPrefix              = $dnsLabelPrefix
+  clientDnsPrefix              = $clientDnsPrefix
   domainToJoin                = $domainToJoin
   domainUserName              = $domainUsername
   domainPassword              = $domainPassword
