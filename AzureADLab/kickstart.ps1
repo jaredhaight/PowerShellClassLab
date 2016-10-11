@@ -110,8 +110,8 @@ $MyParams = @{
   existingSubnetName          = $existingSubnetName
   clientDnsPrefix             = $clientDnsPrefix
   domainToJoin                = $domainToJoin
-  clientAdminUsername         = $vmAdminUsername
-  clientAdminPassword         = $vmAdminPassword
+  clientAdminUsername         = $clientAdminUsername
+  clientAdminPassword         = $clientAdminPassword
   clientNicIpAddress          = $clientNicIpAddress
   clientVmSize                = $clientVMSize
 }
