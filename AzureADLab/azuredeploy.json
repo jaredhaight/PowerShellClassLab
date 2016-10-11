@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "adminUsername": {
+        "adAdminUsername": {
             "type": "string",
             "metadata": {
                 "description": "The name of the administrator account of the new VM and domain"
@@ -289,7 +289,7 @@
                         "Properties": {
                             "DomainName": "[parameters('domainName')]",
                             "AdminCreds": {
-                                "UserName": "[parameters('adminUsername')]",
+                                "UserName": "[parameters('adAdminUsername')]",
                                 "Password": "PrivateSettingsRef:adAdminPassword"
                             }
                         }
@@ -460,7 +460,7 @@
                 "settings": {
                     "Name": "[parameters('domainName')]",
                     "OUPath": "[parameters('ouPath')]",
-                    "User": "[concat(parameters('domainName'), '\\', parameters('adminUserName'))]",
+                    "User": "[concat(parameters('domainName'), '\\', parameters('adAdminUserName'))]",
                     "Restart": "true",
                     "Options": "[parameters('domainJoinOptions')]"
                 },
