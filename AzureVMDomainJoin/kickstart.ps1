@@ -31,8 +31,7 @@ function Get-RandomString ($length) {
   return $result
 }
 
-$URI  = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
-$_artifactsLocation = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
+#DC Vars
 $location  = 'eastus2'
 $locationName = "East US"
 $resourceGroupName    = 'evil.training'
@@ -52,6 +51,17 @@ $adSubnetAddressPrefix = "10.0.0.0/24"
 $virtualNetworkName = $studentCode+"vnet"
 $virtualNetworkAddressRange = "10.0.0.0/16"
 $publicIPAddressName = $studentCode+"pip"
+
+#Client Vars
+$existingVNETName = $virtualNetworkName
+$dnsLabelPrefix = $studentCode+"-home"
+$existingSubnetName = $adSubnetName
+$domainToJoin = $domainName
+$domainUsername = $adminUserName
+$domainPassword = $adminPasswordPlainText
+$vmAdminUsername = "homeAdmin"
+$vmAdminPassword = "Password123"
+
 
 # Check that the public dns $addnsName is available
 try {
@@ -87,7 +97,7 @@ catch {
 }
 
 # Parameters for the template and configuration
-$MyParams = @{
+$DCParams = @{
   adminUsername               = $adminUserName
   adminPassword               = $adminPasswordPlainText
   domainName                  = $domainName
@@ -105,11 +115,22 @@ $MyParams = @{
   _artifactsLocation          = $_artifactsLocation
 }
 
+$clientParams = @{
+  existingVNETName            = $existingVNETName
+  existingSubnetName          = $existingSubnetName
+  dnsLabelPrefix              = $dnsLabelPrefix
+  domainToJoin                = $domainToJoin
+  domainUserName              = $domainUsername
+  domainPassword              = $domainPassword
+  vmAdminUsername             = $vmAdminUsername
+  vmAdminPassword             = $vmAdminPassword
+}
+
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
 $SplatParams = @{
   TemplateUri             = $URI 
   ResourceGroupName       = $resourceGroupName 
-  TemplateParameterObject = $MyParams
+  TemplateParameterObject = $clientParams
   Name                    = 'EVILTraining'
 }
 
