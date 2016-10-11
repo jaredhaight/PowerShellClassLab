@@ -26,13 +26,13 @@ $dnsPrefix = $studentCode
 $storageAccountName = $studentCode+"storage"    # Lowercase required
 $adVMName = $studentCode+"-dc01"
 $adAvailabilitySetName = $studentCode+"AvailSet"
-$adNicName = $studentCode + "nic"
+$adNicName = $studentCode + "-dc01nic"
 $adNicIPAddress = "10.0.0.4"
 $adSubnetName = $studentCode+"subnet"
 $adSubnetAddressPrefix = "10.0.0.0/24"
 $virtualNetworkName = $studentCode+"vnet"
 $virtualNetworkAddressRange = "10.0.0.0/16"
-$publicIPAddressName = $studentCode+"pip"
+$publicIPAddressName = $studentCode+"-dc01pip"
 
 # Client Vars
 $clientURI = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureVMDomainJoin/azuredeploy.json"
@@ -44,6 +44,7 @@ $domainUsername = $adminUserName
 $domainPassword = $adminPasswordPlainText
 $vmAdminUsername = "homeAdmin"
 $vmAdminPassword = "Password123"
+$clientNicIpAddress = "10.0.0.10"
 
 # Check that the public dns $addnsName is available
 try {
@@ -103,6 +104,7 @@ $MyParams = @{
   domainPassword              = $domainPassword
   vmAdminUsername             = $vmAdminUsername
   vmAdminPassword             = $vmAdminPassword
+  clientNicIpAddress          = $clientNicIpAddress
 }
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
