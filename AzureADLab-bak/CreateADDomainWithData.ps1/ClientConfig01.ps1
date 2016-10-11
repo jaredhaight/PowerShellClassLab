@@ -15,9 +15,18 @@
   Import-DscResource -ModuleName xComputerManagement
   [System.Management.Automation.PSCredential ]$DomainJoinCreds = New-Object System.Management.Automation.PSCredential ("$DomainName\$($domainJoin.UserName)", $domainJoin.Password)
   
-  Node $nodeName {
+  Node $AllNodes.NodeName {
+  
+    LocalConfigurationManager
+    {
+        ActionAfterReboot = 'ContinueConfiguration'
+        ConfigurationMode = 'ApplyOnly'
+        RebootNodeIfNeeded = $true
+        AllowModuleOverWrite = $true
+    }
+    
     xComputer NewNameAndJoinDomain {
-      Name = $nodeName
+      Name = $AllNodes.NodeName
       DomainName = $domainName
       Credential = $DomainJoinCreds
     }

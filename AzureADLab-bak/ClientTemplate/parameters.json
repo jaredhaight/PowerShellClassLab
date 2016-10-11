@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_alemdco_dc01_adminPassword": {
+            "value": null
+        },
+        "virtualMachines_alemdco_home_adminPassword": {
+            "value": null
+        },
+        "availabilitySets_adAvailabiltySet_name": {
+            "value": null
+        },
+        "virtualMachines_alemdco_dc01_name": {
+            "value": null
+        },
+        "virtualMachines_alemdco_home_name": {
+            "value": null
+        },
+        "networkInterfaces_alemdco_home976_name": {
+            "value": null
+        },
+        "networkInterfaces_alemdcodc01nic_name": {
+            "value": null
+        },
+        "networkSecurityGroups_alemdco_home_nsg_name": {
+            "value": null
+        },
+        "publicIPAddresses_alemdco_dc01_public_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_alemdco_home_ip_name": {
+            "value": null
+        },
+        "virtualNetworks_alemdco_vnet_name": {
+            "value": null
+        },
+        "storageAccounts_alemdcostorage_name": {
+            "value": null
+        }
+    }
+}
