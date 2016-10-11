@@ -2,66 +2,44 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "type": "string",
-      "allowedValues": [
-        "West US",
-        "East US",
-        "West Europe",
-        "East Asia",
-        "Southeast Asia"
-      ],
-      "metadata": {
-        "Description": "The region to deploy the resources into"
-      }
-    },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
-        "Description": "The name of the Virtual Network to Create"
+        "description": "The name of the Virtual Network to Create"
       }
     },
     "virtualNetworkAddressRange": {
       "type": "string",
       "metadata": {
-        "Description": "The address range of the new VNET in CIDR format"
+        "description": "The address range of the new VNET in CIDR format"
       },
       "defaultValue": "10.0.0.0/16"
     },
     "subnetName": {
       "type": "string",
       "metadata": {
-        "Description": "The name of the subnet created in the new VNET"
+        "description": "The name of the subnet created in the new VNET"
       }
     },
     "subnetRange": {
       "type": "string",
       "metadata": {
-        "Description": "The address range of the subnet created in the new VNET"
+        "description": "The address range of the subnet created in the new VNET"
       },
       "defaultValue": "10.0.0.0/24"
-    },
-    "DNSServerAddress": {
-      "type": "array",
-      "metadata": {
-        "Description": "The DNS address(es) of the DNS Server(s) used by the VNET"
-      }
     }
   },
   "resources": [
     {
-      "name": "[parameters('virtualNetworkName')]",
       "type": "Microsoft.Network/virtualNetworks",
-      "location": "[parameters('location')]",
-      "apiVersion": "2015-05-01-preview",
+      "name": "[parameters('virtualNetworkName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
             "[parameters('virtualNetworkAddressRange')]"
           ]
-        },
-        "dhcpOptions": {
-          "dnsServers": "[parameters('DNSServerAddress')]"
         },
         "subnets": [
           {
@@ -75,4 +53,3 @@
     }
   ]
 }
-
