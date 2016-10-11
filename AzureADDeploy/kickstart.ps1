@@ -1,26 +1,11 @@
-﻿#break
-
-# Shout out to @brwilkinson for assistance with some of this.
-
-
-# Install the Azure Resource Manager modules from PowerShell Gallery
-# Takes a while to install 28 modules
-# Install-Module AzureRM -Force -Verbose
-# Install-AzureRM
-
-# Install the Azure Service Management module from PowerShell Gallery
-# Install-Module Azure -Force -Verbose
-
-# Import AzureRM modules for the given version manifest in the AzureRM module
-# Import-AzureRM -Verbose
-
-# Import Azure Service Management module
-Import-Module Azure
+﻿Import-Module Azure
 Import-Module AzureRM
 
-# Authenticate to your Azure account
-# Login-AzureRmAccount
-# Import-AzurePublishSettingsFile C:\Users\jared\Documents\jhaight-azure-credentials.publishsettings
+
+Param(
+  [string]$adminPassword,
+  [string]$userPassword
+)
 
 function Get-RandomString ($length) {
   $set    = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray()
@@ -38,8 +23,6 @@ $locationName = "East US"
 $resourceGroupName    = 'evil.training'
 $studentCode = "a" + (Get-RandomString 6)
 $adminUserName = "EvilAdmin"
-$adminPasswordPlainText = "Beak-Today#Favor#Manufacture&0s"
-$adminPassword = ConvertTo-SecureString $adminPasswordPlainText -AsPlainText -Force
 $domainName = "ad.evil.training"
 $dnsPrefix = $studentCode
 $storageAccountName = $studentCode+"storage"    # Lowercase required

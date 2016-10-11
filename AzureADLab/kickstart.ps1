@@ -2,6 +2,12 @@
 Import-Module Azure
 Import-Module AzureRM
 
+Param(
+  [string]$adAdminPassword,
+  [string]$cilentAdminPassword
+)
+
+
 function Get-RandomString ($length) {
   $set    = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray()
   $result = ""
@@ -36,8 +42,7 @@ $adVmSize                   = "Basic_A1"
 
 # Client Vars
 $clientDnsPrefix            = $studentCode+"-home"
-$vmAdminUsername            = "localAdmin"
-$vmAdminPassword            = "Password123"
+$clientAdminUsername            = "localAdmin"
 $clientNicIpAddress         = "10.0.0.10"
 $clientVMSize               = "Basic_A2"
 
@@ -109,8 +114,8 @@ $MyParams = @{
   domainToJoin                = $domainToJoin
   domainUserName              = $domainUsername
   domainPassword              = $domainPassword
-  vmAdminUsername             = $vmAdminUsername
-  vmAdminPassword             = $vmAdminPassword
+  clientAdminUsername         = $vmAdminUsername
+  clientAdminPassword         = $vmAdminPassword
   clientNicIpAddress          = $clientNicIpAddress
   clientVmSize                = $clientVMSize
 }
