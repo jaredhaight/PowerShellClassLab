@@ -55,6 +55,9 @@
     "adVMName": {
       "type": "string"
     },
+    "adVmSize": {
+      "type": "string"
+    },
     "adSubnetName": {
       "type": "string"
     },
@@ -70,25 +73,13 @@
     "adSubnetAddressPrefix": {
       "type": "string"
     },
-    "existingVNETName": {
-      "type": "string",
-      "metadata": {
-        "description": "Existing VNET that contains the domain controller"
-      }
-    },
-    "existingSubnetName": {
-      "type": "string",
-      "metadata": {
-        "description": "Existing subnet that contains the domain controller"
-      }
-    },
     "clientDnsPrefix": {
       "type": "string",
       "metadata": {
         "description": "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
       }
     },
-    "vmSize": {
+    "clientVmSize": {
       "type": "string",
       "defaultValue": "Standard_A2",
       "metadata": {
@@ -151,8 +142,8 @@
     "apiVersion": "2015-06-15",
     "nicName": "[concat(parameters('clientDnsPrefix'),'Nic')]",
     "publicIPName": "[concat(parameters('clientDnsPrefix'),'Pip')]",
-    "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('existingVNETName'))]",
-    "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('existingSubnetName'))]"
+    "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('adSubnetName'))]"
   },
   "resources": [
     {
@@ -252,7 +243,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_A1"
+          "vmSize": "[parameters('adVmSize')]"
         },
         "availabilitySet": {
           "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('adAvailabilitySetName'))]"
@@ -489,14 +480,14 @@
         "typeHandlerVersion": "1.3",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "Name": "[parameters('domainToJoin')]",
+          "Name": "[parameters('domainName')]",
           "OUPath": "[parameters('ouPath')]",
-          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "User": "[concat(parameters('domainName'), '\\', parameters('adminUserName'))]",
           "Restart": "true",
           "Options": "[parameters('domainJoinOptions')]"
         },
         "protectedsettings": {
-          "Password": "[parameters('domainPassword')]"
+          "Password": "[parameters('adminPassword')]"
         }
       }
     }
