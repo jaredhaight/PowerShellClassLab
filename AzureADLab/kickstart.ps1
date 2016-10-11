@@ -24,6 +24,7 @@ $locationName               = "East US"
 $studentCode                = "a" + (Get-RandomString 6)
 $resourceGroupName          = $studentCode + '.evil.training'
 $adAdminUserName            = "EvilAdmin"
+$adAdminPassword            = ConvertTo-SecureString $adAdminPassword -AsPlainText -Force
 $domainName                 = "ad.evil.training"
 $dnsPrefix                  = $studentCode
 $storageAccountName         = $studentCode + "storage"    # Lowercase required
@@ -118,7 +119,7 @@ $SplatParams = @{
   TemplateUri                 = $URI 
   ResourceGroupName           = $resourceGroupName 
   TemplateParameterObject     = $MyParams
-  Name                        = 'EVILTraining'
+  Name                        = $studentCode + "-template"
 }
 
 # This takes ~30 minutes
