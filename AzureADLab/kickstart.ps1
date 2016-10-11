@@ -113,9 +113,6 @@ $MyParams = @{
   clientVmSize                = $clientVMSize
 }
 
-write-output $MyParams
-read-host
-
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
 $SplatParams = @{
   TemplateUri                 = $URI 

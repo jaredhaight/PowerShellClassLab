@@ -391,7 +391,7 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('vmSize')]"
+                    "vmSize": "[parameters('clientVmSize')]"
                 },
                 "osProfile": {
                     "computerName": "[parameters('clientDnsPrefix')]",
