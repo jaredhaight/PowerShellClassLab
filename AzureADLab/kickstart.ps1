@@ -23,7 +23,7 @@ $location                   = 'eastus2'
 $locationName               = "East US"
 $resourceGroupName          = 'evil.training'
 $studentCode                = "a" + (Get-RandomString 6)
-$adAdminUserName              = "EvilAdmin"
+$adAdminUserName            = "EvilAdmin"
 $domainName                 = "ad.evil.training"
 $dnsPrefix                  = $studentCode
 $storageAccountName         = $studentCode+"storage"    # Lowercase required
@@ -39,9 +39,9 @@ $publicIPAddressName        = $studentCode+"-dc01pip"
 $adVmSize                   = "Basic_A1"
 
 # Client Vars
-$clientDnsPrefix                = $studentCode+"-home"
-$clientAdminUsername            = "localAdmin"
-$clientNicIpAddress             = "10.0.0.10"
+$clientDnsPrefix            = $studentCode+"-home"
+$clientAdminUsername        = "localAdmin"
+$clientNicIpAddress         = "10.0.0.10"
 $clientVMSize               = "Basic_A2"
 
 
@@ -90,8 +90,8 @@ catch {
 
 # Parameters for the template and configuration
 $MyParams = @{
-  adAdminUsername               = $adAdminUserName
-  adAdminPassword               = $adAdminPassword
+  adAdminUsername             = $adAdminUserName
+  adAdminPassword             = $adAdminPassword
   domainName                  = $domainName
   dnsPrefix                   = $dnsPrefix
   virtualNetworkName          = $virtualNetworkName
@@ -106,15 +106,15 @@ $MyParams = @{
   virtualNetworkAddressRange  = $virtualNetworkAddressRange
   adSubnetAddressPrefix       = $adSubnetAddressPrefix
   _artifactsLocation          = $_artifactsLocation
-  existingVNETName            = $existingVNETName
-  existingSubnetName          = $existingSubnetName
   clientDnsPrefix             = $clientDnsPrefix
-  domainToJoin                = $domainToJoin
   clientAdminUsername         = $clientAdminUsername
   clientAdminPassword         = $clientAdminPassword
   clientNicIpAddress          = $clientNicIpAddress
   clientVmSize                = $clientVMSize
 }
+
+write-output $MyParams
+read-host
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
 $SplatParams = @{

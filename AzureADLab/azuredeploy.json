@@ -86,12 +86,6 @@
                 "description": "The size of the virtual machines"
             }
         },
-        "domainToJoin": {
-            "type": "string",
-            "metadata": {
-                "description": "The FQDN of the AD domain"
-            }
-        },
         "ouPath": {
             "type": "string",
             "defaultValue": "",
