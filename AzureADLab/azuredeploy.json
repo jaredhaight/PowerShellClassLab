@@ -401,7 +401,12 @@
               }
             }
           }
-        ]
+        ],
+        "dnsSettings":{  
+         "dnsServers":[  
+            "[parameters('adNicIpAddress')]"
+         ],
+        }
       }
     },
     {

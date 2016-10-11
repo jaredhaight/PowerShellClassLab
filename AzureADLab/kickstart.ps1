@@ -36,10 +36,21 @@ $adVmSize                   = "Basic_A1"
 
 # Client Vars
 $clientDnsPrefix            = $studentCode+"-home"
-$vmAdminUsername            = "homeAdmin"
+$vmAdminUsername            = "localAdmin"
 $vmAdminPassword            = "Password123"
 $clientNicIpAddress         = "10.0.0.10"
 $clientVMSize               = "Basic_A2"
+
+
+# Server Vars
+$serverDnsPrefix            = $studentCode+"-srv"
+$serverNicIpAddress         = "10.0.0.11"
+$serverVMSize               = "Basic_A1"
+
+# Linux Vars
+$linuxDnsPrefix             = $studentCode+"-lnx"
+$linuxNicIpAddress          = "10.0.0.12"
+$linuxVMSize                = "Basic_A2"
 
 # Check that the public dns $addnsName is available
 try {
