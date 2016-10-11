@@ -207,6 +207,9 @@
           },
           "subnetRange": {
             "value": "[parameters('adSubnetAddressPrefix')]"
+          },
+          "adNicIpAddress": {
+            "value": "[parameters('adNicIpAddress')]"
           }
         }
       }
