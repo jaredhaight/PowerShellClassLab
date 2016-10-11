@@ -49,6 +49,9 @@
     "adNicName": {
       "type": "string"
     },
+    "adNicIpAddress": {
+      "type": "string"
+    },
     "adVMName": {
       "type": "string"
     },

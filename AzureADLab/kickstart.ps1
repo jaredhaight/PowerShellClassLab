@@ -32,12 +32,14 @@ function Get-RandomString ($length) {
 }
 
 $URI  = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
+$_artifactsLocation = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
 $location  = 'eastus2'
+$locationName = "East US"
 $resourceGroupName    = 'evil.training'
 $studentCode = "a" + (Get-RandomString 6)
 $adminUserName = "EvilAdmin"
 $adminPasswordPlainText = "Beak-Today#Favor#Manufacture&0s"
-$adminPassword = $secpasswd = ConvertTo-SecureString $adminPasswordPlainText -AsPlainText -Force
+$adminPassword = ConvertTo-SecureString $adminPasswordPlainText -AsPlainText -Force
 $domainName = "ad.evil.training"
 $dnsPrefix = $studentCode
 $storageAccountName = $studentCode+"storage"    # Lowercase required
@@ -46,7 +48,7 @@ $adAvailabilitySetName = $studentCode+"AvailSet"
 $adNicName = $studentCode + "nic"
 $adNicIPAddress = "10.0.0.4"
 $adSubnetName = $studentCode+"subnet"
-$adSubnetAddressPrefix = 
+$adSubnetAddressPrefix = "10.0.0.0/24"
 $virtualNetworkName = $studentCode+"vnet"
 $virtualNetworkAddressRange = "10.0.0.0/16"
 $publicIPAddressName = $studentCode+"pip"
@@ -86,20 +88,21 @@ catch {
 
 # Parameters for the template and configuration
 $MyParams = @{
-  location              = 'East US'
-  adminUsername         = $adminUserName
-  adminPassword         = $adminPassword
-  domainName            = $domainName
-  dnsPrefix             = $dnsPrefix
-  virtualNetworkName    = $virtualNetworkName
-  storageAccountName    = $storageAccountName
-  adNicName             = $adNicName
-  adVMName              = $adVMName
-  adSubnetName          = $adSubnetName
-  publicIPAddressName   = $publicIPAddressName
-  adAvailabilitySetname = $adAvailabilitySetName
+  adminUsername               = $adminUserName
+  adminPassword               = $adminPasswordPlainText
+  domainName                  = $domainName
+  dnsPrefix                   = $dnsPrefix
+  virtualNetworkName          = $virtualNetworkName
+  storageAccountName          = $storageAccountName
+  adNicName                   = $adNicName
+  adNicIpAddress              = $adNicIPAddress
+  adVMName                    = $adVMName
+  adSubnetName                = $adSubnetName
+  publicIPAddressName         = $publicIPAddressName
+  adAvailabilitySetname       = $adAvailabilitySetName
   virtualNetworkAddressRange  = $virtualNetworkAddressRange
-  adSubnetAddressPrefix = $adSubnetAddressPrefix
+  adSubnetAddressPrefix       = $adSubnetAddressPrefix
+  _artifactsLocation          = $_artifactsLocation
 }
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
