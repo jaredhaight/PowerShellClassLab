@@ -166,7 +166,7 @@ $ipInfo = (@{
 
 forEach ($item in $ipInfo) {
   $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
-  $rs = New-AzureRmDnsRecordSet -Name $item.vnName -RecordType "A" -ZoneName "evil.training" -ResourceGroupName "evil.training-master" -Ttl 60
+  $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName "evil.training" -ResourceGroupName "evil.training-master" -Ttl 10
   Add-AzureRmDnsRecordConfig -RecordSet $rs -Ipv4Address $pip.IpAddress
   Set-AzureRmDnsRecordSet -RecordSet $rs
 }
