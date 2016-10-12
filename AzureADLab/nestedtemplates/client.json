@@ -53,7 +53,7 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "windowsOSVersion": "2012-R2-Datacenter",
-    "apiVersion": "2015-06-15",
+    "apiVersion": "2016-03-30",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "nicName": "[concat(parameters('vmName'), '-nic')]",
@@ -103,7 +103,7 @@
         }
     },
     {
-        "apiVersion": "[variables('apiVersion')]",
+        "apiVersion": "2015-01-01",
         "type": "Microsoft.Compute/virtualMachines",
         "name": "[parameters('clientDnsPrefix')]",
         "location": "[resourceGroup().location]",
@@ -112,6 +112,7 @@
             "[resourceId('Microsoft.Network/networkInterfaces', parameters('clientNicName'))]"
         ],
         "properties": {
+            "mode": "Incremental",
             "hardwareProfile": {
                 "vmSize": "[parameters('vmSize')]"
             },
