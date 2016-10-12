@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adVMName": {
+        "type": "string"
+    },
+    "_artifactsLocation": {
+        "type": "string"
+    },
+    "adAddminUsername": {
+        "type": "string"
+    },
+    "adAdminPassword": {
+        "type": "string"
+    },
+    "domainName": {
+        "type": "string"
+    },
+    "_artifactsLocationSasToken": {
+        "type": "securestring",
+        "metadata": {
+            "description": "Auto-generated token to access _artifactsLocation"
+        },
+        "defaultValue": ""
+    },
+  },
+  "resources": [{
+    "type": "extensions",
+    "name": "CreateADForest",
+    "apiVersion": "2015-06-15",
+    "location": "[resourceGroup().location]",
+    "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('adVMName'))]"
+    ],
+    "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.19",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+            "ModulesUrl": "[concat(parameters('_artifactsLocation'), '/DSC/CreateADPDC.zip', parameters('_artifactsLocationSasToken'))]",
+            "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+            "Properties": {
+                "DomainName": "[parameters('domainName')]",
+                "AdminCreds": {
+                    "UserName": "[parameters('adAdminUsername')]",
+                    "Password": "PrivateSettingsRef:AdminPassword"
+                }
+            }
+        },
+        "protectedSettings": {
+            "Items": {
+                "AdminPassword": "[parameters('adAdminPassword')]"
+            }
+        }
+    }
+  }]
+}

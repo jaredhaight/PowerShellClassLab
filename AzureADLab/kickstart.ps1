@@ -16,48 +16,55 @@ function Get-RandomString ($length) {
   return $result
 }
 
-# DC Variables
-$URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
-$_artifactsLocation         = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
+# Common Variables
 $location                   = 'eastus2'
 $locationName               = "East US"
 $studentCode                = "a" + (Get-RandomString 6)
 $resourceGroupName          = $studentCode + '.evil.training'
-$adAdminUserName            = "EvilAdmin"
-$domainName                 = "ad.evil.training"
-$dnsPrefix                  = $studentCode
-$storageAccountName         = $studentCode + "storage"    # Lowercase required
-$adVMName                   = $studentCode + "-dc01"
-$adAvailabilitySetName      = $studentCode + "AvailSet"
-$adNicName                  = $studentCode + "-dc01nic"
-$adNicIPAddress             = "10.0.0.4"
-$adSubnetName               = $studentCode + "subnet"
-$adSubnetAddressPrefix      = "10.0.0.0/24"
+$studentSubnetName          = $studentCode + "subnet"
+$studentSubnetAddressPrefix = "10.0.0.0/24"
 $virtualNetworkName         = $studentCode + "vnet"
 $virtualNetworkAddressRange = "10.0.0.0/16"
-$publicIPAddressName        = $studentCode + "-dc01pip"
+$studentAdminUsername       = "localAdmin"
+$storageAccountName         = $studentCode + "storage"    # Lowercase required
+$URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
+$_artifactsLocation         = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
+
+# DC Variables
+$adAdminUserName            = "EvilAdmin"
+$domainName                 = "ad.evil.training"
+$adVMName                   = $studentCode + "-dc01"
+$adNicIPAddress             = "10.0.0.4"
 $adVmSize                   = "Basic_A1"
+$adImagePublisher           = "MicrosoftWindowsServer"
+$adImageOffer               = "WindowsServer"
+$adImageSku                 = "2012-R2-Datacenter"
 
 # Client Vars
-$clientDnsPrefix            = $studentCode + "-home"
-$clientAdminUsername        = "localAdmin"
+$clientVMName               = $studentCode + "-home"
 $clientNicIpAddress         = "10.0.0.10"
 $clientVMSize               = "Basic_A2"
-
+$clientImagePublisher       = "MicrosoftWindowsServer"
+$clientImageOffer           = "WindowsServer"
+$clientImageSku             = "2012-R2-Datacenter"
 
 # Server Vars
 $serverDnsPrefix            = $studentCode+"-srv"
 $serverNicIpAddress         = "10.0.0.11"
 $serverVMSize               = "Basic_A1"
+$serverImagePublisher       = "MicrosoftWindowsServer"
+$serverImageOffer           = "WindowsServer"
+$serverImageSku             = "2012-R2-Datacenter"
+
 
 # Linux Vars
 $linuxVMName                = $studentCode+"-lnx"
-$linuxNicName               = $studentCode+"-lnx-nic"
-$linuxOSDiskName            = $studentCode+"-lnx-os"
-$linuxDataDiskName          = $studentCode+"-lnx-data"
 $linuxNicIpAddress          = "10.0.0.12"
-$linuxPublicIPAddressName   = $studentCode+"-lnx-pip"
 $linuxVMSize                = "Basic_A2"
+$linuxImagePublisher        = "Canonical"
+$linuxImageOffer            = "UbuntuServer"
+$linuxImageSku              = "16.04.0-LTS"
+
 
 # Check that the public dns $addnsName is available
 try {
@@ -94,27 +101,41 @@ catch {
 
 # Parameters for the template and configuration
 $MyParams = @{
+  _artifactsLocation          = $_artifactsLocation
+  studentSubnetName           = $studentSubnetName
+  studentSubnetAddressPrefix  = $studentSubnetAddressPrefix
+  virtualNetworkName          = $virtualNetworkName
+  virtualNetworkAddressRange  = $virtualNetworkAddressRange
+  studentAdminUsername        = $studentAdminUsername
+  studentAdminPassword        = $studentAdminPassword
+  storageAccountName          = $storageAccountName
   adAdminUsername             = $adAdminUserName
   adAdminPassword             = $adAdminPassword
   domainName                  = $domainName
-  dnsPrefix                   = $dnsPrefix
-  virtualNetworkName          = $virtualNetworkName
-  storageAccountName          = $storageAccountName
-  adNicName                   = $adNicName
-  adNicIpAddress              = $adNicIPAddress
   adVMName                    = $adVMName
+  adNicIpAddress              = $adNicIPAddress
   adVMSize                    = $adVMSize
-  adSubnetName                = $adSubnetName
-  publicIPAddressName         = $publicIPAddressName
-  adAvailabilitySetname       = $adAvailabilitySetName
-  virtualNetworkAddressRange  = $virtualNetworkAddressRange
-  adSubnetAddressPrefix       = $adSubnetAddressPrefix
-  _artifactsLocation          = $_artifactsLocation
-  clientDnsPrefix             = $clientDnsPrefix
-  clientAdminUsername         = $clientAdminUsername
-  clientAdminPassword         = $clientAdminPassword
-  clientNicIpAddress          = $clientNicIpAddress
-  clientVmSize                = $clientVMSize
+  adImagePublisher            = $adImagePublisher
+  adImageOffer                = $adImageOffer
+  adImageSku                  = $adImageSku
+  clientVMName                = $clientVMName
+  clientNicIpclientdress      = $clientNicIPclientdress
+  clientVMSize                = $clientVMSize
+  clientImagePublisher        = $clientImagePublisher
+  clientImageOffer            = $clientImageOffer
+  clientImageSku              = $clientImageSku
+  serverVMName                = $serverVMName
+  serverNicIpserverdress      = $serverNicIPserverdress
+  serverVMSize                = $serverVMSize
+  serverImagePublisher        = $serverImagePublisher
+  serverImageOffer            = $serverImageOffer
+  serverImageSku              = $serverImageSku
+  linuxVMName                 = $linuxVMName
+  linuxNicIplinuxdress        = $linuxNicIPlinuxdress
+  linuxVMSize                 = $linuxVMSize
+  linuxImagePublisher         = $linuxImagePublisher
+  linuxImageOffer             = $linuxImageOffer
+  linuxImageSku               = $linuxImageSku
 }
 
 # Splat the parameters on New-AzureRmResourceGroupDeployment  
