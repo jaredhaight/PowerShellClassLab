@@ -51,7 +51,7 @@
         "adNicIpAddress": {
             "type": "string"
         },
-        "adPublicIpAddress": {
+        "adPublicIpName": {
             "type": "string"
         },
         "adVmSize": {
@@ -75,7 +75,7 @@
         "clientNicIpAddress": {
             "type": "string"
         },
-        "clientPublicIpAddress": {
+        "clientPublicIpName": {
             "type": "string"
         },
         "clientVmSize": {
@@ -99,7 +99,7 @@
         "serverNicIpAddress": {
             "type": "string"
         },
-        "serverPublicIpAddress": {
+        "serverPublicIpName": {
             "type": "string"
         },
         "serverVmSize": {
@@ -123,7 +123,7 @@
         "linuxNicIpAddress": {
             "type": "string"
         },
-        "linuxPublicIpAddress": {
+        "linuxPublicIpName": {
             "type": "string"
         },
         "linuxVmSize": {
