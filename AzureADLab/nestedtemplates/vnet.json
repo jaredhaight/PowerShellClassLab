@@ -51,7 +51,7 @@
                 "properties": {
                     "addressPrefix": "[parameters('subnetRange')]",
                     "networkSecurityGroup": {
-                        "id": "[resourceId(parameters('masterResourceGroup'), Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroup'))]"
+                        "id": "[resourceId('evil.training-master', Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroup'))]"
                     }
                 }
             }]
