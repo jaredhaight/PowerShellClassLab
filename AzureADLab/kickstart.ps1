@@ -83,6 +83,7 @@ catch {
 
 # Parameters for the template and configuration
 $MyParams = @{
+  artifactsLocation          = $artifactsLocation
   _artifactsLocation          = $_artifactsLocation
   studentSubnetName           = $studentSubnetName
   studentSubnetAddressPrefix  = $studentSubnetAddressPrefix
