@@ -227,7 +227,6 @@
             "[resourceId('Microsoft.Network/networkInterfaces', parameters('adNicName'))]"
         ],
         "properties": {
-            "mode": "Incremental",
             "hardwareProfile": {
                 "vmSize": "[parameters('adVmSize')]"
             },
@@ -352,7 +351,6 @@
             "[resourceId('Microsoft.Network/networkInterfaces', parameters('linuxNicName'))]"
         ],
         "properties": {
-            "mode": "Incremental",
             "hardwareProfile": {
                 "vmSize": "[parameters('linuxVmSize')]"
             },
@@ -445,7 +443,6 @@
             "[resourceId('Microsoft.Network/networkInterfaces', parameters('clientNicName'))]"
         ],
         "properties": {
-            "mode": "Incremental",
             "hardwareProfile": {
                 "vmSize": "[parameters('clientVmSize')]"
             },
