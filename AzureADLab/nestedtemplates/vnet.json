@@ -30,6 +30,9 @@
         },
         "networkSecurityGroup": {
             "type": "string"
+        },
+        "masterResourceGroup": {
+            "type": "string"
         }
     },
     "resources": [{
