@@ -58,7 +58,6 @@
     "vmStorageAccountContainerName": "vhds",
     "nicName": "[concat(parameters('vmName'), '-nic')]",
     "publicIpName": "[concat(parameters('vmName'), '-pip')]",
-    "nicName": "[concat(parameters('studentSubnetName'), '-client-nic')]",
     "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]"
   },
   "resources": [
