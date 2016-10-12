@@ -27,6 +27,9 @@
                 "description": "The address range of the subnet created in the new VNET"
             },
             "defaultValue": "10.0.0.0/24"
+        },
+        "networkSecurityGroup": {
+            "type": "string"
         }
     },
     "resources": [{
@@ -43,7 +46,10 @@
             "subnets": [{
                 "name": "[parameters('subnetName')]",
                 "properties": {
-                    "addressPrefix": "[parameters('subnetRange')]"
+                    "addressPrefix": "[parameters('subnetRange')]",
+                    "networkSecurityGroup": {
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroup'))]"
+                    }
                 }
             }]
         }

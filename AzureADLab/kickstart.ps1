@@ -25,10 +25,11 @@ $studentSubnetName          = $studentCode + "subnet"
 $studentSubnetAddressPrefix = "10.0.0.0/24"
 $virtualNetworkName         = $studentCode + "vnet"
 $virtualNetworkAddressRange = "10.0.0.0/16"
-$studentAdminUsername       = "localAdmin"
+$studentAdminUsername       = "localadmin"
 $storageAccountName         = $studentCode + "storage"    # Lowercase required
 $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
 $artifactsLocation          = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
+$networkSecurityGroup       = "evil-training-nsg"
 
 # DC Variables
 $adAdminUserName            = "EvilAdmin"
@@ -99,6 +100,7 @@ $MyParams = @{
   studentAdminUsername        = $studentAdminUsername
   studentAdminPassword        = $studentAdminPassword
   storageAccountName          = $storageAccountName
+  networkSecurityGroup        = $networkSecurityGroup
   adAdminUsername             = $adAdminUserName
   adAdminPassword             = $adAdminPassword
   domainName                  = $domainName
