@@ -12,6 +12,9 @@
             },
             "defaultValue": ""
         },
+        "subscriptionId": {
+            "type": "string"
+        },
         "masterResourceGroup": {
             "type": "string"
         },
