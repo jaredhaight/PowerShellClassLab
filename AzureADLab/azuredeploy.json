@@ -233,7 +233,7 @@
             "osProfile": {
                 "computerName": "[parameters('adVmName')]",
                 "adminUsername": "[parameters('adAdminUsername')]",
-                "adminPassword": "[parameters('adAminPassword')]"
+                "adminPassword": "[parameters('adAdminPassword')]"
             },
             "storageProfile": {
                 "imageReference": {
