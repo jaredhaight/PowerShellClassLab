@@ -49,7 +49,7 @@ $clientImageOffer           = "WindowsServer"
 $clientImageSku             = "2012-R2-Datacenter"
 
 # Server Vars
-$serverDnsPrefix            = $studentCode+"-srv"
+$serverVMName               = $studentCode+"-srv"
 $serverNicIpAddress         = "10.0.0.11"
 $serverVMSize               = "Basic_A1"
 $serverImagePublisher       = "MicrosoftWindowsServer"
@@ -65,32 +65,13 @@ $linuxImagePublisher        = "Canonical"
 $linuxImageOffer            = "UbuntuServer"
 $linuxImageSku              = "16.04.0-LTS"
 
-
-# Check that the public dns $addnsName is available
-try {
-  if (Test-AzureRmDnsAvailability -DomainNameLabel $dnsPrefix -Location $location)
-  { 
-    'Available' 
-  } 
-  else 
-  { 
-    'Taken. addnsName must be globally unique.' 
-    break
-  }
+# Check if logged in to Azure
+Try {
+  Get-AzureRMContext -ErrorAction Stop
 }
-catch {
+Catch {
   Login-AzureRmAccount
-  if (Test-AzureRmDnsAvailability -DomainNameLabel $dnsPrefix -Location $location)
-  { 
-    'Available' 
-  } 
-  else 
-  { 
-    'Taken. addnsName must be globally unique.' 
-    break
-  }
 }
-
 # Create the new resource group. Runs quickly.
 try {
   Get-AzureRmResourceGroup -Name $resourceGroupName -Location $location -ErrorAction Stop
