@@ -315,35 +315,6 @@
                     }                
                 }
             }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "name": "domainJoin-Client",
-            "apiVersion": "2016-02-01",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/domainJoin.json', parameters('_artifactsLocationSasToken'))]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "vmName": {
-                        "value": "[parameters('clientVMName')]"
-                    },
-                    "adAdminUsername": {
-                        "value": "[parameters('adAdminUsername')]"
-                    },
-                    "adAdminPassword": {
-                        "value": "[parameters('adAdminPassword')]"
-                    },
-                    "domainName": {
-                        "value": "[parameters('domainName')]"
-                    },
-                    "adVMName": {
-                        "value": "[parameters('adVMName')]"
-                    }                    
-                }
-            }
         }
     ]
 }
