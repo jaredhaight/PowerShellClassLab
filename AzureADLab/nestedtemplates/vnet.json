@@ -54,7 +54,7 @@
                 "properties": {
                     "addressPrefix": "[parameters('subnetRange')]",
                     "networkSecurityGroup": {
-                        "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup')]"
+                        "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup'))]"
                     }
                 }
             }]
