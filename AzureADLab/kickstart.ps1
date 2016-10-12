@@ -19,8 +19,10 @@ function Get-RandomString ($length) {
 # Common Variables
 $location                   = 'eastus2'
 $locationName               = "East US"
+$masterResourceGroup        = "evil.training-master"
+$dnsZone                    = "evil.training"
 $studentCode                = "a" + (Get-RandomString 6)
-$resourceGroupName          = $studentCode + '.evil.training'
+$resourceGroupName          = $studentCode + '.' + $dnsZone
 $studentSubnetName          = $studentCode + "subnet"
 $studentSubnetAddressPrefix = "10.0.0.0/24"
 $virtualNetworkName         = $studentCode + "vnet"
@@ -33,7 +35,7 @@ $networkSecurityGroup       = "evil-training-nsg"
 
 # DC Variables
 $adAdminUserName            = "EvilAdmin"
-$domainName                 = "ad.evil.training"
+$domainName                 = "ad." + $dnsZone
 $adVMName                   = $studentCode + "-dc01"
 $adNicName                  = $adVMName + "-nic"
 $adNicIPAddress             = "10.0.0.4"
@@ -101,6 +103,7 @@ $MyParams = @{
   studentAdminPassword        = $studentAdminPassword
   storageAccountName          = $storageAccountName
   networkSecurityGroup        = $networkSecurityGroup
+  masterResourceGroup         = $masterResourceGroup
   adAdminUsername             = $adAdminUserName
   adAdminPassword             = $adAdminPassword
   domainName                  = $domainName
@@ -169,5 +172,5 @@ $ipInfo = (@{
 forEach ($item in $ipInfo) {
   $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
   $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
-  $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName "evil.training" -ResourceGroupName "evil.training-master" -Ttl 10 -DnsRecords $record
+  $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
 }

@@ -12,6 +12,9 @@
             },
             "defaultValue": ""
         },
+        "masterResourceGroup": {
+            "type": "string"
+        },
         "studentSubnetName": {
             "type": "string"
         },
@@ -182,6 +185,9 @@
                     },
                     "subnetRange": {
                         "value": "[parameters('studentSubnetAddressPrefix')]"
+                    },
+                    "masterResourceGroup": {
+                        "value": "[parameters('masterResourceGroup')]"
                     },
                     "networkSecurityGroup": {
                         "value": "[parameters('networkSecurityGroup')]"
