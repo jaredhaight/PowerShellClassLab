@@ -3,16 +3,17 @@ Import-Module AzureRM
 
 # Check if logged in to Azure
 Try {
-  Get-AzureRMContext -ErrorAction Stop
+  $resourceGroups = Get-AzureRmResourceGroup -ErrorAction Stop
 }
-Catch {
+Catch [Microsoft.Azure.Commands.Common.Authentication.AadAuthenticationFailedException] {
   Login-AzureRmAccount
+  $resourceGroups = Get-AzureRmResourceGroup
 }
 
-$resourceGroups = Get-AzureRmResourceGroup
+
 
 forEach ($resourceGroup in $resourceGroups) {
-    if ($resourceGroup.ResourceGroupName -notcontains "master") {
+    if ($resourceGroup.ResourceGroupName -notlike "*master") {
         Remove-AzureRmResourceGroup -Name $resourceGroup.ResourceGroupName -Force -Verbose
     }
 }

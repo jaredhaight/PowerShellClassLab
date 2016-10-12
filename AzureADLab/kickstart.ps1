@@ -145,3 +145,28 @@ $SplatParams = @{
 }
 
 New-AzureRmResourceGroupDeployment @SplatParams -Verbose
+
+$ipInfo = (@{
+  "publicIpName" = $adPublicIpName
+  "vmName" = $adVMName  
+}, 
+@{
+  "publicIpName" = $clientPublicIpName
+  "vmName" = $clientVmName
+},
+@{
+  "publicIpName" = $linuxPublicIpName
+  "vmName"  = $linuxVMName
+},
+@{
+  "publicIpName" = $serverPublicIpName
+  "vmName"  = $serverVMName
+}
+)
+
+forEach ($item in $ipInfo) {
+  $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
+  $rs = New-AzureRmDnsRecordSet -Name $item.vnName -RecordType "A" -ZoneName "evil.training" -ResourceGroupName "evil.training-master" -Ttl 60
+  Add-AzureRmDnsRecordConfig -RecordSet $rs -Ipv4Address $pip.IpAddress
+  Set-AzureRmDnsRecordSet -RecordSet $rs
+}
