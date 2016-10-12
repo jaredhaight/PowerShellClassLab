@@ -109,11 +109,11 @@
     {
         "apiVersion": "2016-03-30",
         "type": "Microsoft.Compute/virtualMachines",
-        "name": "[parameters('clientVMName')]",
+        "name": "[parameters('VMName')]",
         "location": "[resourceGroup().location]",
         "dependsOn": [
             "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
-            "[resourceId('Microsoft.Network/networkInterfaces', parameters('clientNicName'))]"
+            "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
         ],
         "properties": {
             "mode": "Incremental",
@@ -135,7 +135,7 @@
                 "osDisk": {
                     "name": "osdisk",
                     "vhd": {
-                        "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk0.vhd')]"
+                        "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('vmName'), 'disk0.vhd')]"
                     },
                     "caching": "ReadWrite",
                     "createOption": "FromImage"
@@ -143,7 +143,7 @@
                 "dataDisks": [{
                     "name": "myvm-data-disk1",
                     "vhd": {
-                        "Uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk1.vhd')]"
+                        "Uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('vmName'), 'disk1.vhd')]"
                     },
                     "caching": "None",
                     "createOption": "Empty",
