@@ -2,84 +2,113 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "adAdminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the administrator account of the new VM and domain"
-            }
-        },
-        "adAdminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "The password for the administrator account of the new VM and domain"
-            }
-        },
-        "domainName": {
-            "type": "string",
-            "metadata": {
-                "description": "The FQDN of the Active Directory Domain to be created"
-            }
-        },
         "artifactsLocation": {
             "type": "string",
             "metadata": {
                 "description": "The location of resources, such as templates and DSC modules, that the template depends on"
             },
             "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/active-directory-new-domain"
-        },
-        "virtualNetworkName": {
-            "type": "string"
-        },
-        "storageAccountName": {
-            "type": "string"
-        },
-        "adNicName": {
-            "type": "string"
-        },
-        "adNicIpAddress": {
-            "type": "string"
-        },
-        "adVMName": {
-            "type": "string"
-        },
-        "adVmSize": {
-            "type": "string"
-        },
+        },        
         "studentSubnetName": {
-            "type": "string"
-        },
-        "publicIPAddressName": {
-            "type": "string"
-        },
-        "adAvailabilitySetName": {
-            "type": "string"
-        },
-        "virtualNetworkAddressRange": {
             "type": "string"
         },
         "studentSubnetAddressPrefix": {
             "type": "string"
         },
-        "clientVmSize": {
-            "type": "string",
-            "defaultValue": "Standard_A2",
-            "metadata": {
-                "description": "The size of the virtual machines"
-            }
+        "virtualNetworkName": {
+            "type": "string"
         },
-        "clientAdminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'admin','administrator"
-            }
+        "virtualNetworkAddressRange": {
+            "type": "string"
         },
-        "clientAdminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "The password for the administrator account of the new VM and the domain"
-            }
+        "studentAdminUsername": {
+            "type": "string"
+        },
+        "studentAdminPassword": {
+            "type": "securestring"
+        },
+        "storageAccountName": {
+            "type": "string"
+        },
+        "adAdminUsername": {
+            "type": "string"
+        },
+        "adAdminPassword": {
+            "type": "securestring"
+        },
+        "domainName": {
+            "type": "string"
+        },
+        "adVMName": {
+            "type": "string"
+        },
+        "adNicIpAddress": {
+            "type": "string"
+        },
+        "adVmSize": {
+            "type": "string"
+        },
+        "adImagePublisher": {
+            "type": "string"
+        },
+        "adImageOffer": {
+            "type": "string"
+        },
+        "adImageSku": {
+            "type": "string"
+        },
+        "clientVMName": {
+            "type": "string"
         },
         "clientNicIpAddress": {
+            "type": "string"
+        },
+        "clientVmSize": {
+            "type": "string",
+        },
+        "clientImagePublisher": {
+            "type": "string"
+        },
+        "clientImageOffer": {
+            "type": "string"
+        },
+        "clientImageSku": {
+            "type": "string"
+        },
+        "serverVMName": {
+            "type": "string"
+        },
+        "serverNicIpAddress": {
+            "type": "string"
+        },
+        "serverVmSize": {
+            "type": "string",
+        },
+        "serverImagePublisher": {
+            "type": "string"
+        },
+        "serverImageOffer": {
+            "type": "string"
+        },
+        "serverImageSku": {
+            "type": "string"
+        },
+        "linuxVMName": {
+            "type": "string"
+        },
+        "linuxNicIpAddress": {
+            "type": "string"
+        },
+        "linuxVmSize": {
+            "type": "string",
+        },
+        "linuxImagePublisher": {
+            "type": "string"
+        },
+        "linuxImageOffer": {
+            "type": "string"
+        },
+        "linuxImageSku": {
             "type": "string"
         }
     },
