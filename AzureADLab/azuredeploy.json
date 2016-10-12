@@ -45,7 +45,13 @@
         "adVMName": {
             "type": "string"
         },
+        "adNicName": {
+            "type": "string"
+        },
         "adNicIpAddress": {
+            "type": "string"
+        },
+        "adPublicIpAddress": {
             "type": "string"
         },
         "adVmSize": {
