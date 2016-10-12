@@ -27,6 +27,9 @@
     "virtualNetworkName": {
         "type": "string"
     },
+    "studentSubnetName": {
+        "type": "string"
+    },
     "storageAccountName": {
         "type": "string"
     },

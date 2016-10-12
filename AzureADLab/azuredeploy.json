@@ -215,6 +215,9 @@
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
                     },
+                    "studentSubnetName": {
+                        "value": "[parameters('studentSubnetName')"
+                    },
                     "adNicIPAddress": {
                         "value": "[parameters('adNicIpAddress')]"
                     },
@@ -262,6 +265,9 @@
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
                     },
+                    "studentSubnetName": {
+                        "value": "[parameters('studentSubnetName')"
+                    },
                     "adNicIPAddress": {
                         "value": "[parameters('adNicIpAddress')]"
                     },
@@ -308,6 +314,9 @@
                     },                    
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
+                    },
+                    "studentSubnetName": {
+                        "value": "[parameters('studentSubnetName')"
                     },
                     "adNicIPAddress": {
                         "value": "[parameters('adNicIpAddress')]"

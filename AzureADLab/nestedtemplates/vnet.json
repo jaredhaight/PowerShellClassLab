@@ -27,9 +27,6 @@
                 "description": "The address range of the subnet created in the new VNET"
             },
             "defaultValue": "10.0.0.0/24"
-        },
-        "adNicIPAddress": {
-            "type": "string"
         }
     },
     "resources": [{
