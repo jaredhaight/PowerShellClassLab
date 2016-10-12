@@ -1,12 +1,15 @@
-# Create a new Windows VM and create a new AD Forest, Domain and DC
+## Azure AD lab
+This is a set of Azure Resource Manager Templates that generates an Active Directory lab consisting of a Domain Controller, two Windows servers and a Linux server. 
 
-This template will deploy a new VM (along with a new VNet, Storage Account and Load Balancer) and will configure it as a Domain Controller and create a new forest and domain.
+##Prerequisites
+- An Azure subscription (MSDN, trial, etc.)
+- WMF 5.0 (or WMF 4.0 with PowerShellGet installed)
 
-Click the button below to deploy
+## Credits
+The following resources were used to put this together:
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Factive-directory-new-domain%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Factive-directory-new-domain%2Fazuredeploy.json" target="_blank">
-    <img src="http://armviz.io/visualizebutton.png"/>
-</a>
+* [GoateePFE's AzureRM repo](https://github.com/GoateePFE/AzureRM/tree/master/active-directory-new-domain-with-data)
+* The following quick start Templates:
+    - [Active Directory New Domain](https://github.com/GoateePFE/AzureRM/tree/master/active-directory-new-domain-with-data)
+    - [101 VM Simple Linux](https://github.com/Azure/azure-quickstart-templates/tree/master/101-vm-simple-linux)
+    
