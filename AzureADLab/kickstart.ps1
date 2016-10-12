@@ -28,6 +28,7 @@ $virtualNetworkAddressRange = "10.0.0.0/16"
 $studentAdminUsername       = "localAdmin"
 $storageAccountName         = $studentCode + "storage"    # Lowercase required
 $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
+$artifactsLocation         = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
 $_artifactsLocation         = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
 
 # DC Variables
