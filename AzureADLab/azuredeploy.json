@@ -622,7 +622,7 @@
                     "OUPath": "[variables('ouPath')]",
                     "User": "[concat(parameters('domainName'), '\\', parameters('adAdminUserName'))]",
                     "Restart": "true",
-                    "Options": "[parameters('domainJoinOptions')]"
+                    "Options": "[variables('domainJoinOptions')]"
                 },
                 "protectedsettings": {
                     "Password": "[parameters('adAdminPassword')]"
