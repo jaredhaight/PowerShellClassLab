@@ -109,7 +109,7 @@
     {
         "apiVersion": "2016-03-30",
         "type": "Microsoft.Compute/virtualMachines",
-        "name": "[parameters('VMName')]",
+        "name": "[parameters('vmName')]",
         "location": "[resourceGroup().location]",
         "dependsOn": [
             "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
