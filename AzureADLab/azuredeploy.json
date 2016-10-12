@@ -4,7 +4,14 @@
     "parameters": {
         "artifactsLocation": {
             "type": "string"
-        },        
+        },  
+        "_artifactsLocationSasToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Auto-generated token to access artifactsLocation"
+            },
+            "defaultValue": ""
+        },      
         "studentSubnetName": {
             "type": "string"
         },

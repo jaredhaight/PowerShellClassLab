@@ -23,7 +23,7 @@
             "description": "Auto-generated token to access artifactsLocation"
         },
         "defaultValue": ""
-    },
+    }
   },
   "resources": [{
     "type": "extensions",
