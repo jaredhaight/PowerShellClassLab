@@ -80,6 +80,7 @@ Try {
 Catch {
   Login-AzureRmAccount
 }
+
 # Create the new resource group. Runs quickly.
 try {
   Get-AzureRmResourceGroup -Name $resourceGroupName -Location $location -ErrorAction Stop
@@ -90,7 +91,7 @@ catch {
 
 # Parameters for the template and configuration
 $MyParams = @{
-  artifactsLocation          = $artifactsLocation
+  artifactsLocation           = $artifactsLocation
   studentSubnetName           = $studentSubnetName
   studentSubnetAddressPrefix  = $studentSubnetAddressPrefix
   virtualNetworkName          = $virtualNetworkName
@@ -102,9 +103,9 @@ $MyParams = @{
   adAdminPassword             = $adAdminPassword
   domainName                  = $domainName
   adVMName                    = $adVMName
-  adNicName               = $adNicName
-  adNicIpAddress          = $adNicIPaddress
-  adPublicIpAddress       = $adPublicIpAddress
+  adNicName                   = $adNicName
+  adNicIpAddress              = $adNicIPaddress
+  adPublicIpAddress           = $adPublicIpAddress
   adVMSize                    = $adVMSize
   adImagePublisher            = $adImagePublisher
   adImageOffer                = $adImageOffer
@@ -126,9 +127,9 @@ $MyParams = @{
   serverImageOffer            = $serverImageOffer
   serverImageSku              = $serverImageSku
   linuxVMName                 = $linuxVMName
-  linuxNicName               = $linuxNicName
-  linuxNicIpAddress          = $linuxNicIPaddress
-  linuxPublicIpAddress       = $linuxPublicIpAddress
+  linuxNicName                = $linuxNicName
+  linuxNicIpAddress           = $linuxNicIPaddress
+  linuxPublicIpAddress        = $linuxPublicIpAddress
   linuxVMSize                 = $linuxVMSize
   linuxImagePublisher         = $linuxImagePublisher
   linuxImageOffer             = $linuxImageOffer
@@ -143,6 +144,4 @@ $SplatParams = @{
   Name                        = $studentCode + "-template"
 }
 
-# This takes ~30 minutes
-# One prompt for the domain admin password
 New-AzureRmResourceGroupDeployment @SplatParams -Verbose
