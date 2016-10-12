@@ -177,6 +177,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "subscriptionId": {
+                        "value": "[parameters('subscriptionId')]"
+                    },
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
                     },
