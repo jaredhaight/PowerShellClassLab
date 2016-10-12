@@ -159,38 +159,12 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "name": "createDomain",
-            "apiVersion": "2016-02-01",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/createDomain.json', parameters('_artifactsLocationSasToken'))]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "adAdminUsername": {
-                        "value": "[parameters('adAdminUsername')]"
-                    },
-                    "adAdminPassword": {
-                        "value": "[parameters('adAdminPassword')]"
-                    },
-                    "domainName": {
-                        "value": "[parameters('domainName')]"
-                    },
-                    "adVMName": {
-                        "value": "[parameters('adVMName')]"
-                    }                    
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
             "name": "adServer",
             "apiVersion": "2016-02-01",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/client.json', parameters('_artifactsLocationSasToken'))]",
+                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/domainController.json', parameters('_artifactsLocationSasToken'))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -287,7 +261,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/client.json', parameters('_artifactsLocationSasToken'))]",
+                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/windows.json', parameters('_artifactsLocationSasToken'))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -323,7 +297,19 @@
                     },
                     "imageSku": {
                         "value": "[parameters('clientImageSku')]"
-                    }                    
+                    },
+                    "adAdminUsername": {
+                        "value": "[parameters('adAdminUsername')]"
+                    },
+                    "adAdminPassword": {
+                        "value": "[parameters('adAdminPassword')]"
+                    },
+                    "domainName": {
+                        "value": "[parameters('domainName')]"
+                    },
+                    "adVMName": {
+                        "value": "[parameters('adVMName')]"
+                    }                
                 }
             }
         },
