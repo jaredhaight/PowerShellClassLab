@@ -5,7 +5,7 @@
     "adVMName": {
         "type": "string"
     },
-    "_artifactsLocation": {
+    "artifactsLocation": {
         "type": "string"
     },
     "adAddminUsername": {
@@ -17,10 +17,10 @@
     "domainName": {
         "type": "string"
     },
-    "_artifactsLocationSasToken": {
+    "artifactsLocationSasToken": {
         "type": "securestring",
         "metadata": {
-            "description": "Auto-generated token to access _artifactsLocation"
+            "description": "Auto-generated token to access artifactsLocation"
         },
         "defaultValue": ""
     },
@@ -39,7 +39,7 @@
         "typeHandlerVersion": "2.19",
         "autoUpgradeMinorVersion": true,
         "settings": {
-            "ModulesUrl": "[concat(parameters('_artifactsLocation'), '/DSC/CreateADPDC.zip', parameters('_artifactsLocationSasToken'))]",
+            "ModulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/CreateADPDC.zip', parameters('artifactsLocationSasToken'))]",
             "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
             "Properties": {
                 "DomainName": "[parameters('domainName')]",

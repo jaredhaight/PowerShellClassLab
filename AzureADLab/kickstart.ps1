@@ -29,7 +29,6 @@ $studentAdminUsername       = "localAdmin"
 $storageAccountName         = $studentCode + "storage"    # Lowercase required
 $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
 $artifactsLocation         = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
-$_artifactsLocation         = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
 
 # DC Variables
 $adAdminUserName            = "EvilAdmin"
@@ -84,7 +83,6 @@ catch {
 # Parameters for the template and configuration
 $MyParams = @{
   artifactsLocation          = $artifactsLocation
-  _artifactsLocation          = $_artifactsLocation
   studentSubnetName           = $studentSubnetName
   studentSubnetAddressPrefix  = $studentSubnetAddressPrefix
   virtualNetworkName          = $virtualNetworkName
