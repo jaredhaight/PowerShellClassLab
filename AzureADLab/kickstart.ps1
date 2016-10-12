@@ -1,6 +1,6 @@
 ﻿param (
   [string]$adAdminPassword,
-  [string]$clientAdminPassword
+  [string]$studentAdminPassword
 )
 
 # Import Azure Service Management module
