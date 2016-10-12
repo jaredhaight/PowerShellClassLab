@@ -67,7 +67,7 @@
             "type": "string"
         },
         "clientVmSize": {
-            "type": "string",
+            "type": "string"
         },
         "clientImagePublisher": {
             "type": "string"
@@ -85,7 +85,7 @@
             "type": "string"
         },
         "serverVmSize": {
-            "type": "string",
+            "type": "string"
         },
         "serverImagePublisher": {
             "type": "string"
@@ -103,7 +103,7 @@
             "type": "string"
         },
         "linuxVmSize": {
-            "type": "string",
+            "type": "string"
         },
         "linuxImagePublisher": {
             "type": "string"
@@ -118,8 +118,7 @@
     "variables": {
         "apiVersion": "2015-06-15",
         "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-        "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
-
+        "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]"
     },
     "resources": [{
             "type": "Microsoft.Storage/storageAccounts",
