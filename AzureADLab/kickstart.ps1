@@ -24,7 +24,6 @@ $locationName               = "East US"
 $studentCode                = "a" + (Get-RandomString 6)
 $resourceGroupName          = $studentCode + '.evil.training'
 $adAdminUserName            = "EvilAdmin"
-$adAdminPassword            = ConvertTo-SecureString $adAdminPassword -AsPlainText -Force
 $domainName                 = "ad.evil.training"
 $dnsPrefix                  = $studentCode
 $storageAccountName         = $studentCode + "storage"    # Lowercase required
@@ -52,8 +51,12 @@ $serverNicIpAddress         = "10.0.0.11"
 $serverVMSize               = "Basic_A1"
 
 # Linux Vars
-$linuxDnsPrefix             = $studentCode+"-lnx"
+$linuxVMName                = $studentCode+"-lnx"
+$linuxNicName               = $studentCode+"-lnx-nic"
+$linuxOSDiskName            = $studentCode+"-lnx-os"
+$linuxDataDiskName          = $studentCode+"-lnx-data"
 $linuxNicIpAddress          = "10.0.0.12"
+$linuxPublicIPAddressName   = $studentCode+"-lnx-pip"
 $linuxVMSize                = "Basic_A2"
 
 # Check that the public dns $addnsName is available
