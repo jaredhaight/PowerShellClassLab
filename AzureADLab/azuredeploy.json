@@ -436,7 +436,7 @@
         }
     },
     {
-        "apiVersion": "2015-01-01",
+        "apiVersion": "2016-03-30",
         "type": "Microsoft.Compute/virtualMachines",
         "name": "[parameters('clientVmName')]",
         "location": "[resourceGroup().location]",
