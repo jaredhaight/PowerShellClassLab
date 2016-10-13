@@ -54,7 +54,7 @@
                 "properties": {
                     "addressPrefix": "[parameters('subnetRange')]",
                     "networkSecurityGroup": {
-                        "id": "/subscriptions/43574583-7ecb-400f-bae4-13dda448dfa7/resourceGroups/evil.training-master/providers/Microsoft.Network/networkSecurityGroups/evil-training-nsg"
+                        "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup'))]"
                     }
                 }
             }]
