@@ -1,12 +1,35 @@
-﻿function New-ActiveDirectoryLab () {
+function New-AzureActiveDirectoryLab {
+
+ [CmdletBinding()]
+ Param( 
+    [Parameter(Mandatory=$True,Position=1)]
+    [pscredential]$credentials,
+
+    [Parameter(Mandatory=$True,Positive=4)]
+    [string]$csvSource
+ ) 
+
+ workflow ActiveDirectoryLab {
+   $studentData = Import-CSV $csvSource
+   foreach -parallel -throttlelimit 10 ($student in $studentData) {
+     $studentAdminPassword = $student.password
+     $studentCode = $student.code
+     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentAdminPassword $studentAdminPassword
+   }
+ }
+
+
+}
+
+function Invoke-CreateAzureActiveDirectoryLab {
   
   [CmdletBinding()]
-  param (
+  Param(
     [Parameter(Mandatory=$True,Position=1)]
     [pscredential]$credentials,
 
     [Parameter(Mandatory=$True,Position=2)]
-    [string]$adAdminPassword,
+    [string]$studentCode,
 
     [Parameter(Mandatory=$True,Position=3)]
     [string]$studentAdminPassword
@@ -81,7 +104,7 @@
   $linuxNicName               = $linuxVMName + "-nic"
   $linuxNicIpAddress          = "10.0.0.12"
   $linuxPublicIpName          = $linuxVMName + "-pip"
-  $linuxVMSize                = "Basic_A1"
+  $linuxVMSize                = "Basic_A2"
   $linuxImagePublisher        = "Canonical"
   $linuxImageOffer            = "UbuntuServer"
   $linuxImageSku              = "16.04.0-LTS"
@@ -116,7 +139,6 @@
     masterResourceGroup         = $masterResourceGroup
     subscriptionId              = $subscriptionId
     adAdminUsername             = $adAdminUserName
-    adAdminPassword             = $adAdminPassword
     domainName                  = $domainName
     adVMName                    = $adVMName
     adNicName                   = $adNicName

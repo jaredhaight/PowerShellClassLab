@@ -45,9 +45,6 @@
         "adAdminUsername": {
             "type": "string"
         },
-        "adAdminPassword": {
-            "type": "securestring"
-        },
         "domainName": {
             "type": "string"
         },
@@ -253,7 +250,7 @@
                 "osProfile": {
                     "computerName": "[parameters('adVmName')]",
                     "adminUsername": "[parameters('adAdminUsername')]",
-                    "adminPassword": "[parameters('adAdminPassword')]"
+                    "adminPassword": "[parameters('studentAdminPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -313,7 +310,7 @@
                     },
                     "protectedSettings": {
                         "Items": {
-                            "AdminPassword": "[parameters('adAdminPassword')]"
+                            "AdminPassword": "[parameters('studentAdminPassword')]"
                         }
                     }
                 }
@@ -520,12 +517,12 @@
                 "settings": {
                     "Name": "[parameters('domainName')]",
                     "OUPath": "[variables('ouPath')]",
-                    "User": "[concat(parameters('domainName'), '\\', parameters('adAdminUserName'))]",
+                    "User": "[concat(parameters('domainName'), '\\', parameters('studentAdminPassword'))]",
                     "Restart": "true",
                     "Options": "[variables('domainJoinOptions')]"
                 },
                 "protectedsettings": {
-                    "Password": "[parameters('adAdminPassword')]"
+                    "Password": "[parameters('studentAdminPassword')]"
                 }
             }
         },
@@ -643,7 +640,7 @@
                     "Options": "[variables('domainJoinOptions')]"
                 },
                 "protectedsettings": {
-                    "Password": "[parameters('adAdminPassword')]"
+                    "Password": "[parameters('studentAdminPassword')]"
                 }
             }
         }
