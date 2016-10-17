@@ -5,20 +5,17 @@ function New-AzureActiveDirectoryLab {
     [Parameter(Mandatory=$True,Position=1)]
     [pscredential]$credentials,
 
-    [Parameter(Mandatory=$True,Positive=4)]
+    [Parameter(Mandatory=$True,Position=2)]
     [string]$csvSource
  ) 
 
- workflow ActiveDirectoryLab {
-   $studentData = Import-CSV $csvSource
-   foreach -parallel -throttlelimit 10 ($student in $studentData) {
+  $studentData = Import-CSV $csvSource
+  foreach ($student in $studentData) {
+     Write-Output "Working on $student.code"
      $studentAdminPassword = $student.password
      $studentCode = $student.code
      Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentAdminPassword $studentAdminPassword
    }
- }
-
-
 }
 
 function Invoke-CreateAzureActiveDirectoryLab {
@@ -38,22 +35,14 @@ function Invoke-CreateAzureActiveDirectoryLab {
   # Import Azure Service Management module
   Import-Module Azure
   Import-Module AzureRM
-
-  function Get-RandomString ($length) {
-    $set    = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray()
-    $result = ""
-    for ($x = 0; $x -lt $Length; $x++) {
-      $result += $set | Get-Random
-    }
-    return $result
-  }
+  
+  
 
   # Common Variables
   $location                   = 'eastus2'
   $locationName               = "East US"
   $masterResourceGroup        = "evil.training-master"
   $dnsZone                    = "evil.training"
-  $studentCode                = "a" + (Get-RandomString 6)
   $resourceGroupName          = $studentCode + '.' + $dnsZone
   $studentSubnetName          = $studentCode + "subnet"
   $studentSubnetAddressPrefix = "10.0.0.0/24"
@@ -185,21 +174,21 @@ function Invoke-CreateAzureActiveDirectoryLab {
   New-AzureRmResourceGroupDeployment @SplatParams -Verbose
 
   $ipInfo = (@{
-    "publicIpName" = $adPublicIpName
-    "vmName" = $adVMName  
-  }, 
-  @{
-    "publicIpName" = $clientPublicIpName
-    "vmName" = $clientVmName
-  },
-  @{
-    "publicIpName" = $linuxPublicIpName
-    "vmName"  = $linuxVMName
-  },
-  @{
-    "publicIpName" = $serverPublicIpName
-    "vmName"  = $serverVMName
-  }
+      "publicIpName" = $adPublicIpName
+      "vmName" = $adVMName  
+    }, 
+    @{
+      "publicIpName" = $clientPublicIpName
+      "vmName" = $clientVmName
+    },
+    @{
+      "publicIpName" = $linuxPublicIpName
+      "vmName"  = $linuxVMName
+    },
+    @{
+      "publicIpName" = $serverPublicIpName
+      "vmName"  = $serverVMName
+    }
   )
 
   forEach ($item in $ipInfo) {
