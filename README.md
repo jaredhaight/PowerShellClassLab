@@ -1,7 +1,7 @@
 ## Azure AD lab
-This is a set of Azure Resource Manager Templates that generates an Active Directory lab consisting of a Domain Controller, two Windows servers and a Linux server. 
+This is a set of Azure Resource Manager Templates that generates an Active Directory lab consisting of a Domain Controller, two Windows servers and a Linux server. I created this so that I could easily deploy AD Labs for students in my PowerShell classes, so it's geared toward spinning up multiple, identical labs. 
 
-I created this so that I could easily deploy AD Labs for students in my PowerShell classes, so it's geared toward spinning up multiple, identical labs.
+One of the Windows servers is intended to be used as "home" box, where students will do work while the other is intended to be an example server for the environment. The Linux box will be used to run [Metasploit](https://www.metasploit.com/) and [Empire](https://github.com/adaptivethreat/Empire) as part of class exercises.
 
 ## How it works
 `New-AzureActiveDirectoryLab.ps1` provides a function called `New-AzureActiveDirectoryLab` which takes the following parameters:
@@ -13,7 +13,6 @@ I created this so that I could easily deploy AD Labs for students in my PowerShe
 The `New-AzureActiveDirectoryLab` function calls `Invoke-CreateAzureActiveDirectoryLab` which uses [Azure Resource Manager Templates](https://azure.microsoft.com/en-us/documentation/articles/resource-group-authoring-templates/) to create the Infrastructure. The are plenty of variables hard coded in the function which you may want to customize to your needs. Their purposes should be clear.
 
 Each lab is created in it's own Resource Group, so for easy tear down a `Remove-AllAzureResourceGroups` script is provided.
-
 
 ## Prerequisites
 * An Azure subscription (MSDN, trial, etc.)
