@@ -27,9 +27,10 @@ function Remove-AllAzureRmResourceGroups {
 
   if ($resourceGroups.Count -gt 0) {
     forEach ($resourceGroup in $resourceGroups) {
-        if ($resourceGroup.ResourceGroupName -notlike "*master") {
-            Write-Output "[*] Removing $resourceGroup.ResourceGroupName.."
-            Remove-AzureRmResourceGroup -Name $resourceGroup.ResourceGroupName -Force
+        $resourceGroupName = $resourceGroup.ResourceGroupName.toString()
+        if ($resourceGroupName -notlike "*master") {
+            Write-Output "[*] Removing $resourceGroupName).."
+            Remove-AzureRmResourceGroup -Name $resourceGroupName -Force
         }
     }
   }

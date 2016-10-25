@@ -10,12 +10,17 @@ workflow New-AzureActiveDirectoryLab {
   ) 
 
   $studentData = Import-CSV $csvSource
-  $place = 1
-  foreach -parallel -throttle 10 ($student in $studentData) {
-     Write-Output "Working on "$student.code.toString()
+  foreach -parallel -throttle 15 ($student in $studentData) {
      $studentAdminPassword = $student.password
-     $studentCode = $student.code
-     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentAdminPassword $studentAdminPassword
+     $studentCode = $student.code.toString()
+     $studentNumber = $student.id
+     $region = 'eastus2'
+     
+     if ($studentNumber % 2 -eq 0) {
+       $region = 'westus2'
+     }
+     Write-Output "Sending $studentCode to $region"
+     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentAdminPassword $studentAdminPassword -region $region -place $studentNumber -total $studentData.count 
    }
 }
 
@@ -32,11 +37,9 @@ function Invoke-CreateAzureActiveDirectoryLab {
     [Parameter(Mandatory=$True,Position=3)]
     [string]$studentAdminPassword,
     
-    [Parameter]
-    [int]$placel = 1,
-    
-    [Parameter]
-    [int]$total = 1
+    [string]$region="eastus2",
+    [int]$place=1,
+    [int]$total=1
   )
 
   # Import Azure Service Management module
@@ -55,7 +58,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
   
   # Common Variables
-  $location                   = 'eastus2'
+  $location                   = $region
   $locationName               = "East US"
   $masterResourceGroup        = "evil.training-master"
   $dnsZone                    = "evil.training"
@@ -68,7 +71,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $storageAccountName         = $studentCode + "storage"    # Lowercase required
   $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
   $artifactsLocation          = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
-  $networkSecurityGroup       = "evil-training-nsg"
+  $networkSecurityGroup       = "evil.training-nsg-" + $region
   $subscriptionId             = (Get-AzureRmContext).Subscription.SubscriptionId
 
   # DC Variables
