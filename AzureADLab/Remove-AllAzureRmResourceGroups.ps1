@@ -2,12 +2,16 @@ Import-Module Azure
 Import-Module AzureRM
   
 workflow Remove-AllAzureRmResourceGroups {
-   
+  
+  [CmdletBinding()] 
   Param(
     [Parameter(Mandatory=$true)]
     [pscredential]$credentials
   )
 
+  $username = $credentials.UserName.ToString()
+  Write-Output "Logging in as $username"
+  
   Add-AzureRmAccount -Credential $credentials
   $resourceGroups = Get-AzureRmResourceGroup -ErrorAction Stop
  

@@ -178,21 +178,10 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
   New-AzureRmResourceGroupDeployment @SplatParams -Verbose
 
-  $ipInfo = (@{
-      "publicIpName" = $adPublicIpName
-      "vmName" = $adVMName  
-    }, 
+  $ipInfo = ( 
     @{
       "publicIpName" = $clientPublicIpName
       "vmName" = $clientVmName
-    },
-    @{
-      "publicIpName" = $linuxPublicIpName
-      "vmName"  = $linuxVMName
-    },
-    @{
-      "publicIpName" = $serverPublicIpName
-      "vmName"  = $serverVMName
     }
   )
 

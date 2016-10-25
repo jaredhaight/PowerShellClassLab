@@ -485,7 +485,7 @@
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('serverNicName')]",
-            "location": "[resourceGroup().location]",,
+            "location": "[resourceGroup().location]",
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
