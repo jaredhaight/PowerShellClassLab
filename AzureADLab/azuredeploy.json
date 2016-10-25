@@ -57,9 +57,6 @@
         "adNicIpAddress": {
             "type": "string"
         },
-        "adPublicIpName": {
-            "type": "string"
-        },
         "adVmSize": {
             "type": "string"
         },
@@ -105,9 +102,6 @@
         "serverNicIpAddress": {
             "type": "string"
         },
-        "serverPublicIpName": {
-            "type": "string"
-        },
         "serverVmSize": {
             "type": "string"
         },
@@ -127,9 +121,6 @@
             "type": "string"
         },
         "linuxNicIpAddress": {
-            "type": "string"
-        },
-        "linuxPublicIpName": {
             "type": "string"
         },
         "linuxVmSize": {
@@ -200,33 +191,15 @@
         },
         {
             "apiVersion": "2016-03-30",
-            "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[parameters('adPublicIpName')]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic",
-                "dnsSettings": {
-                    "domainNameLabel": "[parameters('adVmName')]"
-                }
-            }
-        },
-        {
-            "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('adNicName')]",
             "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', parameters('adPublicIpName'))]"
-            ],
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
                     "properties": {
                         "privateIPAllocationMethod": "Static",
                         "privateIPAddress": "[parameters('adNicIpAddress')]",
-                        "publicIPAddress": {
-                            "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('adPublicIpName'))]"
-                        },
                         "subnet": {
                             "id": "[variables('subnetId')]"
                         }
@@ -318,33 +291,15 @@
         },
         {
             "apiVersion": "2016-03-30",
-            "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[parameters('linuxPublicIpName')]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic",
-                "dnsSettings": {
-                    "domainNameLabel": "[parameters('linuxVmName')]"
-                }
-            }
-        },
-        {
-            "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('linuxNicName')]",
             "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', parameters('linuxPublicIpName'))]"
-            ],
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
                     "properties": {
                         "privateIPAllocationMethod": "Static",
                         "privateIPAddress": "[parameters('linuxNicIPAddress')]",
-                        "publicIPAddress": {
-                            "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('linuxPublicIpName'))]"
-                        },
                         "subnet": {
                             "id": "[variables('subnetId')]"
                         }
@@ -528,33 +483,15 @@
         },
         {
             "apiVersion": "2016-03-30",
-            "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[parameters('serverPublicIpName')]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic",
-                "dnsSettings": {
-                    "domainNameLabel": "[parameters('serverVmName')]"
-                }
-            }
-        },
-        {
-            "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('serverNicName')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', parameters('serverPublicIpName'))]"
-            ],
+            "location": "[resourceGroup().location]",,
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
                     "properties": {
                         "privateIPAllocationMethod": "Static",
                         "privateIPAddress": "[parameters('serverNicIpAddress')]",
-                        "publicIPAddress": {
-                            "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('serverPublicIpName'))]"
-                        },
                         "subnet": {
                             "id": "[variables('subnetId')]"
                         }

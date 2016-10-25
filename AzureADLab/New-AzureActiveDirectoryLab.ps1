@@ -80,7 +80,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $adVMName                   = $studentCode + "-dc01"
   $adNicName                  = $adVMName + "-nic"
   $adNicIPAddress             = "10.0.0.4"
-  $adPublicIpName             = $adVMName + "-pip"
   $adVmSize                   = "Basic_A1"
   $adImagePublisher           = "MicrosoftWindowsServer"
   $adImageOffer               = "WindowsServer"
@@ -100,7 +99,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $serverVMName               = $studentCode+"-srv"
   $serverNicName              = $serverVMName + "-nic"
   $serverNicIpAddress         = "10.0.0.11"
-  $serverPublicIpName         = $serverVMName + "-pip"
   $serverVMSize               = "Basic_A1"
   $serverImagePublisher       = "MicrosoftWindowsServer"
   $serverImageOffer           = "WindowsServer"
@@ -111,7 +109,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $linuxVMName                = $studentCode+"-lnx"
   $linuxNicName               = $linuxVMName + "-nic"
   $linuxNicIpAddress          = "10.0.0.12"
-  $linuxPublicIpName          = $linuxVMName + "-pip"
   $linuxVMSize                = "Basic_A2"
   $linuxImagePublisher        = "Canonical"
   $linuxImageOffer            = "UbuntuServer"
@@ -143,7 +140,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
     adVMName                    = $adVMName
     adNicName                   = $adNicName
     adNicIpAddress              = $adNicIPaddress
-    adPublicIpName              = $adPublicIpName
     adVMSize                    = $adVMSize
     adImagePublisher            = $adImagePublisher
     adImageOffer                = $adImageOffer
@@ -159,7 +155,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
     serverVMName                = $serverVMName
     serverNicName               = $serverNicName
     serverNicIpAddress          = $serverNicIPaddress
-    serverPublicIpName          = $serverPublicIpName
     serverVMSize                = $serverVMSize
     serverImagePublisher        = $serverImagePublisher
     serverImageOffer            = $serverImageOffer
@@ -167,7 +162,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
     linuxVMName                 = $linuxVMName
     linuxNicName                = $linuxNicName
     linuxNicIpAddress           = $linuxNicIPaddress
-    linuxPublicIpName           = $linuxPublicIpName
     linuxVMSize                 = $linuxVMSize
     linuxImagePublisher         = $linuxImagePublisher
     linuxImageOffer             = $linuxImageOffer
