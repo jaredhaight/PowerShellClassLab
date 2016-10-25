@@ -517,7 +517,7 @@
                 "settings": {
                     "Name": "[parameters('domainName')]",
                     "OUPath": "[variables('ouPath')]",
-                    "User": "[concat(parameters('domainName'), '\\', parameters('studentAdminPassword'))]",
+                    "User": "[concat(parameters('domainName'), '\\', parameters('adAdminUserName'))]",
                     "Restart": "true",
                     "Options": "[variables('domainJoinOptions')]"
                 },

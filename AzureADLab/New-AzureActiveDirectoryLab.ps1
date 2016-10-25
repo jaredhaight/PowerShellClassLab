@@ -1,17 +1,18 @@
-function New-AzureActiveDirectoryLab {
+workflow New-AzureActiveDirectoryLab {
 
- [CmdletBinding()]
- Param( 
+  [CmdletBinding()]
+  Param( 
     [Parameter(Mandatory=$True,Position=1)]
     [pscredential]$credentials,
 
     [Parameter(Mandatory=$True,Position=2)]
     [string]$csvSource
- ) 
+  ) 
 
   $studentData = Import-CSV $csvSource
-  foreach ($student in $studentData) {
-     Write-Output "Working on $student.code"
+  $place = 1
+  foreach -parallel -throttle 10 ($student in $studentData) {
+     Write-Output "Working on "$student.code.toString()
      $studentAdminPassword = $student.password
      $studentCode = $student.code
      Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentAdminPassword $studentAdminPassword
@@ -29,15 +30,30 @@ function Invoke-CreateAzureActiveDirectoryLab {
     [string]$studentCode,
 
     [Parameter(Mandatory=$True,Position=3)]
-    [string]$studentAdminPassword
+    [string]$studentAdminPassword,
+    
+    [Parameter]
+    [int]$placel = 1,
+    
+    [Parameter]
+    [int]$total = 1
   )
 
   # Import Azure Service Management module
   Import-Module Azure
   Import-Module AzureRM
   
-  
+  Write-Output "$place/$total - Starting deployment for $studentCode"  
 
+  # Check if logged in to Azure
+  Try {
+    Get-AzureRMContext -ErrorAction Stop
+  }
+  Catch {
+    Add-AzureRmAccount -Credential $credentials
+  }
+
+  
   # Common Variables
   $location                   = 'eastus2'
   $locationName               = "East US"
@@ -97,14 +113,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $linuxImagePublisher        = "Canonical"
   $linuxImageOffer            = "UbuntuServer"
   $linuxImageSku              = "16.04.0-LTS"
-
-  # Check if logged in to Azure
-  Try {
-    Get-AzureRMContext -ErrorAction Stop
-  }
-  Catch {
-    Add-AzureRmAccount -Credential $credentials
-  }
 
   # Create the new resource group. Runs quickly.
   try {
