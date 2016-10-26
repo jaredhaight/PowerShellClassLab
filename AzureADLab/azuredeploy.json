@@ -285,6 +285,9 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('linuxNicName')]",
             "location": "[resourceGroup().location]",
+             "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+            ],           
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
@@ -372,7 +375,8 @@
             "name": "[parameters('clientNicName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', parameters('clientPublicIpName'))]"
+                "[concat('Microsoft.Network/publicIPAddresses/', parameters('clientPublicIpName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
             ],
             "properties": {
                 "ipConfigurations": [{
@@ -477,6 +481,9 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('serverNicName')]",
             "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+            ],
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
