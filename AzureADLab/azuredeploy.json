@@ -195,7 +195,7 @@
             "name": "[parameters('adNicName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[variables('subnetId')]"
+                "[variables('vnetID')]"
             ],
             "properties": {
                 "ipConfigurations": [{
