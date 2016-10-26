@@ -143,7 +143,8 @@
         "ouPath": "",
         "domainJoinOptions": "3"
     },
-    "resources": [{
+    "resources": [
+        {
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[parameters('storageAccountName')]",
             "apiVersion": "2016-01-01",
@@ -155,38 +156,25 @@
             "properties": {}
         },
         {
-            "type": "Microsoft.Resources/deployments",
-            "name": "VNet",
-            "apiVersion": "2016-02-01",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(parameters('artifactsLocation'), '/nestedtemplates/vnet.json', parameters('_artifactsLocationSasToken'))]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "subscriptionId": {
-                        "value": "[parameters('subscriptionId')]"
-                    },
-                    "virtualNetworkName": {
-                        "value": "[parameters('virtualNetworkName')]"
-                    },
-                    "virtualNetworkAddressRange": {
-                        "value": "[parameters('virtualNetworkAddressRange')]"
-                    },
-                    "subnetName": {
-                        "value": "[parameters('studentSubnetName')]"
-                    },
-                    "subnetRange": {
-                        "value": "[parameters('studentSubnetAddressPrefix')]"
-                    },
-                    "masterResourceGroup": {
-                        "value": "[parameters('masterResourceGroup')]"
-                    },
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[parameters('virtualNetworkName')]",
+        "apiVersion": "2016-03-30",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "addressSpace": {
+                "addressPrefixes": [
+                    "[parameters('virtualNetworkAddressRange')]"
+                ]
+            },
+            "subnets": [{
+                "name": "[parameters('studentSubnetName')]",
+                "properties": {
+                    "addressPrefix": "[parameters('studentSubnetRange')]",
                     "networkSecurityGroup": {
-                        "value": "[parameters('networkSecurityGroup')]"
+                        "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup'))]"
                     }
                 }
+            }]
             }
         },
         {
@@ -195,7 +183,7 @@
             "name": "[parameters('adNicName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[variables('vnetID')]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
             ],
             "properties": {
                 "ipConfigurations": [{
