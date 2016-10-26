@@ -169,7 +169,7 @@
             "subnets": [{
                 "name": "[parameters('studentSubnetName')]",
                 "properties": {
-                    "addressPrefix": "[parameters('studentSubnetRange')]",
+                    "addressPrefix": "[parameters('virtualNetworkAddressRange')]",
                     "networkSecurityGroup": {
                         "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup'))]"
                     }
