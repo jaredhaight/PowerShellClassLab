@@ -194,6 +194,9 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('adNicName')]",
             "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[variables('subnetId')]"
+            ],
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",

@@ -71,7 +71,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $storageAccountName         = $studentCode + "storage"    # Lowercase required
   $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
   $artifactsLocation          = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
-  $networkSecurityGroup       = "evil.training-nsg-" + $region
+  $networkSecurityGroup       = "evil-training-nsg"
   $subscriptionId             = (Get-AzureRmContext).Subscription.SubscriptionId
 
   # DC Variables
