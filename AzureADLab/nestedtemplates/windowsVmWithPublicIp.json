@@ -192,7 +192,7 @@
         },
         {
             "type":"Microsoft.Compute/virtualMachines/extensions",
-            "name":"[concat(variables('nodeNameToLower'),'/dscExtension')]",
+            "name":"[concat(parameters('vmName'),'/dscExtension')]",
             "apiVersion":"2015-05-01-preview",
             "location":"[resourceGroup().location]",
             "dependsOn":[
