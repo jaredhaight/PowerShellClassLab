@@ -351,6 +351,9 @@
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "artifactsLocation": {
+                        "value": "[parameters('artifactsLocation')]"
+                    },
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
                     },
@@ -393,9 +396,6 @@
                     "adAdminUserName": {
                         "value": "[parameters('adAdminUserName')]"
                     },
-                    "_artifactsLocation": {
-                        "value": "[parameters('_artifactsLocation')]"
-                    },
                     "_artifactsLocationSasToken": {
                         "value": "[parameters('_artifactsLocationSasToken')]"
                     }
@@ -414,6 +414,9 @@
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "artifactsLocation": {
+                        "value": "[parameters('artifactsLocation')]"
+                    },
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
                     },
@@ -452,9 +455,6 @@
                     },
                     "adAdminUserName": {
                         "value": "[parameters('adAdminUserName')]"
-                    },
-                    "_artifactsLocation": {
-                        "value": "[parameters('_artifactsLocation')]"
                     },
                     "_artifactsLocationSasToken": {
                         "value": "[parameters('_artifactsLocationSasToken')]"
