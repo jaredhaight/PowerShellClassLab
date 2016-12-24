@@ -192,9 +192,9 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[parameters('adImagePublisher')]",
-                        "offer": "[parameters('adImageOffer')]",
-                        "sku": "[parameters('adImageSku')]",
+                        "publisher": "[parameters('windowsImagePublisher')]",
+                        "offer": "[parameters('windowsImageOffer')]",
+                        "sku": "[parameters('windowsImageSku')]",
                         "version": "latest"
                     },
                     "osDisk": {

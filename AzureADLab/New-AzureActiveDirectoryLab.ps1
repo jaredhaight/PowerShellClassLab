@@ -3,10 +3,10 @@ workflow New-AzureActiveDirectoryLab {
   [CmdletBinding()]
   Param( 
     [Parameter(Mandatory=$True,Position=1)]
-    [pscredential]$credentials,
+    [pscredential]$Credentials,
 
     [Parameter(Mandatory=$True,Position=2)]
-    [string]$csvSource
+    [string]$CsvSource
   ) 
 
   $studentData = Import-CSV $csvSource
@@ -29,15 +29,15 @@ function Invoke-CreateAzureActiveDirectoryLab {
   [CmdletBinding()]
   Param(
     [Parameter(Mandatory=$True,Position=1)]
-    [pscredential]$credentials,
+    [pscredential]$Credentials,
 
     [Parameter(Mandatory=$True,Position=2)]
-    [string]$studentCode,
+    [string]$StudentCode,
 
     [Parameter(Mandatory=$True,Position=3)]
-    [string]$studentAdminPassword,
+    [string]$StudentAdminPassword,
     
-    [string]$region="eastus2",
+    [string]$Region="eastus2",
     [int]$place=1,
     [int]$total=1
   )
@@ -126,30 +126,24 @@ function Invoke-CreateAzureActiveDirectoryLab {
     networkSecurityGroup        = $networkSecurityGroup
     masterResourceGroup         = $masterResourceGroup
     subscriptionId              = $subscriptionId
+    windowsImagePublisher       = $windowsImagePublisher
+    windowsImageOffer           = $windowsImageOffer
+    windowsImageSku             = $windowsImageSku
     adAdminUsername             = $adAdminUserName
     domainName                  = $domainName
     adVMName                    = $adVMName
     adNicName                   = $adNicName
     adNicIpAddress              = $adNicIPaddress
     adVMSize                    = $adVMSize
-    adImagePublisher            = $adImagePublisher
-    adImageOffer                = $adImageOffer
-    adImageSku                  = $adImageSku
     clientVMName                = $clientVMName
     clientNicName               = $clientNicName
     clientNicIpAddress          = $clientNicIPaddress
     clientPublicIpName          = $clientPublicIpName
     clientVMSize                = $clientVMSize
-    windowsImagePublisher       = $windowsImagePublisher
-    windowsImageOffer           = $windowsImageOffer
-    windowsImageSku             = $windowsImageSku
     serverVMName                = $serverVMName
     serverNicName               = $serverNicName
     serverNicIpAddress          = $serverNicIPaddress
     serverVMSize                = $serverVMSize
-    serverImagePublisher        = $serverImagePublisher
-    serverImageOffer            = $serverImageOffer
-    serverImageSku              = $serverImageSku
     linuxVMName                 = $linuxVMName
     linuxNicName                = $linuxNicName
     linuxNicIpAddress           = $linuxNicIPaddress
