@@ -157,11 +157,12 @@ function Invoke-CreateAzureActiveDirectoryLab {
     Name                        = $studentCode + "-template"
   }
   try {
-    New-AzureRmResourceGroupDeployment @SplatParams -Verbose -ErrorAction Stop
+    New-AzureRmResourceGroupDeployment @SplatParams -Verbose -ErrorAction Stop 
     $deployed = $true
   }
   catch {
     Write-Error "New-AzureRmResourceGroupDeployment failed."
+    Write-Output "Error Message:"
     Write-Output $_.Exception.Message
     Write-Output $_.Exception.ItemName
     $deployed = $false

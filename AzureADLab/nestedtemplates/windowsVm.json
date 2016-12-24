@@ -75,9 +75,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[variables('nicName')]",
             "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-            ],
+            "dependsOn": [],
             "properties": {
                 "ipConfigurations": [{
                     "name": "ipconfig",
