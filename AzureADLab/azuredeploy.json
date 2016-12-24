@@ -347,7 +347,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                "uri": "[variables('vmTemplateUrl')]",
+                "uri": "[variables('clientVmTemplateUrl')]",
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -433,7 +433,7 @@
                         "value": "[parameters('storageAccountName')]"
                     },
                     "vmSize": {
-                        "value": "[variables('serverVmSize')]"
+                        "value": "[parameters('serverVmSize')]"
                     },
                     "studentAdminUsername": {
                         "value": "[parameters('studentAdminUsername')]"
