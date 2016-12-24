@@ -10,7 +10,7 @@ workflow New-AzureActiveDirectoryLab {
   ) 
 
   $studentData = Import-CSV $csvSource
-  foreach -parallel -throttle 15 ($student in $studentData) {
+  foreach -parallel -throttle 20 ($student in $studentData) {
      $studentAdminPassword = $student.password
      $studentCode = $student.code.toString()
      $studentNumber = $student.id
@@ -71,7 +71,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $storageAccountName         = $studentCode + "storage"    # Lowercase required
   $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
   $artifactsLocation          = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
-  $networkSecurityGroup       = "evil-training-nsg"
+  $networkSecurityGroup       = "evil.training-nsg-" + $region
   $subscriptionId             = (Get-AzureRmContext).Subscription.SubscriptionId
 
   # DC Variables
@@ -181,7 +181,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $ipInfo = ( 
     @{
       "publicIpName" = $clientPublicIpName
-      "vmName" = $clientVmName
+      "vmName" = $studentCode
     }
   )
 

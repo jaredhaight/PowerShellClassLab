@@ -22,7 +22,7 @@ workflow Remove-AllAzureRmDnsRecordSets {
  
   if ($dnsRecordSets.Count -gt 0) {
     forEach -parallel -throttle 15 ($dnsRecordSet in $dnsRecordSets) {
-      if ($dnsRecordSet.RecordType -eq "A") {
+      if ($dnsRecordSet.RecordType -eq "A" -and $dnsRecordSet.Name -notlike "*www*") {
         Add-AzureRmAccount -Credential $credentials
         $dnsName = $dnsRecordSet.Name.toString()
         Write-Output "Removing $dnsName"
