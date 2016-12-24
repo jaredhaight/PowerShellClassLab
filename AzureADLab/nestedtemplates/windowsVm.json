@@ -15,9 +15,6 @@
         "subscriptionId": {
             "type": "string"
         },
-        "masterResourceGroup": {
-            "type": "string"
-        },
         "studentSubnetName": {
             "type": "string"
         },
