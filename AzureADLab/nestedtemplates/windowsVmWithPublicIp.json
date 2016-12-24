@@ -45,6 +45,12 @@
         "adAdminUsername": {
             "type": "string"
         },
+        "adVmName": {
+            "type": "string"
+        },
+        "adNicIpAddress": {
+            "type": "string"
+        },
         "domainName": {
             "type": "string"
         },
