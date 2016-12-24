@@ -115,7 +115,7 @@
         "clientVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVmWithPublicIp.json',parameters('_artifactsLocationSasToken'))]",
         "serverVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVm.json',parameters('_artifactsLocationSasToken'))]",
         "adNicName": "[concat(parameters('adVmName'), '-nic')]",
-        "linuxNicName": "[concat(parameters('linuxVmName'), '-nic')]",
+        "linuxNicName": "[concat(parameters('linuxVmName'), '-nic')]"
     },
     "resources": [
         {
