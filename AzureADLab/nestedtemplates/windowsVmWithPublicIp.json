@@ -18,13 +18,7 @@
         "studentSubnetName": {
             "type": "string"
         },
-        "studentSubnetAddressPrefix": {
-            "type": "string"
-        },
         "virtualNetworkName": {
-            "type": "string"
-        },
-        "virtualNetworkAddressRange": {
             "type": "string"
         },
         "studentAdminUsername": {
@@ -34,9 +28,6 @@
             "type": "securestring"
         },
         "storageAccountName": {
-            "type": "string"
-        },
-        "networkSecurityGroup": {
             "type": "string"
         },
         "adAdminUsername": {
@@ -51,28 +42,22 @@
         "domainName": {
             "type": "string"
         },
-        "clientVMName": {
+        "vmName": {
             "type": "string"
         },
-        "clientNicName": {
+        "nicIpAddress": {
             "type": "string"
         },
-        "clientNicIpAddress": {
+        "vmSize": {
             "type": "string"
         },
-        "clientPublicIpName": {
+        "imagePublisher": {
             "type": "string"
         },
-        "clientVmSize": {
+        "imageOffer": {
             "type": "string"
         },
-        "clientImagePublisher": {
-            "type": "string"
-        },
-        "clientImageOffer": {
-            "type": "string"
-        },
-        "clientImageSku": {
+        "imageSku": {
             "type": "string"
         },
     },
@@ -80,8 +65,8 @@
         "apiVersion": "2015-06-15",
         "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
         "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
-        "clientNicName": "[concat(parameters('clientVmName'),'-nic']",
-        "clientPublicIpName": "[concat(parameters('clientVmName'),'-pip']",
+        "nicName": "[concat(parameters('vmName'),'-nic']",
+        "publicIpName": "[concat(parameters('vmName'),'-pip']",
         "ouPath": "",
         "domainJoinOptions": "3"
     },
@@ -94,17 +79,17 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('clientVmName')]"
+                    "domainNameLabel": "[parameters('vmName')]"
                 }
             }
         },
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('clientNicName')]",
+            "name": "[variables('nicName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('clientPublicIpName'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -112,9 +97,9 @@
                     "name": "ipconfig",
                     "properties": {
                         "privateIPAllocationMethod": "Static",
-                        "privateIPAddress": "[parameters('clientNicIpAddress')]",
+                        "privateIPAddress": "[parameters('nicIpAddress')]",
                         "publicIPAddress": {
-                            "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables'clientPublicIpName'))]"
+                            "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables'publicIpName'))]"
                         },
                         "subnet": {
                             "id": "[variables('subnetId')]"
@@ -131,32 +116,32 @@
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('clientVmName')]",
+            "name": "[parameters('vmName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', variables('clientNicName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('clientVmSize')]"
+                    "vmSize": "[parameters('vmSize')]"
                 },
                 "osProfile": {
-                    "computerName": "[parameters('clientVmName')]",
+                    "computerName": "[parameters('vmName')]",
                     "adminUsername": "[parameters('studentAdminUsername')]",
                     "adminPassword": "[parameters('studentAdminPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[parameters('clientImagePublisher')]",
-                        "offer": "[parameters('clientImageOffer')]",
-                        "sku": "[parameters('clientImageSku')]",
+                        "publisher": "[parameters('imagePublisher')]",
+                        "offer": "[parameters('imageOffer')]",
+                        "sku": "[parameters('imageSku')]",
                         "version": "latest"
                     },
                     "osDisk": {
                         "name": "osdisk",
                         "vhd": {
-                            "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk0.vhd')]"
+                            "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('vmName'), 'disk0.vhd')]"
                         },
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
@@ -164,7 +149,7 @@
                     "dataDisks": [{
                         "name": "data-disk1",
                         "vhd": {
-                            "Uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk1.vhd')]"
+                            "Uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('vmName'), 'disk1.vhd')]"
                         },
                         "caching": "None",
                         "createOption": "Empty",
@@ -174,7 +159,7 @@
                 },
                 "networkProfile": {
                     "networkInterfaces": [{
-                        "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('clientNicName'))]"
+                        "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
                     }]
                 }
             }
@@ -182,10 +167,10 @@
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('clientVmName'),'/joindomain')]",
+            "name": "[concat(parameters('vmName'),'/joindomain')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('clientVmName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]",
                 "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adVmName'), 'CreateADForest')]"
             ],
             "properties": {
@@ -211,7 +196,7 @@
             "apiVersion":"2015-05-01-preview",
             "location":"[resourceGroup().location]",
             "dependsOn":[
-                "[concat('Microsoft.Compute/virtualMachines/', variables('clientVmName'))]"
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
             ],
             "tags":{
                 "displayName":"InstallDsc"
