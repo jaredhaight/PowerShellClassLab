@@ -90,7 +90,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
             ],
             "properties": {
                 "ipConfigurations": [{
