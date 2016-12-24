@@ -81,13 +81,11 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $adAdminUserName            = "EvilAdmin"
   $domainName                 = "ad." + $dnsZone
   $adVMName                   = $studentCode + "-dc01"
-  $adNicName                  = $adVMName + "-nic"
   $adNicIPAddress             = "10.0.0.4"
   $adVmSize                   = "Basic_A1"
 
   # Client Vars
   $clientVMName               = $studentCode + "-home"
-  $clientNicName              = $clientVMName + "-nic"
   $clientNicIpAddress         = "10.0.0.10"
   $clientPublicIpName         = $clientVMName + "-pip"
   $clientVMSize               = "Basic_A2"
@@ -95,14 +93,12 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
   # Server Vars
   $serverVMName               = $studentCode+"-srv"
-  $serverNicName              = $serverVMName + "-nic"
   $serverNicIpAddress         = "10.0.0.11"
   $serverVMSize               = "Basic_A1"
 
 
   # Linux Vars
   $linuxVMName                = $studentCode+"-lnx"
-  $linuxNicName               = $linuxVMName + "-nic"
   $linuxNicIpAddress          = "10.0.0.12"
   $linuxVMSize                = "Basic_A2"
   $linuxImagePublisher        = "Canonical"
