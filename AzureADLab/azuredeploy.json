@@ -57,7 +57,7 @@
         "adVmSize": {
             "type": "string"
         },
-        "vmName": {
+        "clientVmName": {
             "type": "string"
         },
         "clientNicIpAddress": {
