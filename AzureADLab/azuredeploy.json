@@ -63,9 +63,6 @@
         "clientNicIpAddress": {
             "type": "string"
         },
-        "clientPublicIpName": {
-            "type": "string"
-        },
         "clientVmSize": {
             "type": "string"
         },
@@ -112,8 +109,9 @@
         "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
         "ouPath": "",
         "domainJoinOptions": "3",
-        "clientVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVmWithPublicIp.json',parameters('_artifactsLocationSasToken'))]",
-        "serverVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVm.json',parameters('_artifactsLocationSasToken'))]",
+        "windowsVmWithPublicIpTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVmWithPublicIp.json',parameters('_artifactsLocationSasToken'))]",
+        "windowsVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVm.json',parameters('_artifactsLocationSasToken'))]",
+        "publicIpName": "[concat(parameters('vmName'),'-pip')]",
         "adNicName": "[concat(parameters('adVmName'), '-nic')]",
         "linuxNicName": "[concat(parameters('linuxVmName'), '-nic')]"
     },
@@ -330,7 +328,7 @@
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[parameters('clientPublicIpName')]",
+            "name": "[variables('publicIpName')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
@@ -351,7 +349,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                "uri": "[variables('clientVmTemplateUrl')]",
+                "uri": "[variables('windowsVmWithPublicIpTemplateUrl')]",
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -381,6 +379,9 @@
                     },
                     "nicIpAddress": {
                         "value": "[parameters('clientNicIpAddress')]"
+                    },
+                    "publicIpName": {
+                        "value": "[parameters('publicIpName')]"
                     },
                     "studentAdminUsername": {
                         "value": "[parameters('studentAdminUsername')]"
@@ -423,7 +424,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                "uri": "[variables('serverVmTemplateUrl')]",
+                "uri": "[variables('windowsVmTemplateUrl')]",
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {

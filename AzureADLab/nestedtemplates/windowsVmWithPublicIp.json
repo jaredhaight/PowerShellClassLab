@@ -66,7 +66,6 @@
         "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
         "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
         "nicName": "[concat(parameters('vmName'),'-nic')]",
-        "publicIpName": "[concat(parameters('vmName'),'-pip')]",
         "ouPath": "",
         "domainJoinOptions": "3"
     },
@@ -74,7 +73,7 @@
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[variables('clientPublicIpName')]",
+            "name": "[parameters('publicIpName')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
