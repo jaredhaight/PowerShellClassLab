@@ -33,6 +33,9 @@
         "nicIpAddress": {
             "type": "string"
         },        
+        "publicIpName": {
+            "type": "string"
+        },
         "imagePublisher": {
             "type": "string"
         },

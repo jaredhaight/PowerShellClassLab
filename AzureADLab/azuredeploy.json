@@ -66,6 +66,9 @@
         "clientVmSize": {
             "type": "string"
         },
+        "publicIpName": {
+            "type": "string"
+        },
         "windowsImagePublisher": {
             "type": "string"
         },
@@ -111,7 +114,6 @@
         "domainJoinOptions": "3",
         "windowsVmWithPublicIpTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVmWithPublicIp.json',parameters('_artifactsLocationSasToken'))]",
         "windowsVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVm.json',parameters('_artifactsLocationSasToken'))]",
-        "publicIpName": "[concat(parameters('vmName'),'-pip')]",
         "adNicName": "[concat(parameters('adVmName'), '-nic')]",
         "linuxNicName": "[concat(parameters('linuxVmName'), '-nic')]"
     },
@@ -328,7 +330,7 @@
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[variables('publicIpName')]",
+            "name": "[parameters('publicIpName')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
@@ -342,7 +344,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
             ],

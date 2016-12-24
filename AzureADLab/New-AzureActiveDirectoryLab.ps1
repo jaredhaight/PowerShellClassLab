@@ -76,6 +76,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $windowsImagePublisher       = "MicrosoftWindowsServer"
   $windowsImageOffer           = "WindowsServer"
   $windowsImageSku             = "2012-R2-Datacenter"
+  $publicIpName               = $studentCode + "-pip"
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
@@ -87,7 +88,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   # Client Vars
   $clientVMName               = $studentCode + "-home"
   $clientNicIpAddress         = "10.0.0.10"
-  $clientPublicIpName         = $clientVMName + "-pip"
   $clientVMSize               = "Basic_A2"
 
 
@@ -136,7 +136,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
     adVMSize                    = $adVMSize
     clientVMName                = $clientVMName
     clientNicIpAddress          = $clientNicIPaddress
-    clientPublicIpName          = $clientPublicIpName
     clientVMSize                = $clientVMSize
     serverVMName                = $serverVMName
     serverNicIpAddress          = $serverNicIPaddress
@@ -170,7 +169,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   
   $ipInfo = ( 
     @{
-      "publicIpName" = $clientPublicIpName
+      "publicIpName" = $publicIpName
       "vmName" = $studentCode
     }
   )
