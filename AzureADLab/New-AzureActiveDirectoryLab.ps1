@@ -176,8 +176,9 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
   if ($deployed) {
     forEach ($item in $ipInfo) {
-    $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
-    $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
-    $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+      $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
+      $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
+      $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+    }
   }
 }
