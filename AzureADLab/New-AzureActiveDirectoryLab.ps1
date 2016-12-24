@@ -157,13 +157,14 @@ function Invoke-CreateAzureActiveDirectoryLab {
     Name                        = $studentCode + "-template"
   }
   try {
-    New-AzureRmResourceGroupDeployment @SplatParams -Verbose
+    New-AzureRmResourceGroupDeployment @SplatParams -Verbose -ErrorAction Stop
+    $deployed = $true
   }
   catch {
     Write-Error "New-AzureRmResourceGroupDeployment failed."
     Write-Output $_.Exception.Message
     Write-Output $_.Exception.ItemName
-    exit
+    $deployed = $false
   }
   
   $ipInfo = ( 
@@ -173,7 +174,8 @@ function Invoke-CreateAzureActiveDirectoryLab {
     }
   )
 
-  forEach ($item in $ipInfo) {
+  if ($deployed) {
+    forEach ($item in $ipInfo) {
     $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
     $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
     $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record

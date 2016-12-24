@@ -189,7 +189,7 @@
                 "type":"DSC",
                 "typeHandlerVersion":"2.15",
                 "settings":{
-                "WmfVersion":"5.0"
+                    "WmfVersion":"5.0"
                 }
             }
         }
