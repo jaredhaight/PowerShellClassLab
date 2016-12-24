@@ -132,20 +132,16 @@ function Invoke-CreateAzureActiveDirectoryLab {
     adAdminUsername             = $adAdminUserName
     domainName                  = $domainName
     adVMName                    = $adVMName
-    adNicName                   = $adNicName
     adNicIpAddress              = $adNicIPaddress
     adVMSize                    = $adVMSize
     clientVMName                = $clientVMName
-    clientNicName               = $clientNicName
     clientNicIpAddress          = $clientNicIPaddress
     clientPublicIpName          = $clientPublicIpName
     clientVMSize                = $clientVMSize
     serverVMName                = $serverVMName
-    serverNicName               = $serverNicName
     serverNicIpAddress          = $serverNicIPaddress
     serverVMSize                = $serverVMSize
     linuxVMName                 = $linuxVMName
-    linuxNicName                = $linuxNicName
     linuxNicIpAddress           = $linuxNicIPaddress
     linuxVMSize                 = $linuxVMSize
     linuxImagePublisher         = $linuxImagePublisher
@@ -160,9 +156,16 @@ function Invoke-CreateAzureActiveDirectoryLab {
     TemplateParameterObject     = $MyParams
     Name                        = $studentCode + "-template"
   }
-
-  New-AzureRmResourceGroupDeployment @SplatParams -Verbose
-
+  try {
+    New-AzureRmResourceGroupDeployment @SplatParams -Verbose
+  }
+  catch {
+    Write-Error "New-AzureRmResourceGroupDeployment failed."
+    Write-Output $_.Exception.Message
+    Write-Output $_.Exception.ItemName
+    break
+  }
+  
   $ipInfo = ( 
     @{
       "publicIpName" = $clientPublicIpName
