@@ -15,10 +15,31 @@
         "subscriptionId": {
             "type": "string"
         },
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "storageAccountName": {
+            "type": "string"
+        },
         "studentSubnetName": {
             "type": "string"
         },
-        "virtualNetworkName": {
+        "vmName": {
+            "type": "string"
+        },
+        "vmSize": {
+            "type": "string"
+        },
+        "nicIpAddress": {
+            "type": "string"
+        },        
+        "imagePublisher": {
+            "type": "string"
+        },
+        "imageOffer": {
+            "type": "string"
+        },
+        "imageSku": {
             "type": "string"
         },
         "studentAdminUsername": {
@@ -26,9 +47,6 @@
         },
         "studentAdminPassword": {
             "type": "securestring"
-        },
-        "storageAccountName": {
-            "type": "string"
         },
         "adAdminUsername": {
             "type": "string"
@@ -41,25 +59,7 @@
         },
         "domainName": {
             "type": "string"
-        },
-        "vmName": {
-            "type": "string"
-        },
-        "nicIpAddress": {
-            "type": "string"
-        },
-        "vmSize": {
-            "type": "string"
-        },
-        "imagePublisher": {
-            "type": "string"
-        },
-        "imageOffer": {
-            "type": "string"
-        },
-        "imageSku": {
-            "type": "string"
-        },
+        }
     },
     "variables": {
         "apiVersion": "2015-06-15",

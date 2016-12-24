@@ -375,6 +375,9 @@
                     "vmSize": {
                         "value": "[variables('clientVmSize')]"
                     },
+                    "nicIpAddress": {
+                        "value": "[parameters('clientNicIpAddress')]"
+                    },
                     "studentAdminUsername": {
                         "value": "[parameters('studentAdminUsername')]"
                     },
@@ -417,11 +420,17 @@
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "artifactsLocation": {
+                        "value": "[parameters('artifactsLocation')]"
+                    },
+                    "_artifactsLocationSasToken": {
+                        "value": "[parameters('_artifactsLocationSasToken')]"
+                    },
                     "subscriptionId": {
                         "value": "[parameters('subscriptionId')]"
                     },
-                    "artifactsLocation": {
-                        "value": "[parameters('artifactsLocation')]"
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
                     },
                     "virtualNetworkName": {
                         "value": "[parameters('virtualNetworkName')]"
@@ -432,20 +441,11 @@
                     "vmName": {
                         "value": "[parameters('serverVmName')]"
                     },
-                    "adNicIpAddress": {
-                        "value": "[parameters('adNicIpAddress')]"
-                    },
-                    "storageAccountName": {
-                        "value": "[parameters('storageAccountName')]"
-                    },
                     "vmSize": {
                         "value": "[parameters('serverVmSize')]"
                     },
-                    "studentAdminUsername": {
-                        "value": "[parameters('studentAdminUsername')]"
-                    },
-                    "studentAdminPassword": {
-                        "value": "[parameters('studentAdminPassword')]"
+                    "nicIpAddress": {
+                        "value": "[parameters('clientNicIpAddress')]"
                     },
                     "imagePublisher": {
                         "value": "[parameters('windowsImagePublisher')]"
@@ -456,17 +456,23 @@
                     "imageSku": {
                         "value": "[parameters('windowsImageSku')]"
                     },
-                    "domainName": {
-                        "value": "[parameters('domainName')]"
+                    "studentAdminUsername": {
+                        "value": "[parameters('studentAdminUsername')]"
                     },
-                    "adVmName": {
-                        "value": "[parameters('adVmName')]"
+                    "studentAdminPassword": {
+                        "value": "[parameters('studentAdminPassword')]"
                     },
                     "adAdminUserName": {
                         "value": "[parameters('adAdminUserName')]"
                     },
-                    "_artifactsLocationSasToken": {
-                        "value": "[parameters('_artifactsLocationSasToken')]"
+                    "adVmName": {
+                        "value": "[parameters('adVmName')]"
+                    },
+                    "adNicIpAddress": {
+                        "value": "[parameters('adNicIpAddress')]"
+                    },
+                    "domainName": {
+                        "value": "[parameters('domainName')]"
                     }
                 }
             }
