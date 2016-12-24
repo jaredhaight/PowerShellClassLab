@@ -65,8 +65,8 @@
         "apiVersion": "2015-06-15",
         "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
         "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
-        "nicName": "[concat(parameters('vmName'),'-nic']",
-        "publicIpName": "[concat(parameters('vmName'),'-pip']",
+        "nicName": "[concat(parameters('vmName'),'-nic')]",
+        "publicIpName": "[concat(parameters('vmName'),'-pip')]",
         "ouPath": "",
         "domainJoinOptions": "3"
     },
