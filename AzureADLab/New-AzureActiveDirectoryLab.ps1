@@ -73,6 +73,9 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $artifactsLocation          = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
   $networkSecurityGroup       = "evil.training-nsg-" + $region
   $subscriptionId             = (Get-AzureRmContext).Subscription.SubscriptionId
+  $windowsImagePublisher       = "MicrosoftWindowsServer"
+  $windowsImageOffer           = "WindowsServer"
+  $windowsImageSku             = "2012-R2-Datacenter"
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
@@ -81,9 +84,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $adNicName                  = $adVMName + "-nic"
   $adNicIPAddress             = "10.0.0.4"
   $adVmSize                   = "Basic_A1"
-  $adImagePublisher           = "MicrosoftWindowsServer"
-  $adImageOffer               = "WindowsServer"
-  $adImageSku                 = "2012-R2-Datacenter"
 
   # Client Vars
   $clientVMName               = $studentCode + "-home"
@@ -91,18 +91,13 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $clientNicIpAddress         = "10.0.0.10"
   $clientPublicIpName         = $clientVMName + "-pip"
   $clientVMSize               = "Basic_A2"
-  $clientImagePublisher       = "MicrosoftWindowsServer"
-  $clientImageOffer           = "WindowsServer"
-  $clientImageSku             = "2012-R2-Datacenter"
+
 
   # Server Vars
   $serverVMName               = $studentCode+"-srv"
   $serverNicName              = $serverVMName + "-nic"
   $serverNicIpAddress         = "10.0.0.11"
   $serverVMSize               = "Basic_A1"
-  $serverImagePublisher       = "MicrosoftWindowsServer"
-  $serverImageOffer           = "WindowsServer"
-  $serverImageSku             = "2012-R2-Datacenter"
 
 
   # Linux Vars
@@ -149,9 +144,9 @@ function Invoke-CreateAzureActiveDirectoryLab {
     clientNicIpAddress          = $clientNicIPaddress
     clientPublicIpName          = $clientPublicIpName
     clientVMSize                = $clientVMSize
-    clientImagePublisher        = $clientImagePublisher
-    clientImageOffer            = $clientImageOffer
-    clientImageSku              = $clientImageSku
+    windowsImagePublisher       = $windowsImagePublisher
+    windowsImageOffer           = $windowsImageOffer
+    windowsImageSku             = $windowsImageSku
     serverVMName                = $serverVMName
     serverNicName               = $serverNicName
     serverNicIpAddress          = $serverNicIPaddress
