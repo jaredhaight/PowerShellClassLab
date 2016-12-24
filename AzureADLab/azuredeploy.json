@@ -390,6 +390,9 @@
                     "imageSku": {
                         "value": "[parameters('windowsImageSku')]"
                     },
+                    "domainName": {
+                        "value": "[parameters('domainName')]"
+                    },
                     "adVmName": {
                         "value": "[parameters('adVmName')]"
                     },
@@ -452,6 +455,9 @@
                     },
                     "imageSku": {
                         "value": "[parameters('windowsImageSku')]"
+                    },
+                    "domainName": {
+                        "value": "[parameters('domainName')]"
                     },
                     "adVmName": {
                         "value": "[parameters('adVmName')]"
