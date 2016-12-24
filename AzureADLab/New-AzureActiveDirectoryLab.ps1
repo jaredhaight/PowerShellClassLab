@@ -163,7 +163,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
     Write-Error "New-AzureRmResourceGroupDeployment failed."
     Write-Output $_.Exception.Message
     Write-Output $_.Exception.ItemName
-    break
+    exit
   }
   
   $ipInfo = ( 
