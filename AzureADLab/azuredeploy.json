@@ -351,6 +351,9 @@
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "subscriptionId": {
+                        "value": "[parameters('subscriptionId')]"
+                    },
                     "artifactsLocation": {
                         "value": "[parameters('artifactsLocation')]"
                     },
@@ -411,6 +414,9 @@
                 "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "subscriptionId": {
+                        "value": "[parameters('subscriptionId')]"
+                    },
                     "artifactsLocation": {
                         "value": "[parameters('artifactsLocation')]"
                     },
