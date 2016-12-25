@@ -67,6 +67,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $studentSubnetAddressPrefix = "10.0.0.0/24"
   $virtualNetworkName         = $studentCode + "vnet"
   $virtualNetworkAddressRange = "10.0.0.0/16"
+  $publicIpName               = $studentCode + "-pip"
   $studentAdminUsername       = "localadmin"
   $storageAccountName         = $studentCode + "storage"    # Lowercase required
   $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
@@ -76,7 +77,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $windowsImagePublisher       = "MicrosoftWindowsServer"
   $windowsImageOffer           = "WindowsServer"
   $windowsImageSku             = "2012-R2-Datacenter"
-  $publicIpName               = $studentCode + "-pip"
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
@@ -120,6 +120,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
     studentSubnetAddressPrefix  = $studentSubnetAddressPrefix
     virtualNetworkName          = $virtualNetworkName
     virtualNetworkAddressRange  = $virtualNetworkAddressRange
+    publicIpName                = $publicIpName
     studentAdminUsername        = $studentAdminUsername
     studentAdminPassword        = $studentAdminPassword
     storageAccountName          = $storageAccountName
