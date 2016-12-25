@@ -177,9 +177,6 @@
             "dependsOn":[
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
             ],
-            "tags":{
-                "displayName":"InstallDsc"
-            },
             "properties":{
                 "publisher":"Microsoft.Powershell",
                 "type":"DSC",
