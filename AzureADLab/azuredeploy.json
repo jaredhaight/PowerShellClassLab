@@ -346,7 +346,8 @@
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adVmName'), 'CreateADForest')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -421,7 +422,8 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",                
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('adVmName'), 'CreateADForest')]"
             ],
             "properties": {
                 "mode": "Incremental",
