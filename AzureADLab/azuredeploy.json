@@ -342,7 +342,7 @@
         {
             "name": "[parameters('clientVmName')]",
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2015-01-01",
+            "apiVersion": "2016-03-30",
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",

@@ -33,13 +33,14 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
     [Parameter(Mandatory=$True,Position=2)]
     [string]$StudentCode,
-
+    
     [Parameter(Mandatory=$True,Position=3)]
     [string]$StudentAdminPassword,
     
     [string]$Region="eastus2",
     [int]$place=1,
-    [int]$total=1
+    [int]$total=1,
+    [switch]$Test
   )
 
   # Import Azure Service Management module
@@ -149,37 +150,49 @@ function Invoke-CreateAzureActiveDirectoryLab {
     linuxImageSku               = $linuxImageSku
   }
 
-  # Splat the parameters on New-AzureRmResourceGroupDeployment  
-  $SplatParams = @{
-    TemplateUri                 = $URI 
-    ResourceGroupName           = $resourceGroupName 
-    TemplateParameterObject     = $MyParams
-    Name                        = $studentCode + "-template"
-  }
-  try {
-    New-AzureRmResourceGroupDeployment @SplatParams -Verbose -ErrorAction Stop 
-    $deployed = $true
-  }
-  catch {
-    Write-Error "New-AzureRmResourceGroupDeployment failed."
-    Write-Output "Error Message:"
-    Write-Output $_.Exception.Message
-    Write-Output $_.Exception.ItemName
-    $deployed = $false
-  }
-  
-  $ipInfo = ( 
-    @{
-      "publicIpName" = $publicIpName
-      "vmName" = $studentCode
-    }
-  )
 
-  if ($deployed) {
-    forEach ($item in $ipInfo) {
-      $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
-      $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
-      $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+
+  if ($Test) {
+    $SplatParams = @{
+      TemplateUri                 = $URI 
+      ResourceGroupName           = $resourceGroupName 
+      TemplateParameterObject     = $MyParams
+    }
+    Test-AzureRmResourceGroupDeployment @SplatParams -Verbose
+  }
+  else {
+    # Splat the parameters on New-AzureRmResourceGroupDeployment  
+    $SplatParams = @{
+      TemplateUri                 = $URI 
+      ResourceGroupName           = $resourceGroupName 
+      TemplateParameterObject     = $MyParams
+      Name                        = $studentCode + "-template"
+    }
+    try {
+      New-AzureRmResourceGroupDeployment @SplatParams -Verbose -ErrorAction Stop 
+      $deployed = $true
+    }
+    catch {
+      Write-Error "New-AzureRmResourceGroupDeployment failed."
+      Write-Output "Error Message:"
+      Write-Output $_.Exception.Message
+      Write-Output $_.Exception.ItemName
+      $deployed = $false
+    }
+    
+    $ipInfo = ( 
+      @{
+        "publicIpName" = $publicIpName
+        "vmName" = $studentCode
+      }
+    )
+
+    if ($deployed) {
+      forEach ($item in $ipInfo) {
+        $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
+        $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
+        $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+      }
     }
   }
 }
