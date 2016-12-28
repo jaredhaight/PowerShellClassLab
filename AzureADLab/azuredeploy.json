@@ -101,27 +101,6 @@
         },
         "linuxImageSku": {
             "type": "string"
-        },
-        "dc02Name": {
-            "type": "string",
-            "minLength": 1
-        },
-        "dc02AdminUserName": {
-            "type": "string",
-            "minLength": 1
-        },
-        "dc02AdminPassword": {
-            "type": "securestring"
-        },
-        "dc02WindowsOSVersion": {
-            "type": "string",
-            "defaultValue": "2012-R2-Datacenter",
-            "allowedValues": [
-                "2008-R2-SP1",
-                "2012-Datacenter",
-                "2012-R2-Datacenter",
-                "Windows-Server-Technical-Preview"
-            ]
         }
     },
     "variables": {
@@ -133,15 +112,7 @@
         "windowsVmWithPublicIpTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVmWithPublicIp.json',parameters('_artifactsLocationSasToken'))]",
         "windowsVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVm.json',parameters('_artifactsLocationSasToken'))]",
         "adNicName": "[concat(parameters('adVmName'), '-nic')]",
-        "linuxNicName": "[concat(parameters('linuxVmName'), '-nic')]",
-        "dc02ImagePublisher": "MicrosoftWindowsServer",
-        "dc02ImageOffer": "WindowsServer",
-        "dc02OSDiskName": "dc02OSDisk",
-        "dc02VmSize": "Standard_D2_v2",
-        "dc02VnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-        "dc02SubnetRef": "[concat(variables('dc02VnetID'), '/subnets/', parameters('studentSubnetName'))]",
-        "dc02StorageAccountContainerName": "vhds",
-        "dc02NicName": "[concat(parameters('dc02Name'), 'NetworkInterface')]"
+        "linuxNicName": "[concat(parameters('linuxVmName'), '-nic')]"
     },
     "resources": [
         {
