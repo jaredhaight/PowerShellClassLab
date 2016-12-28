@@ -33,6 +33,10 @@
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
     <None Include="metadata.json" />
+    <None Include="nestedtemplates\vnet-with-dns-server.json" />
+    <None Include="nestedtemplates\vnet.json" />
+    <None Include="nestedtemplates\windowsVm.json" />
+    <None Include="nestedtemplates\windowsVmWithPublicIp.json" />
     <None Include="New-AzureActiveDirectoryLab.ps1" />
     <None Include="README.md" />
     <None Include="Remove-AllAzureDnsRecordConfig.ps1" />
