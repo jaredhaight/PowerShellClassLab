@@ -65,7 +65,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $dnsZone                    = "evil.training"
   $resourceGroupName          = $studentCode + '.' + $dnsZone
   $studentSubnetName          = $studentCode + "subnet"
-  $studentSubnetAddressPrefix = "10.0.0.0/24"
   $virtualNetworkName         = $studentCode + "vnet"
   $virtualNetworkAddressRange = "10.0.0.0/16"
   $publicIpName               = $studentCode + "-pip"
@@ -118,7 +117,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $MyParams = @{
     artifactsLocation           = $artifactsLocation
     studentSubnetName           = $studentSubnetName
-    studentSubnetAddressPrefix  = $studentSubnetAddressPrefix
     virtualNetworkName          = $virtualNetworkName
     virtualNetworkAddressRange  = $virtualNetworkAddressRange
     publicIpName                = $publicIpName

@@ -21,9 +21,6 @@
         "studentSubnetName": {
             "type": "string"
         },
-        "studentSubnetAddressPrefix": {
-            "type": "string"
-        },
         "virtualNetworkName": {
             "type": "string"
         },
@@ -130,25 +127,25 @@
             "properties": {}
         },
         {
-        "type": "Microsoft.Network/virtualNetworks",
-        "name": "[parameters('virtualNetworkName')]",
-        "apiVersion": "2016-03-30",
-        "location": "[resourceGroup().location]",
-        "properties": {
-            "addressSpace": {
-                "addressPrefixes": [
-                    "[parameters('virtualNetworkAddressRange')]"
-                ]
-            },
-            "subnets": [{
-                "name": "[parameters('studentSubnetName')]",
-                "properties": {
-                    "addressPrefix": "[parameters('virtualNetworkAddressRange')]",
-                    "networkSecurityGroup": {
-                        "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup'))]"
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworkName')]",
+            "apiVersion": "2016-03-30",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('virtualNetworkAddressRange')]"
+                    ]
+                },
+                "subnets": [{
+                    "name": "[parameters('studentSubnetName')]",
+                    "properties": {
+                        "addressPrefix": "[parameters('virtualNetworkAddressRange')]",
+                        "networkSecurityGroup": {
+                            "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('masterResourceGroup'), '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroup'))]"
+                        }
                     }
-                }
-            }]
+                }]
             }
         },
         {
@@ -378,7 +375,7 @@
                         "value": "[parameters('storageAccountName')]"
                     },
                     "vmSize": {
-                        "value": "[variables('clientVmSize')]"
+                        "value": "[parameters('clientVmSize')]"
                     },
                     "nicIpAddress": {
                         "value": "[parameters('clientNicIpAddress')]"
@@ -457,7 +454,7 @@
                         "value": "[parameters('serverVmSize')]"
                     },
                     "nicIpAddress": {
-                        "value": "[parameters('clientNicIpAddress')]"
+                        "value": "[parameters('serverNicIpAddress')]"
                     },
                     "imagePublisher": {
                         "value": "[parameters('windowsImagePublisher')]"
