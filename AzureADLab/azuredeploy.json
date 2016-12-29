@@ -101,6 +101,9 @@
     },
     "linuxImageSku": {
       "type": "string"
+    },
+    "filesUrl": {
+      "type":  "string"
     }
   },
   "variables": {
@@ -428,6 +431,9 @@
           },
           "_artifactsLocationSasToken": {
             "value": "[parameters('_artifactsLocationSasToken')]"
+          },
+          "filesUrl": {
+            "value":  "[parameters('filesUrl')]"
           }
         }
       },

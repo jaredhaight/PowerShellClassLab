@@ -77,6 +77,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $windowsImagePublisher       = "MicrosoftWindowsServer"
   $windowsImageOffer           = "WindowsServer"
   $windowsImageSku             = "2012-R2-Datacenter"
+  $filesUrl                   = "https://eviltraining.file.core.windows.net/files/"
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
@@ -131,6 +132,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
     windowsImageSku             = $windowsImageSku
     adAdminUsername             = $adAdminUserName
     domainName                  = $domainName
+	  filesUrl                    = $filesUrl
     adVMName                    = $adVMName
     adNicIpAddress              = $adNicIPaddress
     adVMSize                    = $adVMSize
