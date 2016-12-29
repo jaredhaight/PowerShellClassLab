@@ -175,6 +175,7 @@
     },
     {
       "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces', variables('adNicName'))]"
