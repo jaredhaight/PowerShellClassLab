@@ -199,40 +199,23 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmName'),'/dscExtension')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.15",
-        "autoUpgradeMinorVersion": true,
-        "protectedSettings": {},
-        "settings": {
-          "WmfVersion": "5.0"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/dscConfiguration')]",
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines', parameters('adVmName'))]",
-        "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'),'joinDomain']"
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'),'joinDomain')]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
         "typeHandlerVersion": "2.19",
         "autoUpgradeMinorVersion": true,
+        "protectedSettings": {},
         "settings": {
-          "ModulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/HomeConfig.zip', parameters('_artifactsLocationSasToken'))]",
-          "ConfigurationFunction": "HomeConfig.ps1\\HomeConfig",
+          "wmfVersion":  "5.0",
+          "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/HomeConfig.zip', parameters('_artifactsLocationSasToken'))]",
+          "configurationFunction": "HomeConfig.ps1\\HomeConfig",
           "Properties": {
             "filesUrl": "[parameters('filesUrl')]"
           }
