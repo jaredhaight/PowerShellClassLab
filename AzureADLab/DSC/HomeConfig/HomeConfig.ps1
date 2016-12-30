@@ -1,12 +1,15 @@
-configuration HomeConfig {
+configuration HomeConfig 
+{
    param 
    ( 
         [Parameter(Mandatory)]
         [String]$filesUrl
     )
 
-  Import-DscResource –ModuleName 'PSDesiredStateConfiguration'
-  Node localhost {
+  Import-DscResource –ModuleName PSDesiredStateConfiguration
+
+  Node localhost 
+  {
     WindowsFeature ADTools
     {
         Ensure = "Present" 
