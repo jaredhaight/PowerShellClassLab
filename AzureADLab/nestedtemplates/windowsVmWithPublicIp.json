@@ -203,7 +203,6 @@
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('adVmName'))]",
         "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'),'joinDomain')]"
       ],
       "properties": {
