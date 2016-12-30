@@ -72,7 +72,6 @@
     "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
     "nicName": "[concat(parameters('vmName'),'-nic')]",
-    "publicIpName": "[concat(parameters('vmName'),'-pip')]",
     "ouPath": "",
     "domainJoinOptions": "3"
   },
@@ -103,7 +102,7 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('nicIpAddress')]",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
               },
               "subnet": {
                 "id": "[variables('subnetId')]"
