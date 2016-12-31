@@ -40,11 +40,6 @@ configuration HomeConfig
         Ensure = "Present" 
         Name = "RSAT-File-Services"
     }
-    WindowsFeature RSATRemoteDesktop
-    {
-        Ensure = "Present" 
-        Name = "RSAT-RD-Server"
-    }
     WindowsFeature GPMC
     {
         Ensure = "Present" 
@@ -75,7 +70,8 @@ configuration HomeConfig
     Script DownloadClassFiles
     {
         SetScript =  { 
-            Invoke-WebRequest $filesUrl + 'class.zip' -OutFile C:\Windows\Temp\Class.zip
+            $file = $filesUrl + 'class.zip'
+            Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\Class.zip
         }
         GetScript =  { @{} }
         TestScript = { $false }
@@ -83,7 +79,8 @@ configuration HomeConfig
     Script DownloadBootstrapFiles
     {
         SetScript =  { 
-            Invoke-WebRequest $filesUrl + 'bootstrap.zip' -OutFile C:\Windows\Temp\bootstrap.zip
+            $file = $filesUrl + 'bootstrap.zip'
+            Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\bootstrap.zip
         }
         GetScript =  { @{} }
         TestScript = { $false }
