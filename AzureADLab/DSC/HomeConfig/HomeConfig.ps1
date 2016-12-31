@@ -5,7 +5,8 @@ configuration HomeConfig
         [Parameter(Mandatory)]
         [String]$filesUrl
     )
-
+  
+  Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
   Import-DscResource -ModuleName PSDesiredStateConfiguration
 
   Node localhost 
@@ -76,7 +77,9 @@ configuration HomeConfig
             Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\Class.zip
         }
         GetScript =  { @{} }
-        TestScript = { $false }
+        TestScript = { 
+            Test-Path C:\Windows\Temp\class.zip
+         }
     }
     Script DownloadBootstrapFiles
     {
@@ -86,7 +89,9 @@ configuration HomeConfig
             Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\bootstrap.zip
         }
         GetScript =  { @{} }
-        TestScript = { $false }
+        TestScript = { 
+            Test-Path C:\Windows\Temp\bootstrap.zip
+         }
     }
     Script UpdateHelp
     {
