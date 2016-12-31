@@ -62,6 +62,7 @@ configuration HomeConfig
     Script DisableFirewall
     {
         SetScript =  { 
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DisableFirewall] Running.."
             Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
         }
         GetScript =  { @{} }
@@ -71,6 +72,7 @@ configuration HomeConfig
     {
         SetScript =  { 
             $file = $filesUrl + 'class.zip'
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadClassFiles] Downloading $file"
             Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\Class.zip
         }
         GetScript =  { @{} }
@@ -80,6 +82,7 @@ configuration HomeConfig
     {
         SetScript =  { 
             $file = $filesUrl + 'bootstrap.zip'
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBootstrapFiles] Downloading $file"
             Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\bootstrap.zip
         }
         GetScript =  { @{} }
@@ -88,6 +91,7 @@ configuration HomeConfig
     Script UpdateHelp
     {
         SetScript =  { 
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[UpdateHelp] Running.."
             Update-Help -Force
         }
         GetScript =  { @{} }
