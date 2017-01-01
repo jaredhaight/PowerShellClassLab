@@ -8,7 +8,7 @@ configuration HomeConfig
   
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
   Import-DscResource -ModuleName xSystemSecurity -Name xIEEsc
-  Import-DscRescoure -ModuleName PSDesiredStateConfiguration
+  Import-DscResource -ModuleName PSDesiredStateConfiguration
 
   Node localhost 
   {
