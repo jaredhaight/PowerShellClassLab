@@ -54,75 +54,55 @@ function Get-TargetResource
         [Parameter()] [ValidateNotNullOrEmpty()]
         [String] $SysvolPath
     )
+    
+    Assert-Module -ModuleName 'ADDSDeployment';
+    $domainFQDN = Resolve-DomainFQDN -DomainName $DomainName -ParentDomainName $ParentDomainName;
+    $isDomainMember = Test-DomainMember;
 
-    $retry = $true
-    $minutesElasped = 0
-    $timeoutMinutes = 5
-    $startTime = Get-Date
+    try
+    {
+        if ($isDomainMember) {
+            ## We're already a domain member, so take the credentials out of the equation
+            Write-Verbose ($localizedData.QueryDomainADWithLocalCredentials -f $domainFQDN);
+            $domain = Get-ADDomain -Identity $domainFQDN -ErrorAction Stop;
+        }
+        else {
+            Write-Verbose ($localizedData.QueryDomainWithCredential -f $domainFQDN);
+            $domain = Get-ADDomain -Identity $domainFQDN -Credential $DomainAdministratorCredential -ErrorAction Stop;
+        }
 
-    while ($retry -and $minutesElasped -lt $timeoutMinutes) {
-        Assert-Module -ModuleName 'ADDSDeployment';
-        $domainFQDN = Resolve-DomainFQDN -DomainName $DomainName -ParentDomainName $ParentDomainName;
-        $isDomainMember = Test-DomainMember;
-
-        $retry = $false
-        try
-        {
-            if ($isDomainMember) {
-                ## We're already a domain member, so take the credentials out of the equation
-                Write-Verbose ($localizedData.QueryDomainADWithLocalCredentials -f $domainFQDN);
-                $domain = Get-ADDomain -Identity $domainFQDN -ErrorAction Stop;
-            }
-            else {
-                Write-Verbose ($localizedData.QueryDomainWithCredential -f $domainFQDN);
-                $domain = Get-ADDomain -Identity $domainFQDN -Credential $DomainAdministratorCredential -ErrorAction Stop;
-            }
-
-            ## No need to check whether the node is actually a domain controller. If we don't throw an exception,
-            ## the domain is already UP - and this resource shouldn't run. Domain controller functionality
-            ## should be checked by the xADDomainController resource?
-            Write-Verbose ($localizedData.DomainFound -f $domain.DnsRoot);
+        ## No need to check whether the node is actually a domain controller. If we don't throw an exception,
+        ## the domain is already UP - and this resource shouldn't run. Domain controller functionality
+        ## should be checked by the xADDomainController resource?
+        Write-Verbose ($localizedData.DomainFound -f $domain.DnsRoot);
         
-            $targetResource = @{
-                DomainName = $domain.DnsRoot;
-                ParentDomainName = $domain.ParentDomain;
-                DomainNetBIOSName = $domain.NetBIOSName;
-            }
+        $targetResource = @{
+            DomainName = $domain.DnsRoot;
+            ParentDomainName = $domain.ParentDomain;
+            DomainNetBIOSName = $domain.NetBIOSName;
+        }
         
-            return $targetResource;
-        }
-        catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
-        {
-            $errorMessage = $localizedData.ExistingDomainMemberError -f $DomainName;
-            ThrowInvalidOperationError -ErrorId 'xADDomain_DomainMember' -ErrorMessage $errorMessage;
-        }
-        catch [Microsoft.ActiveDirectory.Management.ADServerDownException]
-        {
-            Write-Verbose ($localizedData.DomainNotFound -f $domainFQDN)
-            #Retry
-            $retry = $true
-            $timeElasped = $(Get-Date) - $startTime
-            $minutesElasped = $timeElasped.Minutes
-
-            if ($minutesElasped -lt $timeoutMinutes) {
-                Write-Verbose "Domain is not ready. Waiting for 30 seconds"
-                Start-Sleep -Seconds 30
-                Write-Verbose "Retrying Get ADDomain"
-            }
-            else {
-                Write-Verbose "Domain is not ready. Get ADDomain has timed-out after $timeoutMinutes minutes"
-            }
-        }
-        catch [System.Security.Authentication.AuthenticationException]
-        {
-            $errorMessage = $localizedData.InvalidCredentialError -f $DomainName;
-            ThrowInvalidOperationError -ErrorId 'xADDomain_InvalidCredential' -ErrorMessage $errorMessage;
-        }
-        catch
-        {
-            ## Not sure what's gone on here!
-            throw $_
-        }
+        return $targetResource;
+    }
+    catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
+    {
+        $errorMessage = $localizedData.ExistingDomainMemberError -f $DomainName;
+        ThrowInvalidOperationError -ErrorId 'xADDomain_DomainMember' -ErrorMessage $errorMessage;
+    }
+    catch [Microsoft.ActiveDirectory.Management.ADServerDownException]
+    {
+        Write-Verbose ($localizedData.DomainNotFound -f $domainFQDN)
+        $domain = @{ };
+    }
+    catch [System.Security.Authentication.AuthenticationException]
+    {
+        $errorMessage = $localizedData.InvalidCredentialError -f $DomainName;
+        ThrowInvalidOperationError -ErrorId 'xADDomain_InvalidCredential' -ErrorMessage $errorMessage;
+    }
+    catch
+    {
+        ## Not sure what's gone on here!
+        throw $_
     }
 
 } #end function Get-TargetResource

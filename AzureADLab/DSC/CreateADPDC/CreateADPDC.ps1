@@ -88,6 +88,14 @@
             SysvolPath = "F:\SYSVOL"
 	        DependsOn = "[WindowsFeature]ADDSInstall"
         } 
+        xADGroup LocalAdmins
+        {
+           GroupName = "LocalAdmins"
+           GroupScope = "Global"
+           Category = "Security"
+           Description = "Group for Local Admins"
+           Ensure = 'Present'
+        }
 
         LocalConfigurationManager 
         {

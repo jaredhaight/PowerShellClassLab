@@ -56,21 +56,19 @@ function Get-TargetResource
 
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()]
         $Credential,
 
         [ValidateNotNullOrEmpty()]
         [System.String]
         $DomainController,
 
-        [ValidateNotNullOrEmpty()]
         [System.String[]]
         $Members,
-        
-        [ValidateNotNullOrEmpty()]
+
         [System.String[]]
         $MembersToInclude,
-        
-        [ValidateNotNullOrEmpty()]
+
         [System.String[]]
         $MembersToExclude,
 
@@ -92,8 +90,8 @@ function Get-TargetResource
     try {
         $adGroup = Get-ADGroup @adGroupParams -Property Name,GroupScope,GroupCategory,DistinguishedName,Description,DisplayName,ManagedBy,Info;
         Write-Verbose -Message ($LocalizedData.RetrievingGroupMembers -f $MembershipAttribute);
-        ## Retrieve the current list of members using the specified proper
-        $adGroupMembers = (Get-ADGroupMember -Identity $adGroup.DistinguishedName).$MembershipAttribute; 
+        ## Retrieve the current list of members, returning the specified membership attribute
+        $adGroupMembers = (Get-ADGroupMember @adGroupParams).$MembershipAttribute;
         $targetResource = @{
             GroupName = $adGroup.Name;
             GroupScope = $adGroup.GroupScope;
@@ -171,21 +169,19 @@ function Test-TargetResource
 
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()]
         $Credential,
 
         [ValidateNotNullOrEmpty()]
         [System.String]
         $DomainController,
 
-        [ValidateNotNullOrEmpty()]
         [System.String[]]
         $Members,
-        
-        [ValidateNotNullOrEmpty()]
+
         [System.String[]]
         $MembersToInclude,
-        
-        [ValidateNotNullOrEmpty()]
+
         [System.String[]]
         $MembersToExclude,
 
@@ -203,21 +199,21 @@ function Test-TargetResource
         $Notes
     )
     ## Validate parameters before we even attempt to retrieve anything
-    $validateMemberParameters = @{};
-    if ($PSBoundParameters.ContainsKey('Members'))
+    $assertMemberParameters = @{};
+    if ($PSBoundParameters.ContainsKey('Members') -and -not [system.string]::IsNullOrEmpty($Members))
     {
-        $validateMemberParameters['Members'] = $Members;
+        $assertMemberParameters['Members'] = $Members;
     }
-    if ($PSBoundParameters.ContainsKey('MembersToInclude'))
+    if ($PSBoundParameters.ContainsKey('MembersToInclude') -and -not [system.string]::IsNullOrEmpty($MembersToInclude))
     {
-        $validateMemberParameters['MembersToInclude'] = $MembersToInclude;
+        $assertMemberParameters['MembersToInclude'] = $MembersToInclude;
     }
-    if ($PSBoundParameters.ContainsKey('MembersToExclude'))
+    if ($PSBoundParameters.ContainsKey('MembersToExclude') -and -not [system.string]::IsNullOrEmpty($MembersToExclude))
     {
-        $validateMemberParameters['MembersToExclude'] = $MembersToExclude;
+        $assertMemberParameters['MembersToExclude'] = $MembersToExclude;
     }
-    Validate-MemberParameters @validateMemberParameters -ModuleName 'xADDomain' -ErrorAction Stop;
-    
+    Assert-MemberParameters @assertMemberParameters -ModuleName 'xADDomain' -ErrorAction Stop;
+
     $targetResource = Get-TargetResource @PSBoundParameters;
     $targetResourceInCompliance = $true;
     if ($targetResource.GroupScope -ne $GroupScope)
@@ -255,13 +251,8 @@ function Test-TargetResource
         Write-Verbose ($LocalizedData.NotDesiredPropertyState -f 'Notes', $Notes, $targetResource.Notes);
         $targetResourceInCompliance = $false;
     }
-    $testMembersParams = @{
-        ExistingMembers = $targetResource.Members;
-        Members = $Members;
-        MembersToInclude=  $MembersToInclude;
-        MembersToExclude = $MembersToExclude;
-    }
-    if (-not (Test-Members @testMembersParams))
+    ## Test group members match passed membership parameters
+    if (-not (Test-Members @assertMemberParameters -ExistingMembers $targetResource.Members))
     {
         Write-Verbose -Message $LocalizedData.GroupMembershipNotDesiredState;
         $targetResourceInCompliance = $false;
@@ -310,21 +301,19 @@ function Set-TargetResource
 
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()]
         $Credential,
 
         [ValidateNotNullOrEmpty()]
         [System.String]
         $DomainController,
 
-        [ValidateNotNullOrEmpty()]
         [System.String[]]
         $Members,
-        
-        [ValidateNotNullOrEmpty()]
+
         [System.String[]]
         $MembersToInclude,
-        
-        [ValidateNotNullOrEmpty()]
+
         [System.String[]]
         $MembersToExclude,
 
@@ -344,13 +333,14 @@ function Set-TargetResource
     )
     Assert-Module -ModuleName 'ActiveDirectory';
     $adGroupParams = Get-ADCommonParameters @PSBoundParameters;
-    
+
     try {
-        $adGroup = Get-ADGroup @adGroupParams -Property Name,GroupScope,GroupCategory,DistinguishedName,Description,DisplayName,Info;
+        $adGroup = Get-ADGroup @adGroupParams -Property Name,GroupScope,GroupCategory,DistinguishedName,Description,DisplayName,ManagedBy,Info;
 
         if ($Ensure -eq 'Present') {
 
-            $setADGroupParams = @{};
+            $setADGroupParams = $adGroupParams.Clone();
+            $setADGroupParams['Identity'] = $adGroup.DistinguishedName;
 
             # Update existing group properties
             if ($Category -ne $adGroup.GroupCategory)
@@ -386,12 +376,14 @@ function Set-TargetResource
                 $setADGroupParams['Replace'] = @{ Info = $Notes };
             }
             Write-Verbose ($LocalizedData.UpdatingGroup -f $GroupName);
-            Set-ADGroup -Identity $adGroup.DistinguishedName @setADGroupParams;
+            Set-ADGroup @setADGroupParams;
 
             # Move group if the path is not correct
             if ($Path -and ($Path -ne (Get-ADObjectParentDN -DN $adGroup.DistinguishedName))) {
                 Write-Verbose ($LocalizedData.MovingGroup -f $GroupName, $Path);
-                Move-ADObject -Identity $adGroup.DistinguishedName -TargetPath $Path;
+                $moveADObjectParams = $adGroupParams.Clone();
+                $moveADObjectParams['Identity'] = $adGroup.DistinguishedName
+                Move-ADObject @moveADObjectParams -TargetPath $Path;
             }
 
             Write-Verbose -Message ($LocalizedData.RetrievingGroupMembers -f $MembershipAttribute);
@@ -400,7 +392,7 @@ function Set-TargetResource
             {
                 ## The fact that we're in the Set method, there is no need to validate the parameter
                 ## combination as this was performed in the Test method
-                if ($PSBoundParameters.ContainsKey('Members'))
+                if ($PSBoundParameters.ContainsKey('Members') -and -not [system.string]::IsNullOrEmpty($Members))
                 {
                     # Remove all existing first and add explicit members
                     $Members = Remove-DuplicateMembers -Members $Members;
@@ -413,13 +405,13 @@ function Set-TargetResource
                     Write-Verbose -Message ($LocalizedData.AddingGroupMembers -f $Members.Count, $GroupName);
                     Add-ADGroupMember @adGroupParams -Members $Members;
                 }
-                if ($PSBoundParameters.ContainsKey('MembersToInclude'))
+                if ($PSBoundParameters.ContainsKey('MembersToInclude') -and -not [system.string]::IsNullOrEmpty($MembersToInclude))
                 {
                     $MembersToInclude = Remove-DuplicateMembers -Members $MembersToInclude;
                     Write-Verbose -Message ($LocalizedData.AddingGroupMembers -f $MembersToInclude.Count, $GroupName);
                     Add-ADGroupMember @adGroupParams -Members $MembersToInclude;
                 }
-                if ($PSBoundParameters.ContainsKey('MembersToExclude'))
+                if ($PSBoundParameters.ContainsKey('MembersToExclude') -and -not [system.string]::IsNullOrEmpty($MembersToExclude))
                 {
                     $MembersToExclude = Remove-DuplicateMembers -Members $MembersToExclude;
                     Write-Verbose -Message ($LocalizedData.RemovingGroupMembers -f $MembersToExclude.Count, $GroupName);
@@ -439,10 +431,10 @@ function Set-TargetResource
         ## The AD group doesn't exist
         if ($Ensure -eq 'Present')
         {
-      
+
             Write-Verbose ($LocalizedData.GroupNotFound -f $GroupName);
             Write-Verbose ($LocalizedData.AddingGroup -f $GroupName);
-      
+
             $adGroupParams = Get-ADCommonParameters @PSBoundParameters -UseNameParameter;
             if ($Description)
             {
@@ -462,127 +454,36 @@ function Set-TargetResource
             }
             ## Create group
             $adGroup = New-ADGroup @adGroupParams -GroupCategory $Category -GroupScope $GroupScope -PassThru;
-      
+
             ## Only the New-ADGroup cmdlet takes a -Name parameter. Refresh
             ## the parameters with the -Identity parameter rather than -Name
             $adGroupParams = Get-ADCommonParameters @PSBoundParameters
-      
+
             if ($Notes) {
                 ## Can't set the Notes field when creating the group
                 Write-Verbose ($LocalizedData.UpdatingGroupProperty -f 'Notes', $Notes);
-                Set-ADGroup -Identity $adGroup.DistinguishedName -Add @{ Info = $Notes };
+                $setADGroupParams = $adGroupParams.Clone();
+                $setADGroupParams['Identity'] = $adGroup.DistinguishedName;
+                Set-ADGroup @setADGroupParams -Add @{ Info = $Notes };
             }
-      
+
             ## Add the required members
-            if ($PSBoundParameters.ContainsKey('Members'))
+            if ($PSBoundParameters.ContainsKey('Members') -and -not [system.string]::IsNullOrEmpty($Members))
             {
                 $Members = Remove-DuplicateMembers -Members $Members;
                 Write-Verbose -Message ($LocalizedData.AddingGroupMembers -f $Members.Count, $GroupName);
                 Add-ADGroupMember @adGroupParams -Members $Members;
             }
-            elseif ($PSBoundParameters.ContainsKey('MembersToInclude'))
+            elseif ($PSBoundParameters.ContainsKey('MembersToInclude') -and -not [system.string]::IsNullOrEmpty($MembersToInclude))
             {
                 $MembersToInclude = Remove-DuplicateMembers -Members $MembersToInclude;
                 Write-Verbose -Message ($LocalizedData.AddingGroupMembers -f $MembersToInclude.Count, $GroupName);
                 Add-ADGroupMember @adGroupParams -Members $MembersToInclude;
             }
-      
+
         }
     } #end catch
 } #end function Set-TargetResource
-
-# Internal function to build common parameters for the Active Directory cmdlets
-function Get-ADCommonParameters {
-    [CmdletBinding()]
-    [OutputType([System.Collections.Hashtable])]
-    param
-    (
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $GroupName,
-
-        [ValidateSet('DomainLocal','Global','Universal')]
-        [System.String]
-        $GroupScope = 'Global',
-
-        [ValidateSet('Security','Distribution')]
-        [System.String]
-        $Category = 'Security',
-
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $Path,
-
-        [ValidateSet("Present", "Absent")]
-        [System.String]
-        $Ensure = "Present",
-
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $Description,
-
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $DisplayName,
-
-        [ValidateNotNullOrEmpty()]
-        [System.Management.Automation.PSCredential]
-        $Credential,
-
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $DomainController,
-
-        [ValidateNotNullOrEmpty()]
-        [System.String[]]
-        $Members,
-        
-        [ValidateNotNullOrEmpty()]
-        [System.String[]]
-        $MembersToInclude,
-        
-        [ValidateNotNullOrEmpty()]
-        [System.String[]]
-        $MembersToExclude,
-
-        [ValidateSet('SamAccountName','DistinguishedName','SID','ObjectGUID')]
-        [System.String]
-        $MembershipAttribute = 'SamAccountName',
-
-        ## This must be the user's DN
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $ManagedBy,
-
-        [ValidateNotNullOrEmpty()]
-        [System.String]
-        $Notes,
-
-        [System.Management.Automation.SwitchParameter]
-        $UseNameParameter
-    )
-    ## The Get-ADGroup and Set-ADGroup cmdlets take an -Identity parameter, but the New-ADGroup cmdlet uses the -Name parameter
-    if ($UseNameParameter)
-    {
-        $adGroupCommonParameters = @{ Name = $GroupName; }
-    }
-    else
-    {
-        $adGroupCommonParameters = @{ Identity = $GroupName; }
-    }
-
-    if ($Credential)
-    {
-        $adGroupCommonParameters['Credential'] = $Credential;
-    }
-    if ($DomainController)
-    {
-        $adGroupCommonParameters['Server'] = $DomainController;
-    }
-    return $adGroupCommonParameters;
-
-} #end function Get-ADCommonParameters
 
 ## Import the common AD functions
 $adCommonFunctions = Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath '\MSFT_xADCommon\MSFT_xADCommon.ps1';

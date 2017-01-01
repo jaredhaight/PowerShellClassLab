@@ -59,6 +59,9 @@
     },
     "domainName": {
       "type": "string"
+    },
+    "filesUrl": {
+      "type": "string"
     }
   },
   "variables": {
@@ -191,6 +194,40 @@
         "protectedSettings": {},
         "settings": {
           "WmfVersion": "5.0"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('vmName'),'/dscConfiguration')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'),'joinDomain')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.19",
+        "autoUpgradeMinorVersion": true,
+        "protectedSettings": {},
+        "settings": {
+          "wmfVersion": "5.0",
+          "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/ServerConfig.zip', parameters('_artifactsLocationSasToken'))]",
+          "configurationFunction": "ServerConfig.ps1\\ServerConfig",
+          "Properties": {
+            "filesUrl": "[parameters('filesUrl')]",
+            "DomainName": "[parameters('domainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adAdminUsername')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('studentAdminPassword')]"
+          }
         }
       }
     }

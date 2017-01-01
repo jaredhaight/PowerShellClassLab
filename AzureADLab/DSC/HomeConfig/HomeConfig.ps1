@@ -3,7 +3,11 @@ configuration HomeConfig
    param 
    ( 
         [Parameter(Mandatory)]
-        [String]$filesUrl
+        [String]$filesUrl,
+        [Parameter(Mandatory)]
+        [String]$DomainName,
+        [Parameter(Mandatory)]
+        [System.Management.Automation.PSCredential]$Admincreds
     )
   
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
@@ -56,6 +60,14 @@ configuration HomeConfig
     {
         IsEnabled = $false
         UserRole  = "Users"
+    }
+    Group AddLocalAdminsGroup
+    {
+        GroupName='Administrators'   
+        Ensure= 'Present'             
+        MembersToInclude= "$domain\LocalAdmins"
+        Credential = $DomainCreds    
+        PsDscRunAsCredential = $DomainCreds
     }
     Script DisableFirewall
     {

@@ -508,6 +508,9 @@
           },
           "domainName": {
             "value": "[parameters('domainName')]"
+          },
+          "filesUrl": {
+            "value":  "[parameters('filesUrl')]"
           }
         }
       }

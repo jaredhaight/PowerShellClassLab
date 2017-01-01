@@ -64,7 +64,7 @@
       "type": "string"
     },
     "filesUrl": {
-      "type":  "string"
+      "type": "string"
     }
   },
   "variables": {
@@ -211,11 +211,21 @@
         "autoUpgradeMinorVersion": true,
         "protectedSettings": {},
         "settings": {
-          "wmfVersion":  "5.0",
+          "wmfVersion": "5.0",
           "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/HomeConfig.zip', parameters('_artifactsLocationSasToken'))]",
           "configurationFunction": "HomeConfig.ps1\\HomeConfig",
           "Properties": {
-            "filesUrl": "[parameters('filesUrl')]"
+            "filesUrl": "[parameters('filesUrl')]",
+            "DomainName": "[parameters('domainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adAdminUsername')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('studentAdminPassword')]"
           }
         }
       }

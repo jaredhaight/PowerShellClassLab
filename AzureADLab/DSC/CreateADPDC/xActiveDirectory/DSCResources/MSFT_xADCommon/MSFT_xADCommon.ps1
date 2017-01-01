@@ -8,7 +8,7 @@ data localizedString
         MembersIsEmptyError            = The Members parameter is empty.  At least one group member must be provided.
         IncludeAndExcludeConflictError = The member '{0}' is included in both '{1}' and '{2}' parameter values. The same member must not be included in both '{1}' and '{2}' parameter values.
         IncludeAndExcludeAreEmptyError = The '{0}' and '{1}' parameters are either both null or empty.  At least one member must be specified in one of these parameters.
-        
+
         CheckingMembers                = Checking for '{0}' members.
         MembershipCountMismatch        = Membership count is not correct. Expected '{0}' members, actual '{1}' members.
         MemberNotInDesiredState        = Member '{0}' is not in the desired state.
@@ -16,6 +16,7 @@ data localizedString
         MembershipInDesiredState       = Membership is in the desired state.
         MembershipNotDesiredState      = Membership is NOT in the desired state.
         CheckingDomain                 = Checking for domain '{0}'.
+        CheckingSite                   = Checking for site '{0}'.
 '@
 }
 
@@ -25,6 +26,7 @@ function Assert-Module
     [CmdletBinding()]
     param
     (
+        [Parameter()] [ValidateNotNullOrEmpty()]
         [System.String] $ModuleName = 'ActiveDirectory'
     )
 
@@ -41,9 +43,19 @@ function Test-DomainMember {
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param ( )
-     $isDomainMember = [System.Boolean] (Get-CimInstance -ClassName Win32_ComputerSystem -Verbose:$false).PartOfDomain;
+    $isDomainMember = [System.Boolean] (Get-CimInstance -ClassName Win32_ComputerSystem -Verbose:$false).PartOfDomain;
     return $isDomainMember;
 }
+
+
+# Internal function to get the domain name of the computer
+function Get-DomainName {
+    [CmdletBinding()]
+    [OutputType([System.String])]
+    param ( )
+    $domainName = [System.String] (Get-CimInstance -ClassName Win32_ComputerSystem -Verbose:$false).Domain;
+    return $domainName;
+} # function Get-DomainName
 
 # Internal function to build domain FQDN
 function Resolve-DomainFQDN {
@@ -52,7 +64,7 @@ function Resolve-DomainFQDN {
         [Parameter(Mandatory)]
         [OutputType([System.String])]
         [System.String] $DomainName,
-        
+
         [Parameter()] [AllowNull()]
         [System.String] $ParentDomainName
     )
@@ -72,10 +84,12 @@ function Test-ADDomain
     param
     (
         [Parameter(Mandatory)]
-        [String] $DomainName,
+        [System.String] $DomainName,
 
         [Parameter()]
-        [PSCredential] $Credential
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()]
+        $Credential
     )
     Write-Verbose -Message ($localizedString.CheckingDomain -f $DomainName);
     $ldapDomain = 'LDAP://{0}' -f $DomainName;
@@ -99,7 +113,7 @@ function Get-ADObjectParentDN
 
         Redistribution and use in source and binary forms, with or without modification, are permitted provided that
         the following conditions are met:
-        
+
         1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
            following disclaimer.
         2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
@@ -107,7 +121,7 @@ function Get-ADObjectParentDN
         3. Neither the name of the University nor the names of its contributors may be used to endorse or promote
            products derived from this software without specific prior written permission.
 
-        THIS SOFTWARE IS PROVIDED BY THE AUTHOR “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
         LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
         IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
         CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
@@ -125,7 +139,7 @@ function Get-ADObjectParentDN
         [System.String]
         $DN
     )
-    
+
     # https://www.uvm.edu/~gcd/2012/07/listing-parent-of-ad-object-in-powershell/
     $distinguishedNameParts = $DN -split '(?<![\\]),';
     $distinguishedNameParts[1..$($distinguishedNameParts.Count-1)] -join ',';
@@ -134,7 +148,7 @@ function Get-ADObjectParentDN
 
 # Internal function that validates the Members, MembersToInclude and MembersToExclude combination
 # is valid. If the combination is invalid, an InvalidArgumentError is raised.
-function Validate-MemberParameters
+function Assert-MemberParameters
 {
     [CmdletBinding()]
     param
@@ -142,15 +156,15 @@ function Validate-MemberParameters
         [ValidateNotNull()]
         [System.String[]]
         $Members,
-        
+
         [ValidateNotNull()]
         [System.String[]]
         $MembersToInclude,
-        
+
         [ValidateNotNull()]
         [System.String[]]
         $MembersToExclude,
-        
+
         [ValidateNotNullOrEmpty()]
         [System.String]
         $ModuleName = 'xActiveDirectory'
@@ -204,8 +218,8 @@ function Validate-MemberParameters
             }
         }
     }
-        
-} #end function ValidateMemberParameters
+
+} #end function Assert-MemberParameters
 
 ## Internal function to remove duplicate strings (members) from a string array
 function Remove-DuplicateMembers
@@ -262,25 +276,29 @@ function Test-Members
         [AllowNull()]
         [System.String[]]
         $ExistingMembers,
-        
+
         ## Explicit array members
         [AllowNull()]
         [System.String[]]
         $Members,
-        
+
         ## Compulsory array members
         [AllowNull()]
         [System.String[]]
         $MembersToInclude,
-        
+
         ## Excluded array members
         [AllowNull()]
         [System.String[]]
         $MembersToExclude
     )
 
-    if ($Members.Count -gt 0)
+    if ($PSBoundParameters.ContainsKey('Members'))
     {
+        if ($null -eq $Members -or (($Members.Count -eq 1) -and ($Members[0].Length -eq 0)))
+        {
+            $Members = @();
+        }
         Write-Verbose ($localizedString.CheckingMembers -f 'Explicit');
         $Members = [System.String[]] @(Remove-DuplicateMembers -Members $Members);
         if ($ExistingMembers.Count -ne $Members.Count)
@@ -293,14 +311,18 @@ function Test-Members
         {
             if ($member -notin $ExistingMembers)
             {
-                Write-Verbose -Message ($Localizeda.MemberNotInDesiredState -f $member);;
+                Write-Verbose -Message ($localizedString.MemberNotInDesiredState -f $member);
                 return $false;
             }
         }
     } #end if $Members
 
-    if ($MembersToInclude.Count -gt 0)
+    if ($PSBoundParameters.ContainsKey('MembersToInclude'))
     {
+        if ($null -eq $MembersToInclude -or (($MembersToInclude.Count -eq 1) -and ($MembersToInclude[0].Length -eq 0)))
+        {
+            $MembersToInclude = @();
+        }
         Write-Verbose -Message ($localizedString.CheckingMembers -f 'Included');
         $MembersToInclude = [System.String[]] @(Remove-DuplicateMembers -Members $MembersToInclude);
         foreach ($member in $MembersToInclude)
@@ -313,8 +335,12 @@ function Test-Members
         }
     } #end if $MembersToInclude
 
-    if ($MembersToExclude.Count -gt 0)
+    if ($PSBoundParameters.ContainsKey('MembersToExclude'))
     {
+        if ($null -eq $MembersToExclude -or (($MembersToExclude.Count -eq 1) -and ($MembersToExclude[0].Length -eq 0)))
+        {
+            $MembersToExclude = @();
+        }
         Write-Verbose -Message ($localizedString.CheckingMembers -f 'Excluded');
         $MembersToExclude = [System.String[]] @(Remove-DuplicateMembers -Members $MembersToExclude);
         foreach ($member in $MembersToExclude)
@@ -331,6 +357,169 @@ function Test-Members
     return $true;
 
 } #end function Test-Membership
+
+function ConvertTo-TimeSpan
+{
+    [CmdletBinding()]
+    [OutputType([System.TimeSpan])]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [System.UInt32]
+        $TimeSpan,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('Seconds','Minutes','Hours','Days')]
+        [System.String]
+        $TimeSpanType
+    )
+    $newTimeSpanParams = @{ };
+    switch ($TimeSpanType)
+    {
+        'Seconds' { $newTimeSpanParams['Seconds'] = $TimeSpan }
+        'Minutes' { $newTimeSpanParams['Minutes'] = $TimeSpan }
+        'Hours' { $newTimeSpanParams['Hours'] = $TimeSpan }
+        'Days' { $newTimeSpanParams['Days'] = $TimeSpan }
+    }
+    return (New-TimeSpan @newTimeSpanParams)
+} #end function ConvertTo-TimeSpan
+
+<#
+    .SYNOPSIS
+        Converts a System.TimeSpan into the number of seconds, mintutes, hours or days.
+    .PARAMETER TimeSpan
+        TimeSpan to convert into an integer
+    .PARAMETER TimeSpanType
+        Convert timespan into the total number of seconds, minutes, hours or days.
+    .EXAMPLE
+        $Get-ADDefaultDomainPasswordPolicy
+
+        ConvertFrom-TimeSpan
+#>
+function ConvertFrom-TimeSpan
+{
+    [CmdletBinding()]
+    [OutputType([System.Int32])]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [System.TimeSpan]
+        $TimeSpan,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('Seconds','Minutes','Hours','Days')]
+        [System.String]
+        $TimeSpanType
+    )
+    switch ($TimeSpanType)
+    {
+        'Seconds' { return $TimeSpan.TotalSeconds -as [System.UInt32] }
+        'Minutes' { return $TimeSpan.TotalMinutes -as [System.UInt32] }
+        'Hours' { return $TimeSpan.TotalHours -as [System.UInt32] }
+        'Days' { return $TimeSpan.TotalDays -as [System.UInt32] }
+    }
+} #end function ConvertFrom-TimeSpan
+
+<#
+    .SYNOPSIS
+        Returns common AD cmdlet connection parameter for splatting
+    .PARAMETER CommonName
+        When specified, a CommonName overrides theUsed by the xADUser cmdletReturns the Identity as the Name key. For example, the Get-ADUser, Set-ADUser and
+        Remove-ADUser cmdlets take an Identity parameter, but the New-ADUser cmdlet uses the
+        Name parameter.
+    .PARAMETER UseNameParameter
+        Returns the Identity as the Name key. For example, the Get-ADUser, Set-ADUser and
+        Remove-ADUser cmdlets take an Identity parameter, but the New-ADUser cmdlet uses the
+        Name parameter.
+    .EXAMPLE
+        $getADUserParams = Get-CommonADParameters @PSBoundParameters
+
+        Returns connection parameters suitable for Get-ADUser using the splatted cmdlet
+        parameters.
+    .EXAMPLE
+        $newADUserParams = Get-CommonADParameters @PSBoundParameters -UseNameParameter
+
+        Returns connection parameters suitable for New-ADUser using the splatted cmdlet
+        parameters.
+#>
+function Get-ADCommonParameters
+{
+    [CmdletBinding()]
+    [OutputType([System.Collections.Hashtable])]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [Alias('UserName','GroupName','ComputerName')]
+        [System.String]
+        $Identity,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [System.String]
+        $CommonName,
+
+        [Parameter()]
+        [ValidateNotNull()]
+        [Alias('DomainAdministratorCredential')]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()]
+        $Credential,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [Alias('DomainController')]
+        [System.String]
+        $Server,
+
+        [Parameter()]
+        [System.Management.Automation.SwitchParameter]
+        $UseNameParameter,
+
+        [Parameter()]
+        [System.Management.Automation.SwitchParameter]
+        $PreferCommonName,
+
+        ## Catch all to enable splatted $PSBoundParameters
+        [Parameter(ValueFromRemainingArguments)]
+        $RemainingArguments
+    )
+
+    if ($UseNameParameter)
+    {
+        if ($PreferCommonName -and ($PSBoundParameters.ContainsKey('CommonName')))
+        {
+            $adConnectionParameters = @{ Name = $CommonName; }
+        }
+        else {
+            $adConnectionParameters = @{ Name = $Identity; }
+        }
+    }
+    else
+    {
+        if ($PreferCommonName -and ($PSBoundParameters.ContainsKey('CommonName')))
+        {
+            $adConnectionParameters = @{ Identity = $CommonName; }
+        }
+        else {
+            $adConnectionParameters = @{ Identity = $Identity; }
+        }
+    }
+
+    if ($Credential)
+    {
+        $adConnectionParameters['Credential'] = $Credential;
+    }
+
+    if ($Server)
+    {
+        $adConnectionParameters['Server'] = $Server;
+    }
+
+    return $adConnectionParameters;
+} #end function Get-ADCommonParameters
 
 function ThrowInvalidOperationError
 {
@@ -376,3 +565,37 @@ function ThrowInvalidArgumentError
     throw $errorRecord;
 
 } #end function ThrowInvalidArgumentError
+
+## Internal function to test site availability
+function Test-ADReplicationSite
+{
+    [CmdletBinding()]
+    [OutputType([System.Boolean])]
+    param
+    (
+        [Parameter(Mandatory)]
+        [System.String] $SiteName,
+
+        [Parameter(Mandatory)]
+        [System.String] $DomainName,
+
+        [Parameter()]
+        [System.Management.Automation.PSCredential]
+        $Credential
+    )
+
+    Write-Verbose -Message ($localizedString.CheckingSite -f $SiteName);
+    
+    $existingDC = "$((Get-ADDomainController -Discover -DomainName $DomainName -ForceDiscover).HostName)";
+
+    try
+    {
+        $site = Get-ADReplicationSite -Identity $SiteName -Server $existingDC -Credential $Credential;
+    }
+    catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
+    {
+        return $false;
+    }
+
+    return ($null -ne $site);
+}
