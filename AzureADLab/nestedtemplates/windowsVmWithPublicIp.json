@@ -209,7 +209,6 @@
         "type": "DSC",
         "typeHandlerVersion": "2.19",
         "autoUpgradeMinorVersion": true,
-        "protectedSettings": {},
         "settings": {
           "wmfVersion": "5.0",
           "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/HomeConfig.zip', parameters('_artifactsLocationSasToken'))]",
