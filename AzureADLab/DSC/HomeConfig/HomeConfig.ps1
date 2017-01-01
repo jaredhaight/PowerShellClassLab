@@ -7,7 +7,8 @@ configuration HomeConfig
     )
   
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
-  Import-DscResource -ModuleName PSDesiredStateConfiguration
+  Import-DscResource -ModuleName xSystemSecurity -Name xIEEsc
+  Import-DscRescoure -ModuleName PSDesiredStateConfiguration
 
   Node localhost 
   {
@@ -46,19 +47,15 @@ configuration HomeConfig
         Ensure = "Present" 
         Name = "GPMC"
     }
-    Registry IEESC-Admin
+    xIEEsc DisableIEEscAdmin
     {
-        Ensure = "Present"
-        Key = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
-        ValueName = "IsInstalled"
-        ValueData = "0"
+        IsEnabled = $false
+        UserRole  = "Administrators"
     }
-    Registry IEESC-User
+    xIEEsc DisableIEEscUser
     {
-        Ensure = "Present"
-        Key = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
-        ValueName = "IsInstalled"
-        ValueData = "0"
+        IsEnabled = $false
+        UserRole  = "Users"
     }
     Script DisableFirewall
     {
@@ -72,7 +69,7 @@ configuration HomeConfig
     Script DownloadClassFiles
     {
         SetScript =  { 
-            $file = $filesUrl + 'class.zip'
+            $file = $using:filesUrl + 'class.zip'
             Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadClassFiles] Downloading $file"
             Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\Class.zip
         }
@@ -84,7 +81,7 @@ configuration HomeConfig
     Script DownloadBootstrapFiles
     {
         SetScript =  { 
-            $file = $filesUrl + 'bootstrap.zip'
+            $file = $using:filesUrl + 'bootstrap.zip'
             Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBootstrapFiles] Downloading $file"
             Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\bootstrap.zip
         }
@@ -92,6 +89,23 @@ configuration HomeConfig
         TestScript = { 
             Test-Path C:\Windows\Temp\bootstrap.zip
          }
+    }
+    Archive UnzipClassFiles
+    {
+        Ensure = "Present"
+        Destination = "C:\Class"
+        Path = "C:\Windows\Temp\Class.zip"
+        Force = $true
+        DependsOn = "[Script]DownloadClassFiles"
+    }
+    
+    Archive UnzipBootstrapFiles
+    {
+        Ensure = "Present"
+        Destination = "C:\Bootstrap"
+        Path = "C:\Windows\Temp\Bootstrap.zip"
+        Force = $true
+        DependsOn = "[Script]DownloadBootstrapFiles"
     }
     Script UpdateHelp
     {
