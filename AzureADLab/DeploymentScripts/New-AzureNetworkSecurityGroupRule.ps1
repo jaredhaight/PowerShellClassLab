@@ -26,10 +26,11 @@ function New-AzureLabAccessRule {
     Add-AzureRmAccount -Credential $Credentials
   }
 
-  forEach ($nsg in $NetworkSecurityGroups) {
-    Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name 'RDP' -Direction Inbound -Priority 101 `
-    -Access Allow -SourceAddressPrefix $SourceIPAddress -SourcePortRange '*' `
-    -DestinationAddressPrefix '*' -DestinationPortRange $Port -Protocol TCP
+  forEach ($nsgName in $NetworkSecurityGroups) {
+    $nsg = Get-AzureNetworkSecurityGroup -Name $nsgName
+    Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name 'RDP' -Direction Inbound `
+      -Access Allow -SourceAddressPrefix $SourceIPAddress -SourcePortRange '*' -DestinationAddressPrefix '*' `
+      -DestinationPortRange $Port -Protocol TCP
   Set-AzureRmNetworkSecurityGroup -NetworkSecurityGroup $nsg
   }
 }

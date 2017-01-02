@@ -1,4 +1,4 @@
-configuration HomeConfig 
+configuration ServerConfig 
 {
    param 
    ( 
