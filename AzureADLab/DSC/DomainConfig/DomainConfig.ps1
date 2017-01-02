@@ -8,7 +8,7 @@
   [Parameter(Mandatory)]
   [System.Management.Automation.PSCredential]$Admincreds,
 
-  [Parameters(Mandatory)]
+  [Parameter(Mandatory)]
   [System.Management.Automation.PSCredential]$StudentCreds,
 
   [Int]$RetryCount=20,
