@@ -65,7 +65,7 @@ configuration HomeConfig
     {
         GroupName='Administrators'   
         Ensure= 'Present'             
-        MembersToInclude= "$domain\LocalAdmins"
+        MembersToInclude= "$DomainName\LocalAdmins"
         Credential = $DomainCreds    
         PsDscRunAsCredential = $DomainCreds
     }

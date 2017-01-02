@@ -9,8 +9,9 @@ configuration HomeConfig
     )
   
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
-  Import-DscResource -ModuleName PSDesiredStateConfiguration
+  Import-DscResource -ModuleName xSmbShare,PSDesiredStateConfiguration
   [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
+  
   Node localhost 
   {
     WindowsFeature FileServer
@@ -37,11 +38,25 @@ configuration HomeConfig
     {
         GroupName='Administrators'   
         Ensure= 'Present'             
-        MembersToInclude= "$domain\LocalAdmins"
+        MembersToInclude= "$DomainName\LocalAdmins"
         Credential = $DomainCreds    
         PsDscRunAsCredential = $DomainCreds
     }
-
+    File DataFolder
+    {
+        Ensure = "Present"
+        DestinationPath = "C:\Data"
+        Type = "Folder"
+        Force = $true
+    }
+    xSmbShare DataShare
+    {
+        Ensure = "Present" 
+        Name   = "Data"
+        Path = "C:\Data"  
+        FullAccess = "Everyone"
+        DependsOn = "[File]DataFolder"
+    } 
     Script UpdateHelp
     {
         SetScript =  { 
