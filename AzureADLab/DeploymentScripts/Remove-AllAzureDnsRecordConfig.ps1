@@ -6,13 +6,13 @@ workflow Remove-AllAzureRmDnsRecordSets {
   [CmdletBinding()] 
   Param(
     [Parameter(Mandatory=$true)]
-    [pscredential]$credentials,
+    [pscredential]$Credentials,
     
     [Parameter(Mandatory=$true)]
-    [string]$resourceGroupName,
+    [string]$ResourceGroupName,
     
     [Parameter(Mandatory=$true)]
-    [string]$zoneName
+    [string]$ZoneName
     
   )
   $username = $credentials.UserName.ToString()

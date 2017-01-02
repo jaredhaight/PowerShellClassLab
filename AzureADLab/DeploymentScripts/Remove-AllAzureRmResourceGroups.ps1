@@ -6,7 +6,7 @@ workflow Remove-AllAzureRmResourceGroups {
   [CmdletBinding()] 
   Param(
     [Parameter(Mandatory=$true)]
-    [pscredential]$credentials
+    [pscredential]$Credentials
   )
 
   $username = $credentials.UserName.ToString()
