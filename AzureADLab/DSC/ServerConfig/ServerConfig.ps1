@@ -46,7 +46,7 @@ configuration ServerConfig
     {
         Ensure = "Present"
         DestinationPath = "C:\Data"
-        Type = "Folder"
+        Type = "Directory"
         Force = $true
     }
     xSmbShare DataShare

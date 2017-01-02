@@ -45,10 +45,10 @@
     "imageSku": {
       "type": "string"
     },
-    "studentAdminUsername": {
+    "localAdminUsername": {
       "type": "string"
     },
-    "studentAdminPassword": {
+    "studentPassword": {
       "type": "securestring"
     },
     "adAdminUsername": {
@@ -131,8 +131,8 @@
         },
         "osProfile": {
           "computerName": "[parameters('vmName')]",
-          "adminUsername": "[parameters('studentAdminUsername')]",
-          "adminPassword": "[parameters('studentAdminPassword')]"
+          "adminUsername": "[parameters('localAdminUsername')]",
+          "adminPassword": "[parameters('studentPassword')]"
         },
         "storageProfile": {
           "imageReference": {
@@ -192,7 +192,7 @@
           "Options": "[variables('domainJoinOptions')]"
         },
         "protectedsettings": {
-          "Password": "[parameters('studentAdminPassword')]"
+          "Password": "[parameters('studentPassword')]"
         }
       }
     },
@@ -224,7 +224,7 @@
         },
         "protectedSettings": {
           "Items": {
-            "AdminPassword": "[parameters('studentAdminPassword')]"
+            "AdminPassword": "[parameters('studentPassword')]"
           }
         }
       }

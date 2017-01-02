@@ -11,7 +11,7 @@ workflow New-AzureActiveDirectoryLab {
 
   $studentData = Import-CSV $csvSource
   foreach -parallel -throttle 20 ($student in $studentData) {
-     $studentAdminPassword = $student.password
+     $studentPassword = $student.password
      $studentCode = $student.code.toString()
      $studentNumber = $student.id
      $region = 'eastus2'
@@ -20,7 +20,7 @@ workflow New-AzureActiveDirectoryLab {
        $region = 'westus2'
      }
      Write-Output "Sending $studentCode to $region"
-     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentAdminPassword $studentAdminPassword -region $region -place $studentNumber -total $studentData.count 
+     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentPassword $studentPassword -region $region -place $studentNumber -total $studentData.count 
    }
 }
 
@@ -35,7 +35,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
     [string]$StudentCode,
     
     [Parameter(Mandatory=$True,Position=3)]
-    [string]$StudentAdminPassword,
+    [string]$studentPassword,
     
     [string]$Region="eastus2",
     [int]$place=1,
@@ -68,7 +68,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $virtualNetworkName         = $studentCode + "vnet"
   $virtualNetworkAddressRange = "10.0.0.0/16"
   $publicIpName               = $studentCode + "-pip"
-  $studentAdminUsername       = "localadmin"
+  $localAdminusername         = "localadmin"
   $storageAccountName         = $studentCode + "storage"    # Lowercase required
   $URI                        = 'https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/azuredeploy.json'
   $artifactsLocation          = "https://raw.githubusercontent.com/jaredhaight/AzureADLab/master/AzureADLab/"
@@ -121,8 +121,8 @@ function Invoke-CreateAzureActiveDirectoryLab {
     virtualNetworkName          = $virtualNetworkName
     virtualNetworkAddressRange  = $virtualNetworkAddressRange
     publicIpName                = $publicIpName
-    studentAdminUsername        = $studentAdminUsername
-    studentAdminPassword        = $studentAdminPassword
+    localAdminusername          = $localAdminusername
+    studentPassword             = $studentPassword
     storageAccountName          = $storageAccountName
     networkSecurityGroup        = $networkSecurityGroup
     masterResourceGroup         = $masterResourceGroup

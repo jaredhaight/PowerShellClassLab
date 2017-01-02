@@ -27,10 +27,13 @@
     "virtualNetworkAddressRange": {
       "type": "string"
     },
-    "studentAdminUsername": {
+    "localAdminusername": {
       "type": "string"
     },
-    "studentAdminPassword": {
+    "studentAdminusername": {
+      "type": "string"
+    },
+    "studentPassword": {
       "type": "securestring"
     },
     "storageAccountName": {
@@ -192,7 +195,7 @@
         "osProfile": {
           "computerName": "[parameters('adVmName')]",
           "adminUsername": "[parameters('adAdminUsername')]",
-          "adminPassword": "[parameters('studentAdminPassword')]"
+          "adminPassword": "[parameters('studentPassword')]"
         },
         "storageProfile": {
           "imageReference": {
@@ -245,19 +248,23 @@
             "typeHandlerVersion": "2.19",
             "autoUpgradeMinorVersion": true,
             "settings": {
-              "ModulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/CreateADPDC.zip', parameters('_artifactsLocationSasToken'))]",
-              "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+              "ModulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/DomainConfig.zip', parameters('_artifactsLocationSasToken'))]",
+              "ConfigurationFunction": "DomainConfig.ps1\\DomainConfig",
               "Properties": {
                 "DomainName": "[parameters('domainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adAdminUsername')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
+                  "Password": "PrivateSettingsRef:StudentPassword"
+                },
+                "StudentCreds": {
+                  "UserName": "[parameters('studentAdminusername')]",
+                  "Password": "PrivateSettingsRef:StudentPassword"
                 }
               }
             },
             "protectedSettings": {
               "Items": {
-                "AdminPassword": "[parameters('studentAdminPassword')]"
+                "StudentPassword": "[parameters('studentPassword')]"
               }
             }
           }
@@ -307,8 +314,8 @@
         },
         "osProfile": {
           "computerName": "[parameters('linuxVmName')]",
-          "adminUsername": "[parameters('studentAdminUsername')]",
-          "adminPassword": "[parameters('studentAdminPassword')]"
+          "adminUsername": "[parameters('localAdminusername')]",
+          "adminPassword": "[parameters('studentPassword')]"
         },
         "storageProfile": {
           "imageReference": {
@@ -405,11 +412,11 @@
           "publicIpName": {
             "value": "[parameters('publicIpName')]"
           },
-          "studentAdminUsername": {
-            "value": "[parameters('studentAdminUsername')]"
+          "localAdminusername": {
+            "value": "[parameters('localAdminusername')]"
           },
-          "studentAdminPassword": {
-            "value": "[parameters('studentAdminPassword')]"
+          "studentPassword": {
+            "value": "[parameters('studentPassword')]"
           },
           "imagePublisher": {
             "value": "[parameters('windowsImagePublisher')]"
@@ -491,11 +498,11 @@
           "imageSku": {
             "value": "[parameters('windowsImageSku')]"
           },
-          "studentAdminUsername": {
-            "value": "[parameters('studentAdminUsername')]"
+          "localAdminusername": {
+            "value": "[parameters('localAdminusername')]"
           },
-          "studentAdminPassword": {
-            "value": "[parameters('studentAdminPassword')]"
+          "studentPassword": {
+            "value": "[parameters('studentPassword')]"
           },
           "adAdminUserName": {
             "value": "[parameters('adAdminUserName')]"
