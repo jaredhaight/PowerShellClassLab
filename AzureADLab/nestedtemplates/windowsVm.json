@@ -59,9 +59,6 @@
     },
     "domainName": {
       "type": "string"
-    },
-    "filesUrl": {
-      "type": "string"
     }
   },
   "variables": {
@@ -196,7 +193,6 @@
           "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/ServerConfig.zip', parameters('_artifactsLocationSasToken'))]",
           "configurationFunction": "ServerConfig.ps1\\ServerConfig",
           "Properties": {
-            "filesUrl": "[parameters('filesUrl')]",
             "DomainName": "[parameters('domainName')]",
             "AdminCreds": {
               "UserName": "[parameters('adAdminUsername')]",
