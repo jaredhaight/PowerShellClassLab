@@ -274,7 +274,8 @@
                   "UserName": "BackupExec",
                   "Password": "PrivateSettingsRef:BackupExecPassword"
                 },
-                "Users": "[parameters('fillerUsers')]"
+                "Users": "[parameters('fillerUsers')]",
+                "filesUrl": "[parameters('filesUrl')]"
               }
             },
             "protectedSettings": {

@@ -18,7 +18,7 @@
   [Array]$Users,
 
   [Parameter(Mandatory)]
-  [string]$fileUrl,
+  [string]$filesUrl,
 
   [Int]$RetryCount=20,
   [Int]$RetryIntervalSec=30
