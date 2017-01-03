@@ -42,6 +42,14 @@ configuration ServerConfig
         Credential = $DomainCreds    
         PsDscRunAsCredential = $DomainCreds
     }
+    Group AddRDPAccessGroup
+    {
+        GroupName='Remote Desktop Users'   
+        Ensure= 'Present'             
+        MembersToInclude= "$DomainName\RDP Access"
+        Credential = $DomainCreds    
+        PsDscRunAsCredential = $DomainCreds
+    }
     File DataFolder
     {
         Ensure = "Present"

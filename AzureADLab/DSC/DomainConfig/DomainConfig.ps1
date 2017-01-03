@@ -11,6 +11,9 @@
   [Parameter(Mandatory)]
   [System.Management.Automation.PSCredential]$StudentCreds,
 
+  [Parameter(Mandatory)]
+  [Array]$Users,
+
   [Int]$RetryCount=20,
   [Int]$RetryIntervalSec=30
   ) 
@@ -111,6 +114,17 @@
       Path = "OU=Groups,OU=Class,DC=ad,DC=evil,DC=training"
       DependsOn = "[xADOrganizationalUnit]GroupsOU", "[xADUser]StudentAdmin"
     }
+    xADGroup RDPAccess
+    {
+      GroupName = "RDP Access"
+      GroupScope = "Global"
+      Category = "Security"
+      Description = "Group for RDP Access"
+      Ensure = 'Present'
+      MembersToInclude = "StudentUser"
+      Path = "OU=Groups,OU=Class,DC=ad,DC=evil,DC=training"
+      DependsOn = "[xADOrganizationalUnit]GroupsOU", "[xADUser]StudentUser"
+    }
     xADOrganizationalUnit ClassOU
     {
       Name = "Class"
@@ -146,6 +160,13 @@
       Ensure = 'Present'
       DependsOn = "[xADOrganizationalUnit]ClassOU"
     }
+    xADOrganizationalUnit ServiceAccountsOU
+    {
+      Name = "Service Accounts"
+      Path = "OU=class,DC=ad,DC=evil,DC=training"
+      Ensure = 'Present'
+      DependsOn = "[xADOrganizationalUnit]ClassOU"
+    }
     xADUser StudentUser
     {
         DomainName = $DomainName
@@ -165,6 +186,23 @@
         Ensure = "Present"
         Path = "OU=Users,OU=Class,DC=ad,DC=evil,DC=training"
         DependsOn = "[xADOrganizationalUnit]UsersOU"
+    }
+    forEach ($user in $users) {
+      $userCreds =  [System.Management.Automation.PSCredential ]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($User.UserName)", $User.Password)
+      xADUser $user.username
+      {
+        DomainName = $DomainName
+        DomainAdministratorCredential = $DomainAdminCreds
+        UserName = "StudentAdmin"
+        Password = $DomainStudentCreds
+        DisplayName = $user.first_name + " " + $user.last_name
+        GivenName = $user.first_name
+        Surname = $user.last_name
+        JobTitle = $user.title
+        Ensure = "Present"
+        Path = "OU=Users,OU=Class,DC=ad,DC=evil,DC=training"
+        DependsOn = "[xADOrganizationalUnit]UsersOU"
+      }
     }
     LocalConfigurationManager 
     {

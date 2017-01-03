@@ -66,6 +66,9 @@
     "clientVmSize": {
       "type": "string"
     },
+    "clientOU": {
+      "type": "string"
+    },
     "publicIpName": {
       "type": "string"
     },
@@ -85,6 +88,9 @@
       "type": "string"
     },
     "serverVmSize": {
+      "type": "string"
+    },
+    "serverOU": {
       "type": "string"
     },
     "linuxVMName": {
@@ -107,14 +113,15 @@
     },
     "filesUrl": {
       "type":  "string"
+    },
+    "fillerUsers": {
+      "type": "array"
     }
   },
   "variables": {
     "apiVersion": "2015-06-15",
     "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('studentSubnetName'))]",
-    "ouPath": "",
-    "domainJoinOptions": "3",
     "windowsVmWithPublicIpTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVmWithPublicIp.json',parameters('_artifactsLocationSasToken'))]",
     "windowsVmTemplateUrl": "[concat(parameters('artifactsLocation'),'/nestedtemplates/windowsVm.json',parameters('_artifactsLocationSasToken'))]",
     "adNicName": "[concat(parameters('adVmName'), '-nic')]",
@@ -259,7 +266,8 @@
                 "StudentCreds": {
                   "UserName": "[parameters('studentAdminusername')]",
                   "Password": "PrivateSettingsRef:StudentPassword"
-                }
+                },
+                "Users": "[parameters('fillerUsers')]"
               }
             },
             "protectedSettings": {
@@ -430,6 +438,9 @@
           "domainName": {
             "value": "[parameters('domainName')]"
           },
+          "ouPath": {
+            "value": "[parameters('clientOU')]"
+          },
           "adVmName": {
             "value": "[parameters('adVmName')]"
           },
@@ -515,6 +526,9 @@
           },
           "domainName": {
             "value": "[parameters('domainName')]"
+          },
+          "ouPath": {
+            "value": "[parameters('serverOU')]"
           }
         }
       }

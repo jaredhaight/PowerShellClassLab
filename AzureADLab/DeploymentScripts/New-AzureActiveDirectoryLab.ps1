@@ -35,7 +35,10 @@ function Invoke-CreateAzureActiveDirectoryLab {
     [string]$StudentCode,
     
     [Parameter(Mandatory=$True,Position=3)]
-    [string]$studentPassword,
+    [string]$StudentPassword,
+
+    [Parameter(Mandatory=$True,Position=4)]
+    [string]$FillerUserCsvPath,
     
     [string]$Region="eastus2",
     [int]$place=1,
@@ -79,6 +82,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $windowsImageOffer           = "WindowsServer"
   $windowsImageSku             = "2012-R2-Datacenter"
   $filesUrl                   = "https://eviltraining.blob.core.windows.net/files/"
+  $fillerUsers                = Import-Csv $FillerUserCsvPath
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
@@ -91,13 +95,14 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $clientVMName               = $studentCode + "-home"
   $clientNicIpAddress         = "10.0.0.10"
   $clientVMSize               = "Basic_A2"
+  $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
 
 
   # Server Vars
   $serverVMName               = $studentCode+"-srv"
   $serverNicIpAddress         = "10.0.0.11"
   $serverVMSize               = "Basic_A1"
-
+  $serverOU                   = "OU=Servers,OU=Class,DC=ad,DC=evil,DC=training"
 
   # Linux Vars
   $linuxVMName                = $studentCode+"-lnx"
@@ -132,6 +137,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
     windowsImagePublisher       = $windowsImagePublisher
     windowsImageOffer           = $windowsImageOffer
     windowsImageSku             = $windowsImageSku
+    fillerUsers                 = $fillerUsers
     adAdminUsername             = $adAdminUserName
     domainName                  = $domainName
 	  filesUrl                    = $filesUrl
@@ -141,9 +147,11 @@ function Invoke-CreateAzureActiveDirectoryLab {
     clientVMName                = $clientVMName
     clientNicIpAddress          = $clientNicIPaddress
     clientVMSize                = $clientVMSize
+    clientOU                    = $clientOU
     serverVMName                = $serverVMName
     serverNicIpAddress          = $serverNicIPaddress
     serverVMSize                = $serverVMSize
+    serverOU                    = $serverOU
     linuxVMName                 = $linuxVMName
     linuxNicIpAddress           = $linuxNicIPaddress
     linuxVMSize                 = $linuxVMSize
