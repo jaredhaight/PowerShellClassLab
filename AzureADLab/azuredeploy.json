@@ -270,7 +270,7 @@
                   "UserName": "[parameters('studentAdminusername')]",
                   "Password": "PrivateSettingsRef:StudentPassword"
                 },
-                " BackupExecCreds": {
+                "BackupExecCreds": {
                   "UserName": "BackupExec",
                   "Password": "PrivateSettingsRef:BackupExecPassword"
                 },
