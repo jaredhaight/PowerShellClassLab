@@ -36,6 +36,9 @@
     "studentPassword": {
       "type": "securestring"
     },
+    "backupExecPassword": {
+      "type": "securestring"
+    },
     "storageAccountName": {
       "type": "string"
     },
@@ -267,12 +270,17 @@
                   "UserName": "[parameters('studentAdminusername')]",
                   "Password": "PrivateSettingsRef:StudentPassword"
                 },
+                " BackupExecCreds": {
+                  "UserName": "BackupExec",
+                  "Password": "PrivateSettingsRef:BackupExecPassword"
+                },
                 "Users": "[parameters('fillerUsers')]"
               }
             },
             "protectedSettings": {
               "Items": {
-                "StudentPassword": "[parameters('studentPassword')]"
+                "StudentPassword": "[parameters('studentPassword')]",
+                "BackupExecPassword": "[parameters('backupExecPassword')]"
               }
             }
           }

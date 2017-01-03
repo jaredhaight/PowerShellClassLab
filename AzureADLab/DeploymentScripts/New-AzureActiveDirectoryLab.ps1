@@ -28,18 +28,21 @@ function Invoke-CreateAzureActiveDirectoryLab {
   
   [CmdletBinding()]
   Param(
-    [Parameter(Mandatory=$True,Position=1)]
+    [Parameter(Mandatory=$True)]
     [pscredential]$Credentials,
 
-    [Parameter(Mandatory=$True,Position=2)]
+    [Parameter(Mandatory=$True)]
     [string]$StudentCode,
     
-    [Parameter(Mandatory=$True,Position=3)]
+    [Parameter(Mandatory=$True)]
     [string]$StudentPassword,
 
-    [Parameter(Mandatory=$True,Position=4)]
+    [Parameter(Mandatory=$True)]
     [string]$FillerUserCsvPath,
-    
+
+    [Parameter(Mandatory=$True)]
+    [string]$BackupExecPassword,
+
     [string]$Region="eastus2",
     [int]$place=1,
     [int]$total=1,
@@ -138,6 +141,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
     windowsImageOffer           = $windowsImageOffer
     windowsImageSku             = $windowsImageSku
     fillerUsers                 = $fillerUsers
+    BackupExecPassword          = $BackupExecPassword
     adAdminUsername             = $adAdminUserName
     domainName                  = $domainName
 	  filesUrl                    = $filesUrl

@@ -12,7 +12,13 @@
   [System.Management.Automation.PSCredential]$StudentCreds,
 
   [Parameter(Mandatory)]
+  [System.Management.Automation.PSCredential]$BackupExecCreds,
+
+  [Parameter(Mandatory)]
   [Array]$Users,
+
+  [Parameter(Mandatory)]
+  [string]$fileUrl,
 
   [Int]$RetryCount=20,
   [Int]$RetryIntervalSec=30
@@ -21,6 +27,8 @@
   Import-DscResource -ModuleName xActiveDirectory, xDisk, xNetworking, cDisk, PSDesiredStateConfiguration
   [System.Management.Automation.PSCredential ]$DomainAdminCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
   [System.Management.Automation.PSCredential ]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($StudentCreds.UserName)", $StudentCreds.Password)
+  [System.Management.Automation.PSCredential ]$DomainBackupExecCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($BackupExecCreds.UserName)", $BackupExecCreds.Password)
+  
   $Interface=Get-NetAdapter | Where-Object Name -Like "Ethernet*" | Select-Object -First 1
   $InterfaceAlias=$($Interface.Name)
 
@@ -33,7 +41,38 @@
       GetScript =  { @{} }
       TestScript = { $false }
     }
-
+    Script DownloadBootstrapFiles
+    {
+        SetScript =  { 
+            $file = $using:filesUrl + 'bootstrap.zip'
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBootstrapFiles] Downloading $file"
+            Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\bootstrap.zip
+        }
+        GetScript =  { @{} }
+        TestScript = { 
+            Test-Path C:\Windows\Temp\bootstrap.zip
+         }
+    }
+    Archive UnzipBootstrapFiles
+    {
+        Ensure = "Present"
+        Destination = "C:\Bootstrap"
+        Path = "C:\Windows\Temp\Bootstrap.zip"
+        Force = $true
+        DependsOn = "[Script]DownloadBootstrapFiles"
+    }
+    Script ImportGPOs
+    {
+        SetScript =  { 
+            Import-GPO -Path "C:\Bootstrap" -BackupId '{E3488702-D836-4F95-9E50-AD2844B0864C}' -TargetName "Server Permissions"
+            Import-GPO -Path "C:\Bootstrap" -BackupId '{43D456E8-BED3-46F3-BD64-BF0A97913E36}' -TargetName "Class Default"
+            New-GPLink -Name "Class Default" -Target "DC=AD,DC=EVIL,DC=TRAINING"
+            New-GPLink -Name "Server Permissions" -Target "OU=SERVERS,OU=CLASS,DC=AD,DC=EVIL,DC=TRAINING"
+        }
+        GetScript =  { @{} }
+        TestScript = { $false }
+        DependsOn = "[Archive]UnzipBootstrapFiles","[xADOrganizationalUnit]ServersOU"
+    }
     WindowsFeature DNS 
     { 
       Ensure = "Present" 
@@ -125,6 +164,13 @@
       Path = "OU=Groups,OU=Class,DC=ad,DC=evil,DC=training"
       DependsOn = "[xADOrganizationalUnit]GroupsOU", "[xADUser]StudentUser"
     }
+    xADGroup DomainAdmins
+    {
+      GroupName = "Domain Admins"
+      Ensure = 'Present'
+      MembersToInclude = "BackupExec"
+      DependsOn = "[xADUser]BackupExec"
+    }
     xADOrganizationalUnit ClassOU
     {
       Name = "Class"
@@ -186,6 +232,16 @@
         Ensure = "Present"
         Path = "OU=Users,OU=Class,DC=ad,DC=evil,DC=training"
         DependsOn = "[xADOrganizationalUnit]UsersOU"
+    }
+    xADUser BackupExecUser
+    {
+        DomainName = $DomainName
+        DomainAdministratorCredential = $DomainAdminCreds
+        UserName = "BackupExec"
+        Password = $DomainBackupExecCreds
+        Ensure = "Present"
+        Path = "OU=Service Accounts,OU=Class,DC=ad,DC=evil,DC=training"
+        DependsOn = "[xADOrganizationalUnit]ServiceAccountsOU"
     }
     forEach ($user in $users) {
       $userCreds =  [System.Management.Automation.PSCredential ]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($User.UserName)", $User.Password)
