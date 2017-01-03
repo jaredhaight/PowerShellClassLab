@@ -108,41 +108,41 @@
       Description = "Group for Local Admins"
       Ensure = 'Present'
       MembersToInclude = "StudentAdmin"
-      Path = "OU=Groups,OU=Class,dc=ad,dc=example,dc=com"
+      Path = "OU=Groups,OU=Class,DC=ad,DC=evil,DC=training"
       DependsOn = "[xADOrganizationalUnit]GroupsOU", "[xADUser]StudentAdmin"
     }
     xADOrganizationalUnit ClassOU
     {
       Name = "Class"
-      Path = "dc=ad,dc=example,dc=com"
+      Path = "DC=ad,DC=evil,DC=training"
       Ensure = 'Present'
       DependsOn = "[xWaitForADDomain]DscForestWait"
     }
     xADOrganizationalUnit UsersOU
     {
       Name = "Users"
-      Path = "ou=class,dc=ad,dc=example,dc=com"
+      Path = "OU=class,DC=ad,DC=evil,DC=training"
       Ensure = 'Present'
       DependsOn = "[xADOrganizationalUnit]ClassOU"
     }
     xADOrganizationalUnit ComputersOU
     {
       Name = "Computers"
-      Path = "ou=class,dc=ad,dc=example,dc=com"
+      Path = "OU=class,DC=ad,DC=evil,DC=training"
       Ensure = 'Present'
       DependsOn = "[xADOrganizationalUnit]ClassOU"
     }
     xADOrganizationalUnit ServersOU
     {
       Name = "Servers"
-      Path = "ou=class,dc=ad,dc=example,dc=com"
+      Path = "OU=class,DC=ad,DC=evil,DC=training"
       Ensure = 'Present'
       DependsOn = "[xADOrganizationalUnit]ClassOU"
     }
     xADOrganizationalUnit GroupsOU
     {
       Name = "Groups"
-      Path = "ou=class,dc=ad,dc=example,dc=com"
+      Path = "OU=class,DC=ad,DC=evil,DC=training"
       Ensure = 'Present'
       DependsOn = "[xADOrganizationalUnit]ClassOU"
     }
@@ -153,7 +153,7 @@
         UserName = "StudentUser"
         Password = $DomainStudentCreds
         Ensure = "Present"
-        Path = "OU=Users,OU=Class,dc=ad,dc=example,dc=com"
+        Path = "OU=Users,OU=Class,DC=ad,DC=evil,DC=training"
         DependsOn = "[xADOrganizationalUnit]UsersOU"
     }
     xADUser StudentAdmin
@@ -163,7 +163,7 @@
         UserName = "StudentAdmin"
         Password = $DomainStudentCreds
         Ensure = "Present"
-        Path = "OU=Users,OU=Class,dc=ad,dc=example,dc=com"
+        Path = "OU=Users,OU=Class,DC=ad,DC=evil,DC=training"
         DependsOn = "[xADOrganizationalUnit]UsersOU"
     }
     LocalConfigurationManager 
