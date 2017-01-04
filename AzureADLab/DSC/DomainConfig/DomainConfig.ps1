@@ -245,7 +245,7 @@
     }
     forEach ($user in $users) {
       $Password = $User.Password + "ae23K#"
-      $userCreds =  [System.Management.Automation.PSCredential]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential("${DomainName}\$($User.UserName)", $Password)
+      $UserCreds = New-Object System.Management.Automation.PSCredential("${DomainName}\$($User.UserName)", $Password)
       xADUser $user.username
       {
         DomainName = $DomainName
