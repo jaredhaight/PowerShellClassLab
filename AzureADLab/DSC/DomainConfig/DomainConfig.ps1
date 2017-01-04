@@ -25,9 +25,9 @@
   ) 
 
   Import-DscResource -ModuleName xActiveDirectory, xDisk, xNetworking, cDisk, PSDesiredStateConfiguration
-  [System.Management.Automation.PSCredential ]$DomainAdminCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
-  [System.Management.Automation.PSCredential ]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($StudentCreds.UserName)", $StudentCreds.Password)
-  [System.Management.Automation.PSCredential ]$DomainBackupExecCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($BackupExecCreds.UserName)", $BackupExecCreds.Password)
+  [System.Management.Automation.PSCredential]$DomainAdminCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
+  [System.Management.Automation.PSCredential]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($StudentCreds.UserName)", $StudentCreds.Password)
+  [System.Management.Automation.PSCredential]$DomainBackupExecCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($BackupExecCreds.UserName)", $BackupExecCreds.Password)
   
   $Interface=Get-NetAdapter | Where-Object Name -Like "Ethernet*" | Select-Object -First 1
   $InterfaceAlias=$($Interface.Name)
@@ -169,7 +169,7 @@
       GroupName = "Domain Admins"
       Ensure = 'Present'
       MembersToInclude = "BackupExec"
-      DependsOn = "[xADUser]BackupExec"
+      DependsOn = "[xADUser]BackupExecUser"
     }
     xADOrganizationalUnit ClassOU
     {
@@ -245,13 +245,13 @@
     }
     forEach ($user in $users) {
       $Password = $User.Password + "ae23K#"
-      $userCreds =  [System.Management.Automation.PSCredential ]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($User.UserName)", $Password)
+      $userCreds =  [System.Management.Automation.PSCredential]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential("${DomainName}\$($User.UserName)", $Password)
       xADUser $user.username
       {
         DomainName = $DomainName
         DomainAdministratorCredential = $DomainAdminCreds
         UserName = "StudentAdmin"
-        Password = $DomainStudentCreds
+        Password = $userCreds
         DisplayName = $user.first_name + " " + $user.last_name
         GivenName = $user.first_name
         Surname = $user.last_name
