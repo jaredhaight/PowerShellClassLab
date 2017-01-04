@@ -243,23 +243,6 @@
         Path = "OU=Service Accounts,OU=Class,DC=ad,DC=evil,DC=training"
         DependsOn = "[xADOrganizationalUnit]ServiceAccountsOU"
     }
-    forEach ($user in $users) {
-      $Password = $User.Password + "ae23K#"
-      xADUser $user.username
-      {
-        DomainName = $DomainName
-        DomainAdministratorCredential = $DomainAdminCreds
-        UserName = "StudentAdmin"
-        Password = $Password
-        DisplayName = $user.first_name + " " + $user.last_name
-        GivenName = $user.first_name
-        Surname = $user.last_name
-        JobTitle = $user.title
-        Ensure = "Present"
-        Path = "OU=Users,OU=Class,DC=ad,DC=evil,DC=training"
-        DependsOn = "[xADOrganizationalUnit]UsersOU"
-      }
-    }
     LocalConfigurationManager 
     {
       ConfigurationMode = 'ApplyOnly'
