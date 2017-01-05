@@ -368,6 +368,27 @@
       }
     },
     {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('linuxVmName'),'/dscServerConfig')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/', parameters('linuxVmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.19",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/LinuxConfig.zip', parameters('_artifactsLocationSasToken'))]",
+          "configurationFunction": "LinuxConfig.ps1\\LinuxConfig",
+          "Properties": {}
+        }
+      },
+      "protectedSettings": {}
+    },
+    {
       "apiVersion": "2016-03-30",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpName')]",
