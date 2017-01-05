@@ -38,9 +38,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
     [string]$StudentPassword,
 
     [Parameter(Mandatory=$True)]
-    [string]$FillerUserCsvPath,
-
-    [Parameter(Mandatory=$True)]
     [string]$BackupExecPassword,
 
     [string]$Region="eastus2",
@@ -85,7 +82,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   $windowsImageOffer           = "WindowsServer"
   $windowsImageSku             = "2012-R2-Datacenter"
   $filesUrl                   = "https://eviltraining.blob.core.windows.net/files/"
-  $fillerUsers                = Import-Csv $FillerUserCsvPath
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"

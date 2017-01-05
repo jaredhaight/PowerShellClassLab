@@ -116,9 +116,6 @@
     },
     "filesUrl": {
       "type":  "string"
-    },
-    "fillerUsers": {
-      "type": "array"
     }
   },
   "variables": {
@@ -274,7 +271,6 @@
                   "UserName": "BackupExec",
                   "Password": "PrivateSettingsRef:BackupExecPassword"
                 },
-                "Users": "[parameters('fillerUsers')]",
                 "filesUrl": "[parameters('filesUrl')]"
               }
             },

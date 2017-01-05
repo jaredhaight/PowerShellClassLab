@@ -75,6 +75,8 @@
           }
           Catch {
             Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[ImportGPOs] Failed.."
+            $exception = $error[0].Exception
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[ImportGPOs] Error: $exception"
           }
         }
         GetScript =  { @{} }
@@ -86,7 +88,7 @@
         SetScript =  {
             Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Running.."
             $users = Import-Csv C:\Bootstrap\user_data.csv
-            $userOus = Get-ADOrganizationalUnit -Filter {Name -like "*Staff*"}
+            $userOus = Get-ADOrganizationalUnit -Filter * -SearchBase "OU=Staff,DC=ad,dc=evil,dc=training"
 
             forEach ($user in $users) {
                 $username = $user.username
@@ -107,6 +109,8 @@
                 }
                 Catch {
                     Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Failed creating $username.."
+                    $exception = $error[0].Exception
+                    Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Error: $exception"
                 }
             }
 
