@@ -384,9 +384,9 @@
           "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/LinuxConfig.zip', parameters('_artifactsLocationSasToken'))]",
           "configurationFunction": "LinuxConfig.ps1\\LinuxConfig",
           "Properties": {}
-        }
-      },
+        },
       "protectedSettings": {}
+      }
     },
     {
       "apiVersion": "2016-03-30",
