@@ -63,17 +63,57 @@
     }
     Script ImportGPOs
     {
-        SetScript =  { 
+        SetScript =  {
+          Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[ImportGPOs] Running.." 
+          Try {
             New-GPO -Name "Class Default"
             New-GPO -Name "Server Permissions"
             Import-GPO -Path "C:\Bootstrap" -BackupId '{E3488702-D836-4F95-9E50-AD2844B0864C}' -TargetName "Server Permissions"
             Import-GPO -Path "C:\Bootstrap" -BackupId '{43D456E8-BED3-46F3-BD64-BF0A97913E36}' -TargetName "Class Default"
             New-GPLink -Name "Class Default" -Target "DC=AD,DC=EVIL,DC=TRAINING"
             New-GPLink -Name "Server Permissions" -Target "OU=SERVERS,OU=CLASS,DC=AD,DC=EVIL,DC=TRAINING"
+          }
+          Catch {
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[ImportGPOs] Failed.."
+          }
         }
         GetScript =  { @{} }
         TestScript = { $false }
         DependsOn = "[Archive]UnzipBootstrapFiles","[xADOrganizationalUnit]ServersOU"
+    }
+    Script CreateFillerUsers
+    {
+        SetScript =  {
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Running.."
+            $users = Import-Csv C:\Bootstrap\user_data.csv
+            $userOus = Get-ADOrganizationalUnit -Filter {Name -like "*Staff*"}
+
+            forEach ($user in $users) {
+                $username = $user.username
+                Try {
+                    $i++
+                    $first = $user.first_name
+                    $last = $user.last_name
+                    $fullName = "$first $last"
+                    $username = $user.username
+                    $password = $user.password + "ase235"
+                    $title = $user.title
+                        
+                    Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Creating $username.."
+                    $OU = Get-Random $userOUs
+                    New-ADUser -Name $fullName -GivenName $first -Surname $last -SamAccountName $username `
+                        -UserPrincipalName "$username@ad.evil.training" -AccountPassword (ConvertTo-SecureString -String $password -AsPlainText -Force) `
+                        -Path $OU -PassThru | Enable-ADAccount
+                }
+                Catch {
+                    Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Failed creating $username.."
+                }
+            }
+
+        }
+        GetScript =  { @{} }
+        TestScript = { $false }
+        DependsOn = "[Archive]UnzipBootstrapFiles","[xADOrganizationalUnit]NewYorkOU","[xADOrganizationalUnit]CharlotteOU","[xADOrganizationalUnit]PaloAltoOU"
     }
     WindowsFeature DNS 
     { 
@@ -172,6 +212,34 @@
       Ensure = 'Present'
       MembersToInclude = "BackupExec"
       DependsOn = "[xADUser]BackupExecUser"
+    }
+    xADOrganizationalUnit StaffOU
+    {
+      Name = "Staff"
+      Path = "DC=ad,DC=evil,DC=training"
+      Ensure = 'Present'
+      DependsOn = "[xWaitForADDomain]DscForestWait"
+    }
+    xADOrganizationalUnit NewYorkOU
+    {
+      Name = "New York"
+      Path = "OU=Staff,DC=ad,DC=evil,DC=training"
+      Ensure = 'Present'
+      DependsOn = "[xADOrganizationalUnit]StaffOU"
+    }
+    xADOrganizationalUnit PaloAltoOU
+    {
+      Name = "Palo Alto"
+      Path = "OU=Staff,DC=ad,DC=evil,DC=training"
+      Ensure = 'Present'
+      DependsOn = "[xADOrganizationalUnit]StaffOU"
+    }
+    xADOrganizationalUnit CharlotteOU
+    {
+      Name = "Charlotte"
+      Path = "OU=Staff,DC=ad,DC=evil,DC=training"
+      Ensure = 'Present'
+      DependsOn = "[xADOrganizationalUnit]StaffOU"
     }
     xADOrganizationalUnit ClassOU
     {
