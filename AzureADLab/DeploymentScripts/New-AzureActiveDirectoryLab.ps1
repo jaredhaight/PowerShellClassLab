@@ -136,7 +136,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
     windowsImagePublisher       = $windowsImagePublisher
     windowsImageOffer           = $windowsImageOffer
     windowsImageSku             = $windowsImageSku
-    fillerUsers                 = $fillerUsers
     BackupExecPassword          = $BackupExecPassword
     adAdminUsername             = $adAdminUserName
     domainName                  = $domainName
