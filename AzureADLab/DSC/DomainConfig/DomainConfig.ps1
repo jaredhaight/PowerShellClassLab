@@ -15,9 +15,6 @@
   [System.Management.Automation.PSCredential]$BackupExecCreds,
 
   [Parameter(Mandatory)]
-  [Array]$Users,
-
-  [Parameter(Mandatory)]
   [string]$filesUrl,
 
   [Int]$RetryCount=20,
