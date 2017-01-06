@@ -437,7 +437,8 @@
       "name": "[parameters('clientVmName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('clientNicName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('clientNicName'))]",        
+        "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -575,7 +576,8 @@
       "name": "[parameters('serverVmName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('serverNicName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('serverNicName'))]",        
+        "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]"
       ],
       "properties": {
         "hardwareProfile": {
