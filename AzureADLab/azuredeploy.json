@@ -382,7 +382,7 @@
 		"autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "[concat(parameters('filesUrl'), 'linux-bootstrap.sh']"
+            "[concat(parameters('filesUrl'), 'linux-bootstrap.sh')]"
           ],
           "commandToExecute": "bash linux-bootstrap.sh"
         }
