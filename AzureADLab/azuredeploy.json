@@ -369,23 +369,23 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('linuxVmName'),'/dscServerConfig')]",
-      "apiVersion": "2015-06-15",
+      "name": "[concat(parameters('linuxVmName'),'/bootstrap')]",
+      "apiVersion": "2016-03-30",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines/', parameters('linuxVmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('linuxVmName'))]"
       ],
       "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.19",
-        "autoUpgradeMinorVersion": true,
+        "publisher": "Microsoft.Azure.Extensions",
+		"type": "CustomScript",
+		"typeHandlerVersion": "2.0",
+		"autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/LinuxConfig.zip', parameters('_artifactsLocationSasToken'))]",
-          "configurationFunction": "LinuxConfig.ps1\\LinuxConfig",
-          "Properties": {}
-        },
-      "protectedSettings": {}
+          "fileUris": [
+            "[concat(parameters('filesUrl'), 'linux-bootstrap.sh']"
+          ],
+          "commandToExecute": "bash linux-bootstrap.sh"
+        }
       }
     },
     {
