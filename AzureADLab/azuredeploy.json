@@ -402,7 +402,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat(parameters('studentCode'), parameters('clientVmName'))]"
+          "domainNameLabel": "[concat(parameters('studentCode'), '-', parameters('clientVmName'))]"
         }
       }
     },
