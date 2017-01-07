@@ -86,25 +86,25 @@ function Invoke-CreateAzureActiveDirectoryLab {
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
   $domainName                 = "ad." + $dnsZone
-  $adVMName                   = "dc01"
+  $adVMName                   = $studentCode + "-dc01"
   $adNicIPAddress             = "10.0.0.4"
   $adVmSize                   = "Basic_A1"
 
   # Client Vars
-  $clientVMName               = "home"
+  $clientVMName               = $studentCode + "-home"
   $clientNicIpAddress         = "10.0.0.10"
   $clientVMSize               = "Basic_A2"
   $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
 
 
   # Server Vars
-  $serverVMName               = "server"
+  $serverVMName               = $studentCode + "-srv"
   $serverNicIpAddress         = "10.0.0.11"
   $serverVMSize               = "Basic_A1"
   $serverOU                   = "OU=Servers,OU=Class,DC=ad,DC=evil,DC=training"
 
   # Linux Vars
-  $linuxVMName                = "linux"
+  $linuxVMName                = $studentCode + "-lnx"
   $linuxNicIpAddress          = "10.0.0.12"
   $linuxVMSize                = "Basic_A2"
   $linuxImagePublisher        = "Canonical"
@@ -122,7 +122,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   # Parameters for the template and configuration
   $MyParams = @{
     artifactsLocation           = $artifactsLocation
-    studentCode                 = $studentCode
     studentSubnetName           = $studentSubnetName
     virtualNetworkName          = $virtualNetworkName
     virtualNetworkAddressRange  = $virtualNetworkAddressRange
