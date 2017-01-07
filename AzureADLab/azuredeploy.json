@@ -115,7 +115,7 @@
       "type": "string"
     },
     "filesUrl": {
-      "type":  "string"
+      "type": "string"
     }
   },
   "variables": {
@@ -438,7 +438,7 @@
       "name": "[parameters('clientVmName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('clientNicName'))]",        
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('clientNicName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]"
       ],
       "properties": {
@@ -535,7 +535,8 @@
             "AdminCreds": {
               "UserName": "[parameters('adAdminUsername')]",
               "Password": "PrivateSettingsRef:AdminPassword"
-            }
+            },
+            "filesUrl": "[parameters('filesUrl')]"
           }
         },
         "protectedSettings": {
@@ -545,7 +546,7 @@
         }
       }
     },
-{
+    {
       "apiVersion": "2016-03-30",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('serverNicName')]",
@@ -579,7 +580,7 @@
       "name": "[parameters('serverVmName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('serverNicName'))]",        
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('serverNicName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]"
       ],
       "properties": {
