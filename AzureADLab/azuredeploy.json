@@ -308,7 +308,9 @@
         ],
         "dnsSettings": {
           "dnsServers": [
-            "[parameters('adNicIpAddress')]"
+            "[parameters('adNicIpAddress')]",
+            "8.8.8.8",
+            "8.8.4.4"
           ]
         }
       }
