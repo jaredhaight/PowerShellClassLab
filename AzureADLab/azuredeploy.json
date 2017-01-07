@@ -116,9 +116,6 @@
     },
     "filesUrl": {
       "type": "string"
-    },
-    "studentCode": {
-      "type": "string"
     }
   },
   "variables": {
@@ -402,7 +399,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat(parameters('studentCode'), '-', parameters('clientVmName'))]"
+          "domainNameLabel": "[parameters('clientVmName')]"
         }
       }
     },
