@@ -271,7 +271,8 @@
                   "UserName": "BackupExec",
                   "Password": "PrivateSettingsRef:BackupExecPassword"
                 },
-                "filesUrl": "[parameters('filesUrl')]"
+                "filesUrl": "[parameters('filesUrl')]",
+                "linuxNicIpAddress": "[parameters('linuxNicIpAddress')]"
               }
             },
             "protectedSettings": {

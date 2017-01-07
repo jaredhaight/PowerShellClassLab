@@ -17,11 +17,14 @@
   [Parameter(Mandatory)]
   [string]$filesUrl,
 
+  [Parameter(Mandatory)]
+  [string]$linuxNicIpAddress,
+
   [Int]$RetryCount=20,
   [Int]$RetryIntervalSec=30
   ) 
 
-  Import-DscResource -ModuleName xActiveDirectory, xDisk, xNetworking, cDisk, PSDesiredStateConfiguration
+  Import-DscResource -ModuleName xActiveDirectory, xDisk, xNetworking, cDisk,xDnsServer, PSDesiredStateConfiguration
   [System.Management.Automation.PSCredential]$DomainAdminCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
   [System.Management.Automation.PSCredential]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($StudentCreds.UserName)", $StudentCreds.Password)
   [System.Management.Automation.PSCredential]$DomainBackupExecCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($BackupExecCreds.UserName)", $BackupExecCreds.Password)
@@ -120,6 +123,14 @@
     { 
       Ensure = "Present" 
       Name = "DNS"		
+    }
+    xDnsRecord LinuxHost
+    {
+        Name = "linux"
+        Target = "parameters['linuxIpAddress']"
+        Zone = "parameters['domainName']"
+        Type = "ARecord"
+        Ensure = "Present"
     }
 
     Script script1
