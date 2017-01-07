@@ -127,8 +127,8 @@
     xDnsRecord LinuxHost
     {
         Name = "linux"
-        Target = "parameters['linuxIpAddress']"
-        Zone = "parameters['domainName']"
+        Target = $LinuxNicIpAddress
+        Zone = $DomainName
         Type = "ARecord"
         Ensure = "Present"
     }
