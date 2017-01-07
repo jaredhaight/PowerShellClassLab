@@ -382,9 +382,9 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "[concat(parameters('filesUrl'), 'linux-bootstrap.sh')]"
+            "https://eviltraining.blob.core.windows.net/files/linux-bootstrap.sh"
           ],
-          "commandToExecute": "./linux-bootstrap.sh"
+          "commandToExecute": "bash linux-bootstrap.sh"
         }
       }
     },
@@ -515,7 +515,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('clientVmName'),'/dscServerConfig')]",
+      "name": "[concat(parameters('clientVmName'),'/dscHomeConfig')]",
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -528,8 +528,8 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "wmfVersion": "5.0",
-          "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/ServerConfig.zip', parameters('_artifactsLocationSasToken'))]",
-          "configurationFunction": "ServerConfig.ps1\\ServerConfig",
+          "modulesUrl": "[concat(parameters('artifactsLocation'), '/DSC/HomeConfig.zip', parameters('_artifactsLocationSasToken'))]",
+          "configurationFunction": "HomeConfig.ps1\\HomeConfig",
           "Properties": {
             "DomainName": "[parameters('domainName')]",
             "AdminCreds": {
