@@ -122,6 +122,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
   # Parameters for the template and configuration
   $MyParams = @{
     artifactsLocation           = $artifactsLocation
+    studentCode                 = $studentCode
     studentSubnetName           = $studentSubnetName
     virtualNetworkName          = $virtualNetworkName
     virtualNetworkAddressRange  = $virtualNetworkAddressRange
