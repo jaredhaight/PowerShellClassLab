@@ -103,9 +103,12 @@
                         
                     Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Creating $username.."
                     $OU = Get-Random $userOUs
-                    New-ADUser -Name $fullName -GivenName $first -Surname $last -SamAccountName $username `
+                    $NewUser = New-ADUser -Name $fullName -GivenName $first -Surname $last -SamAccountName $username `
                         -UserPrincipalName "$username@ad.evil.training" -AccountPassword (ConvertTo-SecureString -String $password -AsPlainText -Force) `
-                        -Path $OU -PassThru | Enable-ADAccount
+                        -Path $OU
+                    if (!($i % 3 -eq 0)) {
+                      Enable-ADAccount $NewUser
+                    }
                 }
                 Catch {
                     Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[CreateFillerUsers] Failed creating $username.."
