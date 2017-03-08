@@ -91,18 +91,6 @@ configuration HomeConfig
             Test-Path C:\Windows\Temp\class.zip
          }
     }
-    Script DownloadBootstrapFiles
-    {
-        SetScript =  { 
-            $file = $using:filesUrl + 'bootstrap.zip'
-            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBootstrapFiles] Downloading $file"
-            Invoke-WebRequest -Uri $file -OutFile C:\Windows\Temp\bootstrap.zip
-        }
-        GetScript =  { @{} }
-        TestScript = { 
-            Test-Path C:\Windows\Temp\bootstrap.zip
-         }
-    }
     Archive UnzipClassFiles
     {
         Ensure = "Present"
@@ -110,15 +98,6 @@ configuration HomeConfig
         Path = "C:\Windows\Temp\Class.zip"
         Force = $true
         DependsOn = "[Script]DownloadClassFiles"
-    }
-    
-    Archive UnzipBootstrapFiles
-    {
-        Ensure = "Present"
-        Destination = "C:\Bootstrap"
-        Path = "C:\Windows\Temp\Bootstrap.zip"
-        Force = $true
-        DependsOn = "[Script]DownloadBootstrapFiles"
     }
     Script UpdateHelp
     {
