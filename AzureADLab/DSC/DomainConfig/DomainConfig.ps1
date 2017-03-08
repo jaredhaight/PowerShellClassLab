@@ -92,8 +92,8 @@
 
             forEach ($user in $users) {
                 $username = $user.username
+                $i++
                 Try {
-                    $i++
                     $first = $user.first_name
                     $last = $user.last_name
                     $fullName = "$first $last"
