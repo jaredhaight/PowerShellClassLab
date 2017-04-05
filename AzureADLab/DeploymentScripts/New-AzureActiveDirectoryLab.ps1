@@ -6,7 +6,10 @@ workflow New-AzureActiveDirectoryLab {
     [pscredential]$Credentials,
 
     [Parameter(Mandatory=$True,Position=2)]
-    [string]$CsvSource
+    [string]$CsvSource,
+
+    [Parameter(Mandatory=$True,Position=3)]
+    [string]$BackupExecPassword
   ) 
 
   $studentData = Import-CSV $csvSource
@@ -20,7 +23,7 @@ workflow New-AzureActiveDirectoryLab {
        $region = 'westus2'
      }
      Write-Output "Sending $studentCode to $region"
-     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentPassword $studentPassword -region $region -place $studentNumber -total $studentData.count 
+     Invoke-CreateAzureActiveDirectoryLab -credentials $credentials -studentCode $studentCode -studentPassword $studentPassword -BackupExecPassword $BackupExecPassword -region $region -place $studentNumber -total $studentData.count 
    }
 }
 
@@ -47,7 +50,6 @@ function Invoke-CreateAzureActiveDirectoryLab {
   )
 
   # Import Azure Service Management module
-  Import-Module Azure
   Import-Module AzureRM
   
   Write-Output "$place/$total - Starting deployment for $studentCode"  
@@ -98,13 +100,13 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
 
   # Server Vars
-  $serverVMName               = $studentCode + "-srv"
+  $serverVMName               = $studentCode + "-server"
   $serverNicIpAddress         = "10.0.0.11"
   $serverVMSize               = "Basic_A1"
   $serverOU                   = "OU=Servers,OU=Class,DC=ad,DC=evil,DC=training"
 
   # Linux Vars
-  $linuxVMName                = $studentCode + "-lnx"
+  $linuxVMName                = $studentCode + "-linux"
   $linuxNicIpAddress          = "10.0.0.12"
   $linuxVMSize                = "Basic_A2"
   $linuxImagePublisher        = "Canonical"
@@ -113,7 +115,7 @@ function Invoke-CreateAzureActiveDirectoryLab {
 
   # Create the new resource group. Runs quickly.
   try {
-    Get-AzureRmResourceGroup -Name $resourceGroupName -Location $location -ErrorAction Stop
+    Get-AzureRmResourceGroup -Name $resourceGroupName -Location $location -ErrorAction Stop | Out-Null
   }
   catch {
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $location

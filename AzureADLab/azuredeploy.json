@@ -330,7 +330,7 @@
         },
         "osProfile": {
           "computerName": "[parameters('linuxVmName')]",
-          "adminUsername": "[parameters('localAdminusername')]",
+          "adminUsername": "[parameters('adadminusername')]",
           "adminPassword": "[parameters('studentPassword')]"
         },
         "storageProfile": {

@@ -1,5 +1,4 @@
-﻿Import-Module Azure
-Import-Module AzureRM
+﻿Import-Module AzureRM
   
 workflow Remove-AllAzureRmDnsRecordSets {
   

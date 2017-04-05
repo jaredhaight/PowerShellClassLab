@@ -64,14 +64,7 @@ configuration ServerConfig
         Path = "C:\Data"  
         FullAccess = "Everyone"
         DependsOn = "[File]DataFolder"
-    } 
-    xHotFix KB3139914
-    {
-        Ensure = "Absent"
-        Id = "KB3139914"
-
-    }
-    
+    }    
     Script UpdateHelp
     {
         SetScript =  { 
