@@ -9,7 +9,7 @@ configuration ServerConfig
     )
   
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
-  Import-DscResource -ModuleName xSmbShare,PSDesiredStateConfiguration
+  Import-DscResource -ModuleName xSmbShare,PSDesiredStateConfiguration,xWindowsUpdate
   [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
   
   Node localhost 
@@ -65,6 +65,13 @@ configuration ServerConfig
         FullAccess = "Everyone"
         DependsOn = "[File]DataFolder"
     } 
+    xHotFix KB3139914
+    {
+        Ensure = "Absent"
+        Id = "KB3139914"
+
+    }
+    
     Script UpdateHelp
     {
         SetScript =  { 
