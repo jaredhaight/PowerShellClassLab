@@ -137,7 +137,10 @@
         "name": "Standard_LRS"
       },
       "kind": "Storage",
-      "properties": {}
+      "properties": {},
+      "tags": {
+        "displayName": "StorageAccount"
+      }
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
@@ -161,6 +164,9 @@
             }
           }
         ]
+      },
+      "tags": {
+        "displayName": "VirtualNetwork"
       }
     },
     {
@@ -184,6 +190,9 @@
             }
           }
         ]
+      },
+      "tags": {
+        "displayName": "DomainControllerNic"
       }
     },
     {
@@ -283,7 +292,10 @@
             }
           }
         }
-      ]
+      ],
+      "tags": {
+        "displayName": "DomainControllerVM"
+      }
     },
     {
       "apiVersion": "2016-03-30",
@@ -313,6 +325,9 @@
             "8.8.4.4"
           ]
         }
+      },
+      "tags": {
+        "displayName": "LinuxNic"
       }
     },
     {
@@ -330,7 +345,7 @@
         },
         "osProfile": {
           "computerName": "[parameters('linuxVmName')]",
-          "adminUsername": "[parameters('adadminusername')]",
+          "adminUsername": "[parameters('localAdminusername')]",
           "adminPassword": "[parameters('studentPassword')]"
         },
         "storageProfile": {
@@ -368,6 +383,9 @@
             }
           ]
         }
+      },
+      "tags": {
+        "displayName": "LinuxVM"
       }
     },
     {
@@ -389,6 +407,9 @@
           ],
           "commandToExecute": "bash linux-bootstrap.sh"
         }
+      },
+      "tags": {
+        "displayName": "LinuxVmBootstrap"
       }
     },
     {
@@ -401,6 +422,9 @@
         "dnsSettings": {
           "domainNameLabel": "[parameters('clientVmName')]"
         }
+      },
+      "tags": {
+        "displayName": "PublicIPAddress"
       }
     },
     {
@@ -433,6 +457,9 @@
             "[parameters('adNicIpAddress')]"
           ]
         }
+      },
+      "tags": {
+        "displayName": "ClientNic"
       }
     },
     {
@@ -488,6 +515,9 @@
             }
           ]
         }
+      },
+      "tags": {
+        "displayName": "ClientVm"
       }
     },
     {
@@ -514,6 +544,9 @@
         "protectedsettings": {
           "Password": "[parameters('studentPassword')]"
         }
+      },
+      "tags": {
+        "displayName": "ClientDomainJoin"
       }
     },
     {
@@ -547,6 +580,9 @@
             "AdminPassword": "[parameters('studentPassword')]"
           }
         }
+      },
+      "tags": {
+        "displayName": "ClientDsc"
       }
     },
     {
@@ -575,6 +611,9 @@
             "[parameters('adNicIpAddress')]"
           ]
         }
+      },
+      "tags": {
+        "displayName": "ServerNic"
       }
     },
     {
@@ -630,6 +669,9 @@
             }
           ]
         }
+      },
+      "tags": {
+        "displayName": "ServerVm"
       }
     },
     {
@@ -656,6 +698,9 @@
         "protectedsettings": {
           "Password": "[parameters('studentPassword')]"
         }
+      },
+      "tags": {
+        "displayName": "ServerDomainJoin"
       }
     },
     {
@@ -688,6 +733,9 @@
             "AdminPassword": "[parameters('studentPassword')]"
           }
         }
+      },
+      "tags": {
+        "displayName": "ServerDsc"
       }
     }
   ]

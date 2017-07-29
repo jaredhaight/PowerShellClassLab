@@ -37,7 +37,7 @@
     <None Include="nestedtemplates\vnet.json" />
     <None Include="nestedtemplates\windowsVm.json" />
     <None Include="nestedtemplates\windowsVmWithPublicIp.json" />
-    <None Include="New-AzureActiveDirectoryLab.ps1" />
+    <None Include="New-PowerShellClassLab.ps1" />
     <None Include="README.md" />
     <None Include="Remove-AllAzureDnsRecordConfig.ps1" />
     <None Include="Remove-AllAzureRmResourceGroups.ps1" />

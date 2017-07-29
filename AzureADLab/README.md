@@ -1,1 +1,0 @@
-Reference the main [README](https://github.com/jaredhaight/AzureADLab/) for details.
