@@ -31,16 +31,17 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="DeploymentScripts\New-AzureNetworkSecurityGroupRule.ps1" />
+    <None Include="DeploymentScripts\PowerShellClassLab.psm1" />
     <None Include="metadata.json" />
     <None Include="nestedtemplates\vnet-with-dns-server.json" />
     <None Include="nestedtemplates\vnet.json" />
     <None Include="nestedtemplates\windowsVm.json" />
     <None Include="nestedtemplates\windowsVmWithPublicIp.json" />
-    <None Include="New-PowerShellClassLab.ps1" />
+    <None Include="DeploymentScripts\New-PowerShellClassLab.ps1" />
     <None Include="README.md" />
-    <None Include="Remove-AllAzureDnsRecordConfig.ps1" />
-    <None Include="Remove-AllAzureRmResourceGroups.ps1" />
+    <None Include="DeploymentScripts\Remove-AllAzureDnsRecordConfig.ps1" />
+    <None Include="DeploymentScripts\Remove-AllAzureRmResourceGroups.ps1" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
