@@ -61,3 +61,64 @@ function New-AzureLabAccessRule {
     }
   }
 }
+
+function Remove-AzureLabAccessRule {
+  [cmdletbinding()]
+  param(
+    [Parameter(Mandatory=$True)]
+    [pscredential]$Credentials,
+    [string]$SourceIpAddress,
+    
+    [int]$Port=3389,
+    
+    [string]$ResourceGroup="evil.training-master",
+    
+    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
+  )
+
+  # Import Azure Service Management module
+  Import-Module AzureRM  
+
+  # Check if logged in to Azure
+  Try {
+    Get-AzureRMContext -ErrorAction Stop | Out-Null
+  }
+  Catch {
+    Add-AzureRmAccount -Credential $Credentials
+  }
+
+  forEach ($nsgName in $NetworkSecurityGroups) {
+    Write-Output "[*] Getting NSG: $nsgName"
+    try {
+      $nsg = Get-AzureRmNetworkSecurityGroup -Name $nsgName -ResourceGroupName $ResourceGroup -OutVariable $null
+    }
+    catch {
+      Write-Warning "Error Getting NSG: $nsgName"
+      Write-Output $error[0]
+      break
+    }
+
+    Write-Output "[*] Rules count: $($nsg.SecurityRules.Count)"
+    while ($nsg.SecurityRules.Count -gt 0) {
+      $rule = $nsg.SecurityRules[0]
+      Write-Output "[*] Removing $($rule.Name)"
+      try {
+        Remove-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name $rule.Name | Out-Null
+      }
+      catch {
+        Write-Warning "Error removing rule from $nsgName"
+        Write-Output $error[0]
+        break
+      }
+    }
+    Write-Output "[*] Setting $nsgName"
+    try {
+      Set-AzureRmNetworkSecurityGroup -NetworkSecurityGroup $nsg | Out-Null
+    }
+    catch {
+      Write-Warning "Error setting $nsgName"
+      Write-Output $error[0]
+      break
+    }
+  }
+}
