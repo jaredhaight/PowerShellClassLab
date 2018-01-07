@@ -97,6 +97,7 @@ function Invoke-CreatePowerShellClassLab {
   $clientNicIpAddress         = "10.0.0.10"
   $clientVMSize               = "Basic_A2"
   $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
+  $clientSku                  = "2016-Datacenter"
 
 
   # Server Vars
@@ -149,6 +150,7 @@ function Invoke-CreatePowerShellClassLab {
     clientNicIpAddress          = $clientNicIPaddress
     clientVMSize                = $clientVMSize
     clientOU                    = $clientOU
+    clientSku                   = $clientSku
     serverVMName                = $serverVMName
     serverNicIpAddress          = $serverNicIPaddress
     serverVMSize                = $serverVMSize
