@@ -99,15 +99,6 @@ configuration HomeConfig
         Force = $true
         DependsOn = "[Script]DownloadClassFiles"
     }
-    Script UpdateHelp
-    {
-        SetScript =  { 
-            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[UpdateHelp] Running.."
-            Update-Help -Force
-        }
-        GetScript =  { @{} }
-        TestScript = { $false }
-    }
     LocalConfigurationManager 
     {
         ConfigurationMode = 'ApplyOnly'

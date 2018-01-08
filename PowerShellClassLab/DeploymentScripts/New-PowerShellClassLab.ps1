@@ -95,7 +95,7 @@ function Invoke-CreatePowerShellClassLab {
   # Client Vars
   $clientVMName               = $studentCode + "-home"
   $clientNicIpAddress         = "10.0.0.10"
-  $clientVMSize               = "Basic_A2"
+  $clientVMSize               = "Basic_A3"
   $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
   $clientSku                  = "2016-Datacenter"
 
@@ -204,7 +204,7 @@ function Invoke-CreatePowerShellClassLab {
       forEach ($item in $ipInfo) {
         $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
         $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
-        $rs = New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+        New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
       }
     }
   }
