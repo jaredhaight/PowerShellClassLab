@@ -65,7 +65,6 @@ function Invoke-CreatePowerShellClassLab {
   
   # Common Variables
   $location                   = $region
-  $locationName               = "East US"
   $masterResourceGroup        = "evil.training-master"
   $dnsZone                    = "evil.training"
   $resourceGroupName          = $studentCode + '.' + $dnsZone
@@ -90,12 +89,12 @@ function Invoke-CreatePowerShellClassLab {
   $domainName                 = "ad." + $dnsZone
   $adVMName                   = $studentCode + "-dc01"
   $adNicIPAddress             = "10.0.0.4"
-  $adVmSize                   = "Basic_A1"
+  $adVmSize                   = "Standard_A1"
 
   # Client Vars
   $clientVMName               = $studentCode + "-home"
   $clientNicIpAddress         = "10.0.0.10"
-  $clientVMSize               = "Basic_A3"
+  $clientVMSize               = "Standard_A3"
   $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
   $clientSku                  = "2016-Datacenter"
 
@@ -103,13 +102,13 @@ function Invoke-CreatePowerShellClassLab {
   # Server Vars
   $serverVMName               = $studentCode + "-server"
   $serverNicIpAddress         = "10.0.0.11"
-  $serverVMSize               = "Basic_A1"
+  $serverVMSize               = "Standard_A1"
   $serverOU                   = "OU=Servers,OU=Class,DC=ad,DC=evil,DC=training"
 
   # Linux Vars
   $linuxVMName                = $studentCode + "-linux"
   $linuxNicIpAddress          = "10.0.0.12"
-  $linuxVMSize                = "Basic_A2"
+  $linuxVMSize                = "Standard_A2"
   $linuxImagePublisher        = "Canonical"
   $linuxImageOffer            = "UbuntuServer"
   $linuxImageSku              = "16.04.0-LTS"

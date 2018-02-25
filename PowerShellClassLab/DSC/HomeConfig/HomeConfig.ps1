@@ -13,7 +13,7 @@ configuration HomeConfig
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
   [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
   Import-DscResource -ModuleName xSystemSecurity -Name xIEEsc
-  Import-DscResource -ModuleName PSDesiredStateConfiguration
+  Import-DscResource -ModuleName PSDesiredStateConfiguration, cChoco
 
   Node localhost 
   {
@@ -98,6 +98,34 @@ configuration HomeConfig
         Path = "C:\Windows\Temp\Class.zip"
         Force = $true
         DependsOn = "[Script]DownloadClassFiles"
+    }
+    cChocoInstaller installChoco
+    {
+        InstallDir = "c:\choco"
+    }
+    cChocoPackageInstaller installChrome
+    {
+      Name        = "googlechrome"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    }
+    cChocoPackageInstaller installVSCode
+    {
+      Name        = "visualstudiocode"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    }
+    cChocoPackageInstaller installVSCodePowerShell
+    {
+      Name        = "vscode-powershell"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    }
+    cChocoPackageInstaller installVSCodeCSharp
+    {
+      Name        = "vscode-csharp"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
     }
     LocalConfigurationManager 
     {
