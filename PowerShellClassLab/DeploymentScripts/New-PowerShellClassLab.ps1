@@ -196,15 +196,16 @@ function Invoke-CreatePowerShellClassLab {
       @{
         "publicIpName" = $publicIpName
         "vmName" = $studentCode
+        "region" = $Region
       }
     )
 
-    if ($deployed) {
-      forEach ($item in $ipInfo) {
-        $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
-        $record = (New-AzureRmDnsRecordConfig -IPv4Address $pip.IpAddress)
-        New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
-      }
-    }
+    # if ($deployed) {
+    #   forEach ($item in $ipInfo) {
+    #     $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
+    #     $record = (New-AzureRmDnsRecordConfig -Cname )
+    #     New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+    #   }
+    # }
   }
 }
