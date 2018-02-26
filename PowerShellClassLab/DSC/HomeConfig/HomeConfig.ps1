@@ -127,6 +127,29 @@ configuration HomeConfig
       DependsOn   = "[cChocoInstaller]installChoco"
       AutoUpgrade = $True
     }
+    cChocoPackageInstaller installPutty
+    {
+      Name        = "putty.install"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    } 
+    cChocoPackageInstaller install7zip
+    {
+      Name        = "7zip.install"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    } 
+    cChocoPackageInstaller installSysinternals
+    {
+      Name        = "sysinternals"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    }
+    xTimeZone setTimeZone
+    {
+        IsSingleInstance = 'Yes'
+        TimeZone         = 'Eastern Standard Time'
+    }
     LocalConfigurationManager 
     {
         ConfigurationMode = 'ApplyOnly'
