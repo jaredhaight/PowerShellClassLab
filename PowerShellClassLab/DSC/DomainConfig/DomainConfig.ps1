@@ -24,7 +24,8 @@
   [Int]$RetryIntervalSec=30
   ) 
 
-  Import-DscResource -ModuleName xActiveDirectory, xDisk, xNetworking, cDisk,xDnsServer, PSDesiredStateConfiguration
+  Import-DscResource -ModuleName xActiveDirectory, xDisk, xNetworking, cDisk,xDnsServer, PSDesiredStateConfiguration, cChoco
+  Import-DscResource -ModuleName xComputerManagement -Name xScheduledTask
   [System.Management.Automation.PSCredential]$DomainAdminCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
   [System.Management.Automation.PSCredential]$DomainStudentCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($StudentCreds.UserName)", $StudentCreds.Password)
   [System.Management.Automation.PSCredential]$DomainBackupExecCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($BackupExecCreds.UserName)", $BackupExecCreds.Password)
@@ -327,6 +328,29 @@
         Ensure = "Present"
         Path = "OU=Service Accounts,OU=Class,DC=ad,DC=evil,DC=training"
         DependsOn = "[xADOrganizationalUnit]ServiceAccountsOU"
+    }
+    cChocoInstaller installChoco
+    {
+        InstallDir = "c:\choco"
+    }
+    Script DownloadBGIFile
+    {
+        SetScript =  { 
+            $file = $using:filesUrl + 'LAB.bgi'
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBGIFile] Downloading $file"
+            Invoke-WebRequest -Uri $file -OutFile C:\LAB.bgi
+        }
+        GetScript =  { @{} }
+        TestScript = { 
+            Test-Path C:\LAB.bgi
+         }
+    }
+    xScheduledTask xScheduledTaskLogonAdd
+    {
+        TaskName           = 'BGinfo'
+        ActionExecutable   = 'C:\ProgramData\chocolatey\bin\Bginfo.exe'
+        ActionArguments    = 'C:\LAB.bgi'
+        ScheduleType       = 'AtLogOn'
     }
     LocalConfigurationManager 
     {

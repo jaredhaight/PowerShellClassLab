@@ -87,12 +87,12 @@ function Invoke-CreatePowerShellClassLab {
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
   $domainName                 = "ad." + $dnsZone
-  $adVMName                   = $studentCode + "-dc01"
+  $adVMName                   = "dc01"
   $adNicIPAddress             = "10.0.0.4"
   $adVmSize                   = "Standard_A1"
 
   # Client Vars
-  $clientVMName               = $studentCode + "-home"
+  $clientVMName               = $studentCode
   $clientNicIpAddress         = "10.0.0.10"
   $clientVMSize               = "Standard_A3"
   $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
@@ -100,13 +100,13 @@ function Invoke-CreatePowerShellClassLab {
 
 
   # Server Vars
-  $serverVMName               = $studentCode + "-server"
+  $serverVMName               = "server"
   $serverNicIpAddress         = "10.0.0.11"
   $serverVMSize               = "Standard_A1"
   $serverOU                   = "OU=Servers,OU=Class,DC=ad,DC=evil,DC=training"
 
   # Linux Vars
-  $linuxVMName                = $studentCode + "-linux"
+  $linuxVMName                = "pwnbox"
   $linuxNicIpAddress          = "10.0.0.12"
   $linuxVMSize                = "Standard_A2"
   $linuxImagePublisher        = "Canonical"
@@ -203,7 +203,7 @@ function Invoke-CreatePowerShellClassLab {
 
     if ($deployed) {
       forEach ($item in $ipInfo) {
-        $record = (New-AzureRmDnsRecordConfig -Cname "$($item.vmName)-home.$($item.region).cloudapp.azure.com")
+        $record = (New-AzureRmDnsRecordConfig -Cname "$($item.vmName).$($item.region).cloudapp.azure.com")
         New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "CNAME" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
       }
     }

@@ -13,6 +13,7 @@ configuration HomeConfig
   Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[Start] Got FileURL: $filesUrl"
   [System.Management.Automation.PSCredential ]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
   Import-DscResource -ModuleName xSystemSecurity -Name xIEEsc
+  Import-DscResource -ModuleName xComputerManagement -Name xScheduledTask
   Import-DscResource -ModuleName PSDesiredStateConfiguration, cChoco, xTimeZone
 
   Node localhost 
@@ -152,6 +153,31 @@ configuration HomeConfig
       Name        = "sysinternals"
       DependsOn   = "[cChocoInstaller]installChoco"
       AutoUpgrade = $True
+    }
+    cChocoPackageInstaller installBGinfo
+    {
+      Name        = "bginfo"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    }
+    Script DownloadBGIFile
+    {
+        SetScript =  { 
+            $file = $using:filesUrl + 'LAB.bgi'
+            Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBGIFile] Downloading $file"
+            Invoke-WebRequest -Uri $file -OutFile C:\LAB.bgi
+        }
+        GetScript =  { @{} }
+        TestScript = { 
+            Test-Path C:\LAB.bgi
+         }
+    }
+    xScheduledTask xScheduledTaskLogonAdd
+    {
+        TaskName           = 'BGinfo'
+        ActionExecutable   = 'C:\ProgramData\chocolatey\bin\Bginfo.exe'
+        ActionArguments    = 'C:\LAB.bgi'
+        ScheduleType       = 'AtLogOn'
     }
     xTimeZone setTimeZone
     {
