@@ -200,12 +200,11 @@ function Invoke-CreatePowerShellClassLab {
       }
     )
 
-    # if ($deployed) {
-    #   forEach ($item in $ipInfo) {
-    #     $pip = Get-AzureRmPublicIpAddress -Name $item.publicIpName -ResourceGroupName $resourceGroupName
-    #     $record = (New-AzureRmDnsRecordConfig -Cname )
-    #     New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "A" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
-    #   }
-    # }
+    if ($deployed) {
+      forEach ($item in $ipInfo) {
+        $record = (New-AzureRmDnsRecordConfig -Cname "$($item.vmName)-home.$($item.region).cloudapp.azure.com")
+        New-AzureRmDnsRecordSet -Name $item.vmName -RecordType "CNAME" -ZoneName $dnsZone -ResourceGroupName $masterResourceGroup -Ttl 10 -DnsRecords $record
+      }
+    }
   }
 }

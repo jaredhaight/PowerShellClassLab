@@ -91,6 +91,14 @@ configuration HomeConfig
             Test-Path C:\Windows\Temp\class.zip
          }
     }
+    Script DisableServerManager
+    {
+        SetScript =  { 
+            Get-ScheduledTask -TaskName ServerManager | Disable-ScheduledTask
+        }
+        GetScript =  { @{} }
+        TestScript = { $false }
+    }
     Archive UnzipClassFiles
     {
         Ensure = "Present"
