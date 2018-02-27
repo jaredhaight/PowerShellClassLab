@@ -130,7 +130,7 @@
     }
     xDnsRecord LinuxHost
     {
-        Name = "linux"
+        Name = "pwnbox"
         Target = $LinuxNicIpAddress
         Zone = $DomainName
         Type = "ARecord"
