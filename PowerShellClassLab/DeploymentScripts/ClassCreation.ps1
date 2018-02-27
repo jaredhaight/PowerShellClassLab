@@ -1,4 +1,4 @@
-workflow New-PowerShellClassLab {
+workflow New-Class {
 
   [CmdletBinding()]
   Param( 
@@ -160,6 +160,7 @@ function Invoke-CreatePowerShellClassLab {
     linuxImagePublisher         = $linuxImagePublisher
     linuxImageOffer             = $linuxImageOffer
     linuxImageSku               = $linuxImageSku
+    studentCode                 = $studentCode
   }
 
 

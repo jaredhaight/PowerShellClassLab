@@ -1,4 +1,4 @@
-function New-AzureLabAccessRule {
+function Add-ClassAccessRule {
   [cmdletbinding()]
   param(
     [Parameter(Mandatory=$True)]
@@ -14,15 +14,13 @@ function New-AzureLabAccessRule {
     [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
   )
 
-  # Import Azure Service Management module
-  Import-Module AzureRM  
 
   # Check if logged in to Azure
   Try {
     Get-AzureRMContext -ErrorAction Stop | Out-Null
   }
   Catch {
-    Add-AzureRmAccount -Credential $Credentials
+    Connect-AzureRmAccount -Credential $Credentials
   }
 
   forEach ($nsgName in $NetworkSecurityGroups) {
@@ -30,7 +28,13 @@ function New-AzureLabAccessRule {
     try {
       $nsg = Get-AzureRmNetworkSecurityGroup -Name $nsgName -ResourceGroupName $ResourceGroup -OutVariable $null
       $priorties = $nsg.SecurityRules.Priority
-      $priority = $priorties[-1] + 1
+      if ($priorties) {
+        $priority = $priorties[-1] + 1
+      }
+      else {
+        $priority = 101
+      }
+      
     }
     catch {
       Write-Warning "Error Getting NSG: $nsgName"
@@ -62,7 +66,7 @@ function New-AzureLabAccessRule {
   }
 }
 
-function Remove-AzureLabAccessRule {
+function Remove-ClassAccessRule {
   [cmdletbinding()]
   param(
     [Parameter(Mandatory=$True)]
@@ -76,15 +80,12 @@ function Remove-AzureLabAccessRule {
     [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
   )
 
-  # Import Azure Service Management module
-  Import-Module AzureRM  
-
   # Check if logged in to Azure
   Try {
     Get-AzureRMContext -ErrorAction Stop | Out-Null
   }
   Catch {
-    Add-AzureRmAccount -Credential $Credentials
+    Connect-AzureRmAccount -Credential $Credentials
   }
 
   forEach ($nsgName in $NetworkSecurityGroups) {

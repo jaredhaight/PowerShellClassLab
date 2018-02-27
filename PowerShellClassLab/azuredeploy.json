@@ -119,6 +119,9 @@
     },
     "filesUrl": {
       "type": "string"
+    },
+    "studentCode": {
+      "type": "string"
     }
   },
   "variables": {
@@ -142,7 +145,8 @@
       "kind": "Storage",
       "properties": {},
       "tags": {
-        "displayName": "StorageAccount"
+        "displayName": "StorageAccount",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -169,7 +173,8 @@
         ]
       },
       "tags": {
-        "displayName": "VirtualNetwork"
+        "displayName": "VirtualNetwork",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -195,7 +200,8 @@
         ]
       },
       "tags": {
-        "displayName": "DomainControllerNic"
+        "displayName": "DomainControllerNic",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -297,7 +303,8 @@
         }
       ],
       "tags": {
-        "displayName": "DomainControllerVM"
+        "displayName": "DomainControllerVM",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -330,7 +337,8 @@
         }
       },
       "tags": {
-        "displayName": "LinuxNic"
+        "displayName": "LinuxNic",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -388,7 +396,8 @@
         }
       },
       "tags": {
-        "displayName": "LinuxVM"
+        "displayName": "LinuxVM",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -412,7 +421,9 @@
         }
       },
       "tags": {
-        "displayName": "LinuxVmBootstrap"
+        "displayName": "LinuxVmBootstrap",
+        "studentCode": "[parameters('studentCode')]"
+
       }
     },
     {
@@ -427,7 +438,8 @@
         }
       },
       "tags": {
-        "displayName": "PublicIPAddress"
+        "displayName": "PublicIPAddress",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -462,7 +474,8 @@
         }
       },
       "tags": {
-        "displayName": "ClientNic"
+        "displayName": "ClientNic",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -520,7 +533,8 @@
         }
       },
       "tags": {
-        "displayName": "ClientVm"
+        "displayName": "ClientVM",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -549,7 +563,8 @@
         }
       },
       "tags": {
-        "displayName": "ClientDomainJoin"
+        "displayName": "ClientDomainJoin",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -585,7 +600,8 @@
         }
       },
       "tags": {
-        "displayName": "ClientDsc"
+        "displayName": "ClientDsc",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -616,7 +632,8 @@
         }
       },
       "tags": {
-        "displayName": "ServerNic"
+        "displayName": "ServerNic",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -674,7 +691,8 @@
         }
       },
       "tags": {
-        "displayName": "ServerVm"
+        "displayName": "ServerVM",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -703,7 +721,8 @@
         }
       },
       "tags": {
-        "displayName": "ServerDomainJoin"
+        "displayName": "ServerDomainJoin",
+        "studentCode": "[parameters('studentCode')]"
       }
     },
     {
@@ -738,7 +757,8 @@
         }
       },
       "tags": {
-        "displayName": "ServerDsc"
+        "displayName": "ServerDsc",
+        "studentCode": "[parameters('studentCode')]"
       }
     }
   ]

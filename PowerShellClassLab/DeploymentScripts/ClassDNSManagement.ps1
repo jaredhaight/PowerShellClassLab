@@ -1,6 +1,4 @@
-﻿Import-Module AzureRM
-  
-workflow Remove-AllAzureRmDnsRecordSets {
+﻿workflow Remove-ClassDnsRecordSets {
   
   [CmdletBinding()] 
   Param(
