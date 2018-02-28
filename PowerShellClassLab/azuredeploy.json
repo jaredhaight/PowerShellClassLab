@@ -744,11 +744,11 @@
           "configurationFunction": "ServerConfig.ps1\\ServerConfig",
           "Properties": {
             "DomainName": "[parameters('domainName')]",
+            "filesUrl": "[parameters('filesUrl')]",
             "AdminCreds": {
               "UserName": "[parameters('adAdminUsername')]",
               "Password": "PrivateSettingsRef:AdminPassword"
-            },
-            "filesUrl": "[parameters('filesUrl')]"
+            }
           }
         },
         "protectedSettings": {
