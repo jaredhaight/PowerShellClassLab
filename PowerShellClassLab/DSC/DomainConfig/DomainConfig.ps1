@@ -69,10 +69,13 @@
           Try {
             New-GPO -Name "Class Default"
             New-GPO -Name "Server Permissions"
+            New-GPO -Name "Logon Script"
             Import-GPO -Path "C:\Bootstrap" -BackupId '{E3488702-D836-4F95-9E50-AD2844B0864C}' -TargetName "Server Permissions"
             Import-GPO -Path "C:\Bootstrap" -BackupId '{43D456E8-BED3-46F3-BD64-BF0A97913E36}' -TargetName "Class Default"
+            Import-GPO -Path "C:\Bootstrap" -BackupId '{0AC22A77-C8F1-4BDA-ABC4-31CA132A0AD4}' -TargetName "Logon Script"
             New-GPLink -Name "Class Default" -Target "DC=AD,DC=EVIL,DC=TRAINING"
             New-GPLink -Name "Server Permissions" -Target "OU=SERVERS,OU=CLASS,DC=AD,DC=EVIL,DC=TRAINING"
+            New-GPLink -Name "Logon Script" -Target "DC=AD,DC=EVIL,DC=TRAINING"
           }
           Catch {
             Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[ImportGPOs] Failed.."
@@ -83,6 +86,14 @@
         GetScript =  { @{} }
         TestScript = { $false }
         DependsOn = "[Archive]UnzipBootstrapFiles","[xADOrganizationalUnit]ServersOU"
+    }
+    File LogonScriptsDir
+    {
+      Ensure = 'Present'
+      DestinationPath = 'F:\SYSVOL\sysvol\ad.evil.training\SCRIPTS\'
+      SourcePath = 'C:\Bootstrap\LogonScriptsDir\'
+      Type = 'Directory'
+      DependsOn = '[Script]ImportGPOs'
     }
     Script CreateFillerUsers
     {
