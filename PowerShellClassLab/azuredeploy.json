@@ -747,7 +747,8 @@
             "AdminCreds": {
               "UserName": "[parameters('adAdminUsername')]",
               "Password": "PrivateSettingsRef:AdminPassword"
-            }
+            },
+            "filesUrl": "[parameters('filesUrl')]"
           }
         },
         "protectedSettings": {
