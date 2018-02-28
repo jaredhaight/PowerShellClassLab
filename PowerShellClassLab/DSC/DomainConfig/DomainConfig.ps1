@@ -90,9 +90,11 @@
     File LogonScriptsDir
     {
       Ensure = 'Present'
-      DestinationPath = 'F:\SYSVOL\sysvol\ad.evil.training\SCRIPTS\'
-      SourcePath = 'C:\Bootstrap\LogonScriptsDir\'
+      DestinationPath = 'F:\SYSVOL\sysvol\ad.evil.training\SCRIPTS'
+      SourcePath = 'C:\Bootstrap\LogonScriptsDir'
       Type = 'Directory'
+      Recurse = $True
+      MatchSource = $True
       DependsOn = '[Script]ImportGPOs'
     }
     Script CreateFillerUsers
