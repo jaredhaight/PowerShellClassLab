@@ -75,30 +75,6 @@ configuration ServerConfig
     {
       InstallDir = "c:\choco"
     }
-    cChocoPackageInstaller installBGinfo
-    {
-      Name        = "bginfo"
-      DependsOn   = "[cChocoInstaller]installChoco"
-      AutoUpgrade = $True
-    }
-    Script DownloadBGIFile {
-      SetScript  = { 
-        $file = $using:filesUrl + 'LAB.bgi'
-        Add-Content -Path "C:\Windows\Temp\jah-dsc-log.txt" -Value "[DownloadBGIFile] Downloading $file"
-        Invoke-WebRequest -Uri $file -OutFile C:\LAB.bgi
-      }
-      GetScript  = { @{} }
-      TestScript = { 
-        Test-Path C:\LAB.bgi
-      }
-    }
-    xScheduledTask xScheduledTaskLogonAdd
-    {
-      TaskName         = 'BGinfo'
-      ActionExecutable = 'C:\ProgramData\chocolatey\bin\Bginfo.exe'
-      ActionArguments  = 'C:\LAB.bgi'
-      ScheduleType     = 'AtLogOn'
-    }
     LocalConfigurationManager {
       ConfigurationMode  = 'ApplyOnly'
       RebootNodeIfNeeded = $true
