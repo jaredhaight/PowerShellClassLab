@@ -72,7 +72,7 @@
             New-GPO -Name "Logon Script"
             Import-GPO -Path "C:\Bootstrap" -BackupId '{E3488702-D836-4F95-9E50-AD2844B0864C}' -TargetName "Server Permissions"
             Import-GPO -Path "C:\Bootstrap" -BackupId '{43D456E8-BED3-46F3-BD64-BF0A97913E36}' -TargetName "Class Default"
-            Import-GPO -Path "C:\Bootstrap" -BackupId '{0AC22A77-C8F1-4BDA-ABC4-31CA132A0AD4}' -TargetName "Logon Script"
+            Import-GPO -Path "C:\Bootstrap" -BackupId '{2DADCB5A-3B49-4F78-A3FF-7777D2519E45}' -TargetName "Logon Script"
             New-GPLink -Name "Class Default" -Target "DC=AD,DC=EVIL,DC=TRAINING"
             New-GPLink -Name "Server Permissions" -Target "OU=SERVERS,OU=CLASS,DC=AD,DC=EVIL,DC=TRAINING"
             New-GPLink -Name "Logon Script" -Target "DC=AD,DC=EVIL,DC=TRAINING"
