@@ -89,12 +89,12 @@ function Invoke-CreatePowerShellClassLab {
   $domainName                 = "ad." + $dnsZone
   $adVMName                   = "dc01"
   $adNicIPAddress             = "10.0.0.4"
-  $adVmSize                   = "Standard_A1"
+  $adVmSize                   = "Standard_D2s_v3"
 
   # Client Vars
   $clientVMName               = $studentCode
   $clientNicIpAddress         = "10.0.0.10"
-  $clientVMSize               = "Standard_A3"
+  $clientVMSize               = "Standard_D4s_v3"
   $clientOU                   = "OU=Computers,OU=Class,DC=ad,DC=evil,DC=training"
   $clientSku                  = "2016-Datacenter"
 
@@ -102,13 +102,13 @@ function Invoke-CreatePowerShellClassLab {
   # Server Vars
   $serverVMName               = "server"
   $serverNicIpAddress         = "10.0.0.11"
-  $serverVMSize               = "Standard_A1"
+  $serverVMSize               = "Standard_D2s_v3"
   $serverOU                   = "OU=Servers,OU=Class,DC=ad,DC=evil,DC=training"
 
   # Linux Vars
   $linuxVMName                = "pwnbox"
   $linuxNicIpAddress          = "10.0.0.12"
-  $linuxVMSize                = "Standard_A2"
+  $linuxVMSize                = "Standard_D2s_v3"
   $linuxImagePublisher        = "Canonical"
   $linuxImageOffer            = "UbuntuServer"
   $linuxImageSku              = "16.04.0-LTS"

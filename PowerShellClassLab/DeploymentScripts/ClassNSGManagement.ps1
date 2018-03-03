@@ -11,7 +11,7 @@ function Add-ClassAccessRule {
     
     [string]$ResourceGroup="evil.training-master",
     
-    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
+    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2','chat-nsg')
   )
 
 
@@ -45,7 +45,15 @@ function Add-ClassAccessRule {
     Write-Output "[*] New rule priority: $priority"
     Write-Output "[*] Adding rule to $nsgName"
     try {
-      Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name "RDP-$Priority" -Direction Inbound `
+      if ($nsgName -eq 'chat-nsg') {
+        $port = 443
+        $ruleName = "HTTPS-$Priority"
+      }
+      else {
+        $port = 3389
+        $ruleName = "RDP-$Priority"
+      }
+      Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name $ruleName -Direction Inbound `
         -Access Allow -SourceAddressPrefix $SourceIPAddress -SourcePortRange '*' -DestinationAddressPrefix '*' `
         -DestinationPortRange $Port -Protocol TCP -Priority $priority | Out-Null
     }
@@ -71,13 +79,10 @@ function Remove-ClassAccessRule {
   param(
     [Parameter(Mandatory=$True)]
     [pscredential]$Credentials,
-    [string]$SourceIpAddress,
-    
-    [int]$Port=3389,
     
     [string]$ResourceGroup="evil.training-master",
     
-    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
+    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2','chat-nsg')
   )
 
   # Check if logged in to Azure
