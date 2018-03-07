@@ -9,16 +9,19 @@ workflow Remove-ClassResourceGroups {
   $username = $credentials.UserName.ToString()
   Write-Output "Logging in as $username"
   
-  Add-AzureRmAccount -Credential $credentials
+  if ((Get-AzureRmContext).Account -eq $null) {
+    Connect-AzureRmAccount -Credential $Credentials
+  }
+  
   $resourceGroups = Get-AzureRmResourceGroup -ErrorAction Stop
  
   if ($resourceGroups.Count -gt 0) {
     forEach -parallel -throttle 15 ($resourceGroup in $resourceGroups) {
         $resourceGroupName = $resourceGroup.ResourceGroupName.toString()
         if ($resourceGroupName -notlike "*master") {
-            Add-AzureRmAccount -Credential $credentials
-            Write-Output "[*] Removing $resourceGroupName.."
-            Remove-AzureRmResourceGroup -Name $resourceGroupName -Force
+          Connect-AzureRmAccount -Credential $Credentials
+          Write-Output "[*] Removing $resourceGroupName.."
+          Remove-AzureRmResourceGroup -Name $resourceGroupName -Force
         }
     }
   }

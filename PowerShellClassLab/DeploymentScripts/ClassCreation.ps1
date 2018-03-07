@@ -48,18 +48,12 @@ function Invoke-CreatePowerShellClassLab {
     [int]$total=1,
     [switch]$Test
   )
-
-  # Import Azure Service Management module
-  Import-Module AzureRM
   
   Write-Output "$place/$total - Starting deployment for $studentCode"  
 
   # Check if logged in to Azure
-  Try {
-    Get-AzureRMContext -ErrorAction Stop
-  }
-  Catch {
-    Add-AzureRmAccount -Credential $credentials
+  if ((Get-AzureRmContext).Account -eq $null) {
+    Connect-AzureRmAccount -Credential $Credentials
   }
 
   

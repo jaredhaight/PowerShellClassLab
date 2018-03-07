@@ -16,10 +16,7 @@ function Add-ClassAccessRule {
 
 
   # Check if logged in to Azure
-  Try {
-    Get-AzureRMContext -ErrorAction Stop | Out-Null
-  }
-  Catch {
+  if ((Get-AzureRmContext).Account -eq $null) {
     Connect-AzureRmAccount -Credential $Credentials
   }
 
@@ -86,10 +83,7 @@ function Remove-ClassAccessRule {
   )
 
   # Check if logged in to Azure
-  Try {
-    Get-AzureRMContext -ErrorAction Stop | Out-Null
-  }
-  Catch {
+  if ((Get-AzureRmContext).Account -eq $null) {
     Connect-AzureRmAccount -Credential $Credentials
   }
 

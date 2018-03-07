@@ -14,13 +14,15 @@
   )
   $username = $credentials.UserName.ToString()
   Write-Output "Logging in as $username"
-  Add-AzureRmAccount -Credential $credentials
+  if ((Get-AzureRmContext).Account -eq $null) {
+    Connect-AzureRmAccount -Credential $Credentials
+  }
   $dnsRecordSets = Get-AzureRMDnsRecordSet -ZoneName $zoneName -ResourceGroupName $resourceGroupName
  
   if ($dnsRecordSets.Count -gt 0) {
     forEach -parallel -throttle 15 ($dnsRecordSet in $dnsRecordSets) {
       if ($dnsRecordSet.RecordType -eq "A" -and $dnsRecordSet.Name -notlike "*www*") {
-        Add-AzureRmAccount -Credential $credentials
+        Connect-AzureRmAccount -Credential $Credentials
         $dnsName = $dnsRecordSet.Name.toString()
         Write-Output "Removing $dnsName"
         Remove-AzureRmDnsRecordSet -Name $dnsRecordSet.Name -RecordType "A" -ZoneName $zoneName -ResourceGroupName $resourceGroupName
