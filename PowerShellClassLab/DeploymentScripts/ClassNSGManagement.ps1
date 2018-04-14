@@ -79,7 +79,7 @@ function Remove-ClassAccessRule {
     
     [string]$ResourceGroup="evil.training-master",
     
-    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2','chat-nsg')
+    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
   )
 
   # Check if logged in to Azure

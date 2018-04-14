@@ -8,11 +8,8 @@ workflow Remove-ClassResourceGroups {
 
   $username = $credentials.UserName.ToString()
   Write-Output "Logging in as $username"
-  
-  if ((Get-AzureRmContext).Account -eq $null) {
-    Connect-AzureRmAccount -Credential $Credentials
-  }
-  
+  Connect-AzureRmAccount -Credential $Credentials
+    
   $resourceGroups = Get-AzureRmResourceGroup -ErrorAction Stop
  
   if ($resourceGroups.Count -gt 0) {
