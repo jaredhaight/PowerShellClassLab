@@ -15,6 +15,7 @@ configuration HomeConfig
   Import-DscResource -ModuleName xSystemSecurity -Name xIEEsc
   Import-DscResource -ModuleName xComputerManagement -Name xScheduledTask
   Import-DscResource -ModuleName PSDesiredStateConfiguration, cChoco, xTimeZone
+  Import-DscResource -ModuleName xWinEventLog
 
   Node localhost 
   {
@@ -157,7 +158,21 @@ configuration HomeConfig
     xTimeZone setTimeZone
     {
         IsSingleInstance = 'Yes'
-        TimeZone         = 'Eastern Standard Time'
+        TimeZone         = 'Central Standard Time'
+    }
+    xWinEventLog EventLogPowerShellOperational
+    {
+        LogName            = "Microsoft-Windows-PowerShell/Operational"
+        IsEnabled          = $true
+        LogMode            = "Circular"
+        MaximumSizeInBytes = 300mb
+    }
+    xWinEventLog EventLogPowerShelAdmin
+    {
+        LogName            = "Microsoft-Windows-PowerShell/Admin"
+        IsEnabled          = $true
+        LogMode            = "Circular"
+        MaximumSizeInBytes = 300mb
     }
     LocalConfigurationManager 
     {
