@@ -9,12 +9,17 @@ function Add-ClassAccessRule {
     
     [int]$Port=3389,
     
-    [string]$ResourceGroup="evil.training-master",
-    
-    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2','chat-nsg')
+    [string]$ResourceGroup="evil.training-master"
   )
 
-
+  $NetworkSecurityGroups = (
+    'evil.training-nsg-northcentralus',
+    'evil.training-nsg-southcentralus',
+    'evil.training-nsg-centralus',
+    'evil.training-nsg-eastus2',
+    'evil.training-nsg-westcentralus',
+    'evil.training-nsg-westus2'
+  )
   # Check if logged in to Azure
   if ((Get-AzureRmContext).Account -eq $null) {
     Connect-AzureRmAccount -Credential $Credentials
@@ -50,23 +55,14 @@ function Add-ClassAccessRule {
         $port = 3389
         $ruleName = "RDP-$Priority"
       }
-      Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name $ruleName -Direction Inbound `
-        -Access Allow -SourceAddressPrefix $SourceIPAddress -SourcePortRange '*' -DestinationAddressPrefix '*' `
-        -DestinationPortRange $Port -Protocol TCP -Priority $priority | Out-Null
+      Start-Job -ScriptBlock {Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name $ruleName -Direction Inbound `
+          -Access Allow -SourceAddressPrefix $SourceIPAddress -SourcePortRange '*' -DestinationAddressPrefix '*' `
+          -DestinationPortRange $Port -Protocol TCP -Priority $priority | Set-AzureRmNetworkSecurityGroup}
     }
+    
     catch {
       Write-Warning "Error adding rule to $nsgName"
       Write-Output $error[0]
-      break
-    }
-    Write-Output "[*] Setting $nsgName"
-    try {
-      Set-AzureRmNetworkSecurityGroup -NetworkSecurityGroup $nsg | Out-Null
-    }
-    catch {
-      Write-Warning "Error setting $nsgName"
-      Write-Output $error[0]
-      break
     }
   }
 }
@@ -76,12 +72,17 @@ function Remove-ClassAccessRule {
   param(
     [Parameter(Mandatory=$True)]
     [pscredential]$Credentials,
-    
-    [string]$ResourceGroup="evil.training-master",
-    
-    [string[]]$NetworkSecurityGroups=('evil.training-nsg-eastus2','evil.training-nsg-westus2')
+    [string]$ResourceGroup="evil.training-master"
   )
 
+  $NetworkSecurityGroups = (
+    'evil.training-nsg-northcentralus',
+    'evil.training-nsg-southcentralus',
+    'evil.training-nsg-centralus',
+    'evil.training-nsg-eastus2',
+    'evil.training-nsg-westcentralus',
+    'evil.training-nsg-westus2'
+  )
   # Check if logged in to Azure
   if ((Get-AzureRmContext).Account -eq $null) {
     Connect-AzureRmAccount -Credential $Credentials

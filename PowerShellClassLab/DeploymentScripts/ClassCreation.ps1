@@ -43,7 +43,7 @@ function Invoke-CreatePowerShellClassLab {
     [Parameter(Mandatory=$True)]
     [string]$BackupExecPassword,
 
-    [string]$Region="eastus2",
+    [string]$Region="westus2",
     [int]$place=1,
     [int]$total=1,
     [switch]$Test,
