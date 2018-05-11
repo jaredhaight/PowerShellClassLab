@@ -205,7 +205,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
@@ -230,22 +230,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
-            },
-            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "datadisk",
-              "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
-              },
-              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": "1000",
+              "diskSizeGB": 1000,
               "lun": 0
             }
           ]
@@ -342,7 +332,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('linuxVmName')]",
       "location": "[resourceGroup().location]",
@@ -367,22 +357,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('linuxVmName'), 'disk0.vhd')]"
-            },
-            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "data-disk1",
-              "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('linuxVmName'), 'disk1.vhd')]"
-              },
-              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": "1000",
+              "diskSizeGB": 1000,
               "lun": 0
             }
           ]
@@ -479,7 +459,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('clientVmName')]",
       "location": "[resourceGroup().location]",
@@ -504,22 +484,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk0.vhd')]"
-            },
-            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "data-disk1",
-              "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk1.vhd')]"
-              },
-              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": "1000",
+              "diskSizeGB": 1000,
               "lun": 0
             }
           ]
@@ -637,7 +607,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('serverVmName')]",
       "location": "[resourceGroup().location]",
@@ -662,22 +632,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('serverVmName'), 'disk0.vhd')]"
-            },
-            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "data-disk1",
-              "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('serverVmName'), 'disk1.vhd')]"
-              },
-              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": "1000",
+              "diskSizeGB": 1000,
               "lun": 0
             }
           ]

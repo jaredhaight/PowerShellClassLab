@@ -46,14 +46,15 @@ function Invoke-CreatePowerShellClassLab {
     [string]$Region="eastus2",
     [int]$place=1,
     [int]$total=1,
-    [switch]$Test
+    [switch]$Test,
+    [string]$SubscriptionID='203cc174-4bb6-4a0c-8014-dbf126a326d8'
   )
   
   Write-Output "$place/$total - Starting deployment for $studentCode"  
 
   # Check if logged in to Azure
   if ((Get-AzureRmContext).Account -eq $null) {
-    Connect-AzureRmAccount -Credential $Credentials
+    Connect-AzureRmAccount -Credential $Credentials -SubscriptionId $SubscriptionId
   }
 
   
@@ -76,7 +77,7 @@ function Invoke-CreatePowerShellClassLab {
   $windowsImagePublisher       = "MicrosoftWindowsServer"
   $windowsImageOffer           = "WindowsServer"
   $windowsImageSku             = "2012-R2-Datacenter"
-  $filesUrl                   = "https://eviltraining.blob.core.windows.net/files/"
+  $filesUrl                   = "https://eviltrainingsa.blob.core.windows.net/files/"
 
   # DC Variables
   $adAdminUserName            = "EvilAdmin"
