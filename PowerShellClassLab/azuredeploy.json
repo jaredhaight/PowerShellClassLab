@@ -252,7 +252,7 @@
         {
           "type": "extensions",
           "name": "CreateADForest",
-          "apiVersion": "2015-06-15",
+          "apiVersion": "2017-03-30",
           "location": "[resourceGroup().location]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('adVmName'))]"
