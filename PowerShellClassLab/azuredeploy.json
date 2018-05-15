@@ -205,7 +205,7 @@
       }
     },
     {
-      "apiVersion": "2017-03-30",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('storageAccountName'))]",
@@ -342,7 +342,7 @@
       }
     },
     {
-      "apiVersion": "2017-03-30",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('linuxVmName')]",
       "location": "[resourceGroup().location]",
@@ -479,7 +479,7 @@
       }
     },
     {
-      "apiVersion": "2017-03-30",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('clientVmName')]",
       "location": "[resourceGroup().location]",
@@ -637,7 +637,7 @@
       }
     },
     {
-      "apiVersion": "2017-03-30",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('serverVmName')]",
       "location": "[resourceGroup().location]",
