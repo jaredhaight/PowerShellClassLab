@@ -369,7 +369,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('linuxVmName'), 'disk0.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -378,7 +378,7 @@
             {
               "name": "datadisk",
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('linuxVmName'), 'disk1.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty",
@@ -506,7 +506,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk0.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -515,7 +515,7 @@
             {
               "name": "datadisk",
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('clientVmName'), 'disk1.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty",
@@ -664,7 +664,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('serverVmName'), 'disk0.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -673,7 +673,7 @@
             {
               "name": "datadisk",
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('serverVmName'), 'disk1.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty",
