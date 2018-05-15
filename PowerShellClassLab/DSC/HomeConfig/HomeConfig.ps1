@@ -155,6 +155,12 @@ configuration HomeConfig
       DependsOn   = "[cChocoInstaller]installChoco"
       AutoUpgrade = $True
     }
+    cChocoPackageInstaller installFirefox
+    {
+      Name        = "firefox"
+      DependsOn   = "[cChocoInstaller]installChoco"
+      AutoUpgrade = $True
+    }
     xTimeZone setTimeZone
     {
         IsSingleInstance = 'Yes'
@@ -165,14 +171,14 @@ configuration HomeConfig
         LogName            = "Microsoft-Windows-PowerShell/Operational"
         IsEnabled          = $true
         LogMode            = "Circular"
-        MaximumSizeInBytes = 300mb
+        MaximumSizeInBytes = 600mb
     }
     xWinEventLog EventLogPowerShelAdmin
     {
         LogName            = "Microsoft-Windows-PowerShell/Admin"
         IsEnabled          = $true
         LogMode            = "Circular"
-        MaximumSizeInBytes = 300mb
+        MaximumSizeInBytes = 600mb
     }
     LocalConfigurationManager 
     {

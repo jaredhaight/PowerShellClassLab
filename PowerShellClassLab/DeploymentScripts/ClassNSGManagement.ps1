@@ -55,9 +55,9 @@ function Add-ClassAccessRule {
         $port = 3389
         $ruleName = "RDP-$Priority"
       }
-      Start-Job -ScriptBlock {Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name $ruleName -Direction Inbound `
+      Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg -Name $ruleName -Direction Inbound `
           -Access Allow -SourceAddressPrefix $SourceIPAddress -SourcePortRange '*' -DestinationAddressPrefix '*' `
-          -DestinationPortRange $Port -Protocol TCP -Priority $priority | Set-AzureRmNetworkSecurityGroup}
+          -DestinationPortRange $Port -Protocol TCP -Priority $priority | Set-AzureRmNetworkSecurityGroup | Out-Null
     }
     
     catch {
