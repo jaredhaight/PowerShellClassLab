@@ -1,5 +1,4 @@
 workflow New-Class {
-
   [CmdletBinding()]
   Param( 
     [Parameter(Mandatory=$True,Position=1)]
@@ -20,7 +19,7 @@ workflow New-Class {
      $region = 'eastus2'
      
      if ($studentNumber % 2 -eq 0) {
-       $region = 'westus2'
+       $region = 'southcentralus'
      }
      Write-Output "Sending $studentCode to $region"
      Invoke-CreatePowerShellClassLab -credentials $credentials -studentCode $studentCode -studentPassword $studentPassword -BackupExecPassword $BackupExecPassword -region $region -place $studentNumber -total $studentData.count 
@@ -28,7 +27,6 @@ workflow New-Class {
 }
 
 function Invoke-CreatePowerShellClassLab {
-  
   [CmdletBinding()]
   Param(
     [Parameter(Mandatory=$True)]
@@ -43,11 +41,11 @@ function Invoke-CreatePowerShellClassLab {
     [Parameter(Mandatory=$True)]
     [string]$BackupExecPassword,
 
-    [string]$Region="westus2",
+    [string]$Region="southcentralus",
     [int]$place=1,
     [int]$total=1,
     [switch]$Test,
-    [string]$SubscriptionID='203cc174-4bb6-4a0c-8014-dbf126a326d8'
+    [string]$SubscriptionID='94f48f03-2c1e-486f-9030-58ceaf4210cc'
   )
   
   Write-Output "$place/$total - Starting deployment for $studentCode"  

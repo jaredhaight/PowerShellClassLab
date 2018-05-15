@@ -230,12 +230,22 @@
             "version": "latest"
           },
           "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+            },
+            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
+              "name": "datadisk",
+              "vhd": {
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+              },
+              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": 1000,
+              "diskSizeGB": "1000",
               "lun": 0
             }
           ]
@@ -357,12 +367,22 @@
             "version": "latest"
           },
           "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+            },
+            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
+              "name": "datadisk",
+              "vhd": {
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+              },
+              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": 1000,
+              "diskSizeGB": "1000",
               "lun": 0
             }
           ]
@@ -484,12 +504,22 @@
             "version": "latest"
           },
           "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+            },
+            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
+              "name": "datadisk",
+              "vhd": {
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+              },
+              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": 1000,
+              "diskSizeGB": "1000",
               "lun": 0
             }
           ]
@@ -632,12 +662,22 @@
             "version": "latest"
           },
           "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk0.vhd')]"
+            },
+            "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
+              "name": "datadisk",
+              "vhd": {
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVmName'), 'disk1.vhd')]"
+              },
+              "caching": "None",
               "createOption": "Empty",
-              "diskSizeGB": 1000,
+              "diskSizeGB": "1000",
               "lun": 0
             }
           ]
