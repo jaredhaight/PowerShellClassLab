@@ -16,7 +16,7 @@ workflow New-Class {
      $studentPassword = $student.password
      $studentCode = $student.code.toString()
      $studentNumber = $student.id
-     $region = 'eastus2'
+     $region = 'centralus'
      
      if ($studentNumber % 2 -eq 0) {
        $region = 'southcentralus'
@@ -51,10 +51,7 @@ function Invoke-CreatePowerShellClassLab {
   Write-Output "$place/$total - Starting deployment for $studentCode"  
 
   # Check if logged in to Azure
-  if ((Get-AzureRmContext).Account -eq $null) {
-    Connect-AzureRmAccount -Credential $Credentials -SubscriptionId $SubscriptionId
-  }
-
+  Connect-AzureRmAccount -Credential $Credentials -SubscriptionId $SubscriptionId
   
   # Common Variables
   $location                   = $region
@@ -172,7 +169,7 @@ function Invoke-CreatePowerShellClassLab {
       TemplateUri                 = $URI 
       ResourceGroupName           = $resourceGroupName 
       TemplateParameterObject     = $MyParams
-      Name                        = $studentCode + "-template"
+      Name                        = $studentCode + "-template-" + $(Get-Date -Format 'Hms')
     }
     try {
       New-AzureRmResourceGroupDeployment @SplatParams -Verbose -ErrorAction Stop 
